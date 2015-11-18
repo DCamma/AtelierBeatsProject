@@ -1336,6 +1336,7 @@ ul.grid-list > li{
     margin: 5px 0;
     padding: 0 5px!important;
   }
+
 }
 
 /* ---------------- Delete classes ---------------- */
@@ -1377,6 +1378,7 @@ ul.grid-list > li{
   color: white;
   text-decoration: none;
 }
+
 .like-filter {
   border: 2px solid #c2c2c2;
   position: relative;
@@ -1394,6 +1396,19 @@ ul.grid-list > li{
   text-decoration: none;
 }
 
+.fav-albums{
+  display: inline-block;
+  margin: 15px;
+  margin-left: 17px;
+  padding: 10px;
+  border: 1px solid #c2c2c2;
+  border-radius: 3px;
+}
+
+/*.fav-albums:hover{
+  border: 1px solid #c5c5c5;
+}
+*/
 /* ---------------- Utility classes ---------------- */
 .float-left{
   float:left;

@@ -113,7 +113,8 @@ function onModelSave(res, status, sendItAsResponse){
       }
     }
 
-    // pubsub.emit('album.updated', {})
+    pubsub.emit('album.updated', {})
+    
     if( sendItAsResponse){
       var obj = saved.toObject();
       delete obj.password;
