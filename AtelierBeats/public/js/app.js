@@ -4,6 +4,8 @@ var currentTracks;
 var currentArtists;
 var currentAlbums;
 
+var count;
+
 window.onload = function(){
 
   bindMenu();
@@ -433,7 +435,7 @@ function drawArtist(e, addHistory){
 
   /* Albums */
 
-  function drawAlbums(e, addHistory){
+  function drawAlbums(e, addHistory, fav, color){
     if(e && e.target)
       e.preventDefault();
 
@@ -462,9 +464,22 @@ function drawArtist(e, addHistory){
 
     }
 
-    var data = {
-      "albums" : albumData
-    };
+    if(fav){
+      var favAlbums = [];
+      for(var i = 0; i < albumData.length; i ++){
+        if(albumData[i].checked == true){
+          favAlbums.push(albumData[i]);
+        }
+      }
+      var data = {
+        "albums" : favAlbums
+      }
+    }
+    else{
+      var data = {
+        "albums" : albumData
+      }
+    }
 
     dust.render("albums", data, function(err, out) {
 
@@ -481,9 +496,9 @@ function drawArtist(e, addHistory){
       bindArtistLink();
 
       var fav = document.querySelectorAll(".like-filter")[0];
-      count = 0;
       fav.childNodes[0].onclick = changeColor
-
+      fav.style.backgroundColor = color;
+      count = !count;
       var albums = document.querySelectorAll(".like-btn");
       for(var i= 0; i < data.albums.length; i++){
         if(data.albums[i].checked == true){
@@ -683,83 +698,11 @@ function bindAlbumLike(){
 }
 
 function changeColor(e){
-  var target = e.target;
-  var toColor = target.parentNode;
-  count += 1;
-  if(count % 2 == 0){
-    toColor.style.backgroundColor = "#605F61";
-    drawAlbums();
+  if(!count){
+    drawAlbums(null, false, false, "#605F61");
   }
   else{
-    toColor.style.backgroundColor = "red"; 
-    drawFavAlbums()
-    
-    function drawFavAlbums(e, addHistory){
-      if(e && e.target)
-        e.preventDefault();
-
-      addAlbumsToHistory(addHistory);
-
-      //execute the AJAX call to the get albums
-      doJSONRequest("GET", "/albums", null, null, renderAlbums);
-
-      function renderAlbums(albums){
-        var albumData = [];
-        for(album in albums){
-          var newAlbumData = {};
-          newAlbumData.artist = {};
-
-          newAlbumData.artwork = albums[album].artwork;
-          newAlbumData._id = albums[album]._id;
-          newAlbumData.name = albums[album].name;
-          newAlbumData.artist._id = albums[album].artist._id;
-          newAlbumData.artist.name = albums[album].artist.name;
-          newAlbumData.checked = albums[album].checked;
-          albumData.push(newAlbumData);
-
-        }
-
-        var data = {
-          "albums" : albumData
-        };
-        var favAlbums = []
-        for(var i = 0; i < data.albums.length; i ++){
-          if(data.albums[i].checked == true){
-            favAlbums.push(data.albums[i]);
-          } 
-        }
-        var favData = {
-          "albums" : favAlbums
-        };
-        dust.render("albums", favData, function(err, out) {
-      
-          var content = document.getElementById("content");
-          content.innerHTML = out;
-
-          bindAlbumLink();
-
-          bindAlbumDelete();
-          bindAlbumLike();
-
-          bindArtistLink();
-          var fav = document.querySelectorAll(".like-filter")[0];
-          fav.style.backgroundColor = "red"
-          fav.childNodes[0].onclick = changeColor
-
-          var albums = document.querySelectorAll(".like-btn");
-          for(var i= 0; i < favData.albums.length; i++){
-            if(favData.albums[i].checked == true){
-              albums[i].style.backgroundColor = "red";
-            }
-            else{
-              albums[i].style.backgroundColor = "#605F61";
-            }
-          }
-        });
-
-      } 
-
-    }   
+    drawAlbums(null, false, true,"red")
   }
 }
 
