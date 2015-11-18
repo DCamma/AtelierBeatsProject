@@ -1050,90 +1050,90 @@ function setupPlayer(){
 
     // Calculate the new time
     var time = audio.duration * frac;
-      audio.currentTime = time;
-    });
+    audio.currentTime = time;
+  });
 
-    // Update the seek bar as the track plays
-    audio.addEventListener("timeupdate", function() {
-      // Calculate the slider value
-      var value = (100 / audio.duration) * audio.currentTime;
+  // Update the seek bar as the track plays
+  audio.addEventListener("timeupdate", function() {
+    // Calculate the slider value
+    var value = (100 / audio.duration) * audio.currentTime;
 
-      // Update the seek bar
-      seekBar.style.width = value + "%";
+    // Update the seek bar
+    seekBar.style.width = value + "%";
 
-      // Update the elapsed time
-      timeElapsed.innerHTML = formatTime(Math.floor(audio.currentTime));
-    });
+    // Update the elapsed time
+    timeElapsed.innerHTML = formatTime(Math.floor(audio.currentTime));
+  });
 
-    // Event listener for the volume bar
-    volumeRail.addEventListener("click", function(evt) {
-      var frac = (evt.offsetX / volumeRail.offsetWidth)
-      volumeBar.style.width = (frac * 100) + "%";
+  // Event listener for the volume bar
+  volumeRail.addEventListener("click", function(evt) {
+    var frac = (evt.offsetX / volumeRail.offsetWidth)
+    volumeBar.style.width = (frac * 100) + "%";
 
-      audio.volume = frac;
-    });
+    audio.volume = frac;
+  });
 
-    //Click listener for volume buttons
-    volumeOff.addEventListener("click", function(evt) {
-      volumeBar.style.width = "0%";
-      audio.volume = 0;
+  //Click listener for volume buttons
+  volumeOff.addEventListener("click", function(evt) {
+    volumeBar.style.width = "0%";
+    audio.volume = 0;
 
-      volumeOff.classList.add("active");
-      volumeUp.classList.remove("active");
-    });
+    volumeOff.classList.add("active");
+    volumeUp.classList.remove("active");
+  });
 
-    volumeUp.addEventListener("click", function(evt) {
-      volumeBar.style.width = "100%";
-      audio.volume = 1;
+  volumeUp.addEventListener("click", function(evt) {
+    volumeBar.style.width = "100%";
+    audio.volume = 1;
 
-      volumeUp.classList.add("active");
-      volumeOff.classList.remove("active");
-    });
-  }
+    volumeUp.classList.add("active");
+    volumeOff.classList.remove("active");
+  });
+}
 
-  function play(){
-    // Play the track
-    audio.play();
+function play(){
+  // Play the track
+  audio.play();
 
-    // Update the button icon to 'Pause'
-    var playButton = document.getElementById("play-pause");
-    playButton.classList.remove('fa-play');
-    playButton.classList.add('fa-pause');
-  }
+  // Update the button icon to 'Pause'
+  var playButton = document.getElementById("play-pause");
+  playButton.classList.remove('fa-play');
+  playButton.classList.add('fa-pause');
+}
 
-  function pause(){
-    // Pause the track
-    audio.pause();
+function pause(){
+  // Pause the track
+  audio.pause();
 
-    // Update the button icon to 'Play'
-    var playButton = document.getElementById("play-pause");
-    playButton.classList.remove('fa-pause');
-    playButton.classList.add('fa-play');
-  }
+  // Update the button icon to 'Play'
+  var playButton = document.getElementById("play-pause");
+  playButton.classList.remove('fa-pause');
+  playButton.classList.add('fa-play');
+}
 
-  function playTrackById(trackId){
-    var track = findOne(currentTracks, "_id", trackId);
+function playTrackById(trackId){
+  var track = findOne(currentTracks, "_id", trackId);
 
-    if(! track) return console.log("playTrackById(): Track not found!")
+  if(! track) return console.log("playTrackById(): Track not found!")
 
-    currentPlayingTrack = track;
+  currentPlayingTrack = track;
 
-    var artist = findOne(currentArtists, "_id", track.artist._id);
-    var album = findOne(currentAlbums, "_id", track.album._id);
+  var artist = findOne(currentArtists, "_id", track.artist._id);
+  var album = findOne(currentAlbums, "_id", track.album._id);
 
-    var plTrackArtist = document.querySelector('.pl-track-artist');
-    plTrackArtist.href = 'artists/' + artist.name;
-    plTrackArtist.innerHTML = artist.name
+  var plTrackArtist = document.querySelector('.pl-track-artist');
+  plTrackArtist.href = 'artists/' + artist.name;
+  plTrackArtist.innerHTML = artist.name
 
-    var plTrackTitle = document.querySelector('.pl-track-title');
-    plTrackTitle.href = 'albums/' + album.name;
-    plTrackTitle.innerHTML = currentPlayingTrack.name;
+  var plTrackTitle = document.querySelector('.pl-track-title');
+  plTrackTitle.href = 'albums/' + album.name;
+  plTrackTitle.innerHTML = currentPlayingTrack.name;
 
-    var moImage = document.querySelector('.pl-artwork .mo-image');
-    moImage.style.backgroundImage = "url(" + album.artwork + ")"
+  var moImage = document.querySelector('.pl-artwork .mo-image');
+  moImage.style.backgroundImage = "url(" + album.artwork + ")"
 
-    audio.src = track.file;
-    play();
-  }
+  audio.src = track.file;
+  play();
+}
 
 //<!-- /build -->
