@@ -18,6 +18,10 @@ window.onload = function(){
 
 }
 
+function incerementCounter(counter, trackId){
+  doJSONRequest("PUT", "/tracks/"+trackId, null, counter, function(){ console.log("PUT req done")});
+}
+
 function bindMenu(){
   var menu = document.querySelectorAll("#main-menu > li > a");
 
@@ -119,6 +123,11 @@ function buildTracksData(tracks){
 
     newTracksData.album._id = tracks[track].album._id;
     newTracksData.album.name = tracks[track].album.name;
+
+    // Davide: Need this three lines to dosplay the counters in the dust view
+    newTracksData.count_start = tracks[track].count_start;
+    newTracksData.count_middle = tracks[track].count_middle;
+    newTracksData.count_end = tracks[track].count_end;
 
     tracksData.push(newTracksData);
 
@@ -1064,7 +1073,7 @@ function appendNewPlaylistToMenu(pl){
 *
 * - When a track finishes your player should play the next one
 */
-
+checkFirstTime = true;
 function setupPlayer(){
   // Buttons
   var playButton = document.getElementById("play-pause");
@@ -1205,6 +1214,8 @@ function pause(){
 }
 
 function playTrackById(trackId){
+  checkFirstTime = true;
+  incerementCounter({"count_start":"inc"},trackId);
   var track = findOne(currentTracks, "_id", trackId);
 
   if(! track) return console.log("playTrackById(): Track not found!")
@@ -1226,7 +1237,15 @@ function playTrackById(trackId){
   moImage.style.backgroundImage = "url(" + album.artwork + ")"
 
   audio.src = track.file;
+  // Davide: check if half of the song is played to call incerementCMiddle
+  audio.addEventListener("timeupdate", function(){
+    // console.log(audio.duration/2 + " : " + audio.currentTime)
+    if (audio.currentTime > audio.duration/2 && checkFirstTime){
+      checkFirstTime = false;
+      incerementCounter({"count_middle":"inc"},trackId);
+    }
+  });
+  audio.addEventListener("ended", function(){incerementCounter({"count_end":"inc"},trackId)});
   play();
 }
-
 //<!-- /build -->

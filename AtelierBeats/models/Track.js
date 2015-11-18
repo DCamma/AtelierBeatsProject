@@ -31,7 +31,12 @@ var trackSchema = new mongoose.Schema(
   album : { type: ObjectId, ref:'Album' },
   id3Tags : { type: Array, default:[]},
   dateReleased : { type: String, default: Date.now },
-  dateCreated : { type: String, default: Date.now }
+  dateCreated : { type: String, default: Date.now },
+
+  // Davide: added the counters
+  count_start : { type: Number, default: 0 },
+  count_middle : { type: Number, default: 0 },
+  count_end : { type: Number, default: 0 },
 }
 
 );

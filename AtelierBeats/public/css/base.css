@@ -608,6 +608,13 @@
     padding: 0 5px 0 12px;
   }
 
+  /* Davide: css needed for counters in library view */
+  .fl-tl-counter{
+    flex: 0 0 78px;
+    text-align: center;
+    width: 78px;
+    padding: 0 5px 0 12px;
+  }
   .fl-tl-pencil {
     padding-left: 6px;
   }
