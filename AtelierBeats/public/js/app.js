@@ -647,17 +647,13 @@ function bindAlbumLike(){
       e.preventDefault();
       href = target.getAttribute("href");
     }
+
     doJSONRequest("GET", href, null, null, renderAlbum);
 
     function renderAlbum(album){
 
-        //we need the album's tracks
-        doJSONRequest("GET", "/tracks?filter=" + encodeURIComponent(JSON.stringify({'album' : album._id})), null, null, renderShowAlbum);
-
-        function renderShowAlbum(tracks){
-
+  
           var albumData = {};
-          var albumTracks = buildTracksData(tracks);
           albumData.artist = {};
 
           albumData.artwork = album.artwork;
@@ -670,6 +666,7 @@ function bindAlbumLike(){
           albumData.checked = !(album.checked);
 
           doJSONRequest("PUT", href, null, albumData, checkLikedAlbum);
+
           var toCheck = target.parentNode.parentNode;
           if(album.checked == false){
             toCheck.childNodes[1].style.backgroundColor = "red";
@@ -677,10 +674,11 @@ function bindAlbumLike(){
           else{
             toCheck.childNodes[1].style.backgroundColor = "#605F61";
           }
+
           function checkLikedAlbum(){
             
-           }
-        }
+          }
+        
     }
 }
 
