@@ -456,6 +456,7 @@ function drawArtist(e, addHistory){
       newAlbumData.name = albums[album].name;
       newAlbumData.artist._id = albums[album].artist._id;
       newAlbumData.artist.name = albums[album].artist.name;
+      newAlbumData.checked = albums[album].checked;
 
       albumData.push(newAlbumData);
 
@@ -475,7 +476,23 @@ function drawArtist(e, addHistory){
 
       bindAlbumDelete();
 
+      bindAlbumLike();
+
       bindArtistLink();
+
+      var fav = document.querySelectorAll(".like-filter")[0];
+      count = 0;
+      fav.childNodes[0].onclick = changeColor
+
+      var albums = document.querySelectorAll(".like-btn");
+      for(var i= 0; i < data.albums.length; i++){
+        if(data.albums[i].checked == true){
+          albums[i].style.backgroundColor = "red";
+        }
+        else{
+          albums[i].style.backgroundColor = "#605F61";
+        }
+      }
 
     });
 
@@ -612,6 +629,141 @@ function drawAlbum(e, addHistory){
     }
 
   }
+
+function bindAlbumLike(){
+    var albums = document.querySelectorAll(".like-btn");
+    for (var elem = 0; elem < albums.length; ++elem) {
+      albums[elem].onclick = likeAlbum;
+    }
+  }
+
+
+  function likeAlbum(e){
+
+    var href;
+    var target = e.target;
+
+    if(e && e.target){
+      e.preventDefault();
+      href = target.getAttribute("href");
+    }
+    doJSONRequest("GET", href, null, null, renderAlbum);
+
+    function renderAlbum(album){
+
+        //we need the album's tracks
+        doJSONRequest("GET", "/tracks?filter=" + encodeURIComponent(JSON.stringify({'album' : album._id})), null, null, renderShowAlbum);
+
+        function renderShowAlbum(tracks){
+
+          var albumData = {};
+          var albumTracks = buildTracksData(tracks);
+          albumData.artist = {};
+
+          albumData.artwork = album.artwork;
+          albumData._id = album._id;
+          albumData.name = album.name;
+          albumData.label = album.label;
+          albumData.dateReleased = album.dateReleased.split("T")[0];
+          albumData.artist._id = album.artist._id;
+          albumData.artist.name = album.artist.name;
+          albumData.checked = !(album.checked);
+
+          doJSONRequest("PUT", href, null, albumData, checkLikedAlbum);
+          var toCheck = target.parentNode.parentNode;
+          if(album.checked == false){
+            toCheck.childNodes[1].style.backgroundColor = "red";
+          }
+          else{
+            toCheck.childNodes[1].style.backgroundColor = "#605F61";
+          }
+          function checkLikedAlbum(){
+            
+           }
+        }
+    }
+}
+
+function changeColor(e){
+  var target = e.target;
+  var toColor = target.parentNode;
+  count += 1;
+  if(count % 2 == 0){
+    toColor.style.backgroundColor = "#605F61";
+    drawAlbums();
+  }
+  else{
+    toColor.style.backgroundColor = "red"; 
+    drawFavAlbums()
+    
+    function drawFavAlbums(e, addHistory){
+      if(e && e.target)
+        e.preventDefault();
+
+      addAlbumsToHistory(addHistory);
+
+      //execute the AJAX call to the get albums
+      doJSONRequest("GET", "/albums", null, null, renderAlbums);
+
+      function renderAlbums(albums){
+        var albumData = [];
+        for(album in albums){
+          var newAlbumData = {};
+          newAlbumData.artist = {};
+
+          newAlbumData.artwork = albums[album].artwork;
+          newAlbumData._id = albums[album]._id;
+          newAlbumData.name = albums[album].name;
+          newAlbumData.artist._id = albums[album].artist._id;
+          newAlbumData.artist.name = albums[album].artist.name;
+          newAlbumData.checked = albums[album].checked;
+          albumData.push(newAlbumData);
+
+        }
+
+        var data = {
+          "albums" : albumData
+        };
+        var favAlbums = []
+        for(var i = 0; i < data.albums.length; i ++){
+          if(data.albums[i].checked == true){
+            favAlbums.push(data.albums[i]);
+          } 
+        }
+        var favData = {
+          "albums" : favAlbums
+        };
+        dust.render("albums", favData, function(err, out) {
+      
+          var content = document.getElementById("content");
+          content.innerHTML = out;
+
+          bindAlbumLink();
+
+          bindAlbumDelete();
+          bindAlbumLike();
+
+          bindArtistLink();
+          var fav = document.querySelectorAll(".like-filter")[0];
+          fav.style.backgroundColor = "red"
+          fav.childNodes[0].onclick = changeColor
+
+          var albums = document.querySelectorAll(".like-btn");
+          for(var i= 0; i < favData.albums.length; i++){
+            if(favData.albums[i].checked == true){
+              albums[i].style.backgroundColor = "red";
+            }
+            else{
+              albums[i].style.backgroundColor = "#605F61";
+            }
+          }
+        });
+
+      } 
+
+    }   
+  }
+}
 
   /* Albums */
 

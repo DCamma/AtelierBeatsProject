@@ -31,7 +31,8 @@ var AlbumSchema = new mongoose.Schema(
   artwork: { type: String, default: "" },
   dateReleased : { type: Date, default: Date.now },
   dateCreated : { type: Date, default: Date.now },
-  label : { type: String, default: 'USI-INF records' }
+  label : { type: String, default: 'USI-INF records' },
+  checked : { type: Boolean, default: false }
 }
 
 );

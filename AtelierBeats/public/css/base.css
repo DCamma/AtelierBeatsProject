@@ -1351,6 +1351,42 @@ ul.grid-list > li{
   text-decoration: none;
 }
 
+/*-----------------Like Classes-----------*/
+.like-btn {
+  border: 2px solid #c2c2c2;
+  position: relative;
+  padding: 0px 5px 1px 5px;
+  background-color: #605F61;
+  border-radius: 20px;
+  float: left;
+  top: -11px;
+  right: 6px;
+  z-index: 1;
+}
+
+.like-btn a {
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  text-decoration: none;
+}
+.like-filter {
+  border: 2px solid #c2c2c2;
+  position: relative;
+  padding: 0px 5px 1px 5px;
+  background-color: #605F61;
+  border-radius: 20px;
+
+  z-index: 1;
+}
+
+.like-filter a {
+  font-size: 16px;
+  font-weight: bold;
+  color: white;
+  text-decoration: none;
+}
+
 /* ---------------- Utility classes ---------------- */
 .float-left{
   float:left;

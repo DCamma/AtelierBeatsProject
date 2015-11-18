@@ -64,7 +64,8 @@ router.put('/:albumid', function(req, res, next) {
       album.artwork = data.artwork;
       album.dateCreated = data.dateCreated;
       album.artwork = data.artwork;
-
+      album.checked = data.checked;
+      
       album.save(onModelSave(res));
     }else{
       //album does not exist create it
@@ -112,7 +113,7 @@ function onModelSave(res, status, sendItAsResponse){
       }
     }
 
-    pubsub.emit('album.updated', {})
+    // pubsub.emit('album.updated', {})
     if( sendItAsResponse){
       var obj = saved.toObject();
       delete obj.password;
