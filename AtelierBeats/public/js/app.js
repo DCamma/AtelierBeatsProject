@@ -505,7 +505,6 @@ function drawAlbums(e, addHistory, onlyFavourites, favDomColor) {
             favDom.style.backgroundColor = favDomColor;
 
             
-            console.log(count)
             var albums = document.querySelectorAll(".like-btn");
 
             for (var i = 0; i < data.albums.length; i++) {
