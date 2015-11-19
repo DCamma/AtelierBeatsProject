@@ -1241,9 +1241,7 @@ function playTrackById(trackId) {
         // console.log(audio.duration/2 + " : " + audio.currentTime)
         if (audio.currentTime > audio.duration / 2 && checkFirstTime) {
             checkFirstTime = false;
-            incerementCounter({
-                "count_middle": "inc"
-            }, trackId);
+            incerementCounter({"count_middle": "inc"}, trackId);
         }
     });
     audio.addEventListener("ended", function() {
