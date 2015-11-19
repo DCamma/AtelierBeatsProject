@@ -18,7 +18,7 @@ window.onload = function() {
 
 }
 
-function incerementCounter(counter, trackId) {
+function incrementCounter(counter, trackId) {
   doJSONRequest("GET", "/tracks/" + trackId, null, null, function(track){
     incCounter = {};
     incCounter[counter] = track[counter]+1;
@@ -1170,7 +1170,7 @@ function pause() {
 
 function playTrackById(trackId) {
     checkFirstTime = true;
-    incerementCounter("count_start", trackId);
+    incrementCounter("count_start", trackId);
     var track = findOne(currentTracks, "_id", trackId);
 
     if (!track) return console.log("playTrackById(): Track not found!")
@@ -1192,16 +1192,16 @@ function playTrackById(trackId) {
     moImage.style.backgroundImage = "url(" + album.artwork + ")"
 
     audio.src = track.file;
-    // Davide: check if half of the song is played to call incerementCounter
+    // Davide: check if half of the song is played to call incrementCounter
     audio.addEventListener("timeupdate", function() {
         // console.log(audio.duration/2 + " : " + audio.currentTime)
         if (audio.currentTime > audio.duration / 2 && checkFirstTime) {
             checkFirstTime = false;
-            incerementCounter("count_middle", trackId);
+            incrementCounter("count_middle", trackId);
         }
     });
     audio.addEventListener("ended", function() {
-        incerementCounter("count_end", trackId)
+        incrementCounter("count_end", trackId)
     });
     play();
 }
