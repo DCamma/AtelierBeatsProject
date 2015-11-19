@@ -19,8 +19,7 @@ window.onload = function() {
 }
 
 function incerementCounter(counter, trackId) {
-    doJSONRequest("PUT", "/tracks/" + trackId, null, counter, function() {
-    });
+    doJSONRequest("PUT", "/tracks/" + trackId, null, counter, function(){});
 }
 
 function bindMenu() {
