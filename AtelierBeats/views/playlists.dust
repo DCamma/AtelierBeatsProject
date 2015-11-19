@@ -2,7 +2,7 @@
 
 <li id={_id} ondrop="drop(event)" ondragover="allowDrop(event)">
 
-	<a class="pl-name" data-for={_id} href="playlists/{_id}">
+	<a class="pl-name" data-for={_id} href="{_id}">
 		<i class="nav-menu-icon fa fa-bars"></i>{name}
 	</a>
 

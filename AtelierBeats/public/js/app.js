@@ -844,9 +844,20 @@ function setupPlaylists() {
         };
 
         dust.render("playlists", data, function(err, out) {
-            document.getElementById('playlists').innerHTML = out;   
+            document.getElementById('playlists').innerHTML = out;
+
+            bindPlaylist();   
         }); 
 
+    }
+    function bindPlaylist() {
+        var menu = document.querySelectorAll("#playlists > li > a");
+        for (var elem = 0; elem < menu.length; ++elem) {
+                menu[elem].onclick = function(e){
+                    drawPlaylist(e);
+                }
+            
+        }
     }
 
     // loadPlaylistsFromLocalStorage();
@@ -889,6 +900,22 @@ function setupPlaylists() {
     //     };
 
     // });
+}
+
+function drawPlaylist(e){
+    var href;
+    var target = e.target;
+
+    if (e && e.target) {
+        e.preventDefault();
+        href = target.getAttribute("href");
+    }
+    doJSONRequest("GET", "users/564dcfa513dce9ec91e501d2/playlists/" + href, null, null, renderPlayTracks);
+
+    function renderPlayTracks(tracks){
+        console.log(tracks)
+    }
+
 }
 
 function allowDrop(evt) {

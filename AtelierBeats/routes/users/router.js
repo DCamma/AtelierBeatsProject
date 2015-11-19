@@ -113,6 +113,32 @@ router.get('/:userid/playlists', function(req, res, next) {
   });
 });
 
+//get a user's playlists' tracks
+router.get('/:userid/playlists/:playlistsid', function(req, res, next) {
+  User.findById(req.params.userid, fieldsFilter , function(err, user){
+    if (err) return next (err);
+    if (!user) {
+      res.status(404);
+      res.json({
+        statusCode: 404,
+        message: "Not Found"
+      });
+      return;
+    }
+    console.log(user.playlists)
+    for(var i = 0; i < user.playlists.length; i ++){
+      if(user.playlists[i]._id == req.params.playlistsid){
+        res.json(user.playlists[i]);
+        return;
+      }
+    }
+    res.json({
+        statusCode: 404,
+        message: "Not Found"
+      });
+      return;
+  });
+});
 //update a user's playlists
 router.put('/:userid/playlists', function(req, res, next) {
   var data = req.body;
