@@ -1010,42 +1010,6 @@ function onEditPlaylistClicked(btn) {
     }
 }
 
-function loadPlaylistsFromLocalStorage() {
-    
-    localStorage.playlists = localStorage.playlists || JSON.stringify({});
-    var playlists = JSON.parse(localStorage.playlists);
-    //merge localStorage playlists with model playlists
-    /*
-    model.playlists.forEach(function(playlist){
-    if (!playlists.hasOwnProperty(playlist._id))
-    playlists[playlist._id] = playlist;
-    });
-    */
-
-    var keys = Object.keys(playlists);
-    var newHtml = '';
-    keys.forEach(function(key) {
-        appendNewPlaylistToMenu(playlists[key]);
-    });
-
-    //persist playlists
-    localStorage.playlists = JSON.stringify(playlists);
-}
-
-function appendNewPlaylistToMenu(pl) {
-    var id = pl._id;
-    var name = pl.name;
-    var newHtml = '';
-    newHtml += '  <li id="' + id + '" ondrop="drop(event)" ondragover="allowDrop(event)">';
-    newHtml += '    <a class="pl-name" data-for="' + id + '" href="playlists/' + encodeURI(name) + '">';
-    newHtml += '      <i class="nav-menu-icon fa fa-bars"></i>' + name;
-    newHtml += '    </a>';
-    newHtml += '    <a class="edit-btn" data-for="' + id + '" href="#"><i class="fa fa-pencil"></i></a>';
-    newHtml += '    <input  class="pl-name-input" name="' + id + '" type="text" value="' + name + '">';
-    newHtml += '  </li>';
-
-    document.getElementById('playlists').innerHTML += newHtml;
-}
 
 /* Playlist: Not working after the switch to AJAX */
 

@@ -305,7 +305,7 @@ var users = {
     },
 
     {
-      "_id"          : ObjectId(),
+      "_id"          : "564dcfa513dce9ec91e501d2",
       "firstName"    : "Robert",
       "lastName"     : "Sapolsky",
       "userName"     : "rob",
