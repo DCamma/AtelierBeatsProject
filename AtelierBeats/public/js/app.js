@@ -19,7 +19,11 @@ window.onload = function() {
 }
 
 function incerementCounter(counter, trackId) {
-    doJSONRequest("PUT", "/tracks/" + trackId, null, counter, function(){});
+  doJSONRequest("GET", "/tracks/" + trackId, null, null, function(track){
+    incCounter = {};
+    incCounter[counter] = track[counter]+1;
+    doJSONRequest("PUT", "/tracks/" + trackId, null, incCounter, function(){});
+  });
 }
 
 function bindMenu() {
@@ -45,7 +49,7 @@ function bindMenu() {
 
 /* Library */
 
-function drawLibrary(e, addHistory, preventBind) {
+function drawLibrary(e, addHistory, preventBind, foundedTracks) {
 
     if (e && e.target) {
         e.preventDefault();
@@ -66,12 +70,14 @@ function drawLibrary(e, addHistory, preventBind) {
 
         currentTracks = tracks;
 
-        var tracksData = buildTracksData(tracks);
-
+        if(foundedTracks){
+          var tracksData = buildTracksData(foundedTracks);
+        } else {
+          var tracksData = buildTracksData(tracks);          
+        }
         var data = {
             "tracks": tracksData
         };
-
         dust.render("tracks", data, function(err, out) {
             
             var content = document.getElementById("content");
@@ -147,24 +153,6 @@ function addLibraryToHistory(addHistory) {
 
         addToHistory(JSON.stringify(state), "/#library");
     }
-}
-
-//NOTE: Still used by setupSearch
-function createHTMLLibrary(tracks) {
-    var newHtml = "";
-    tracks.forEach(function(track) {
-        var artist = findOne(model.artists, "_id", track.artist);
-        var album = findOne(model.albums, "_id", track.album);
-
-        newHtml += '<div id="' + track._id + '"" class="fl-tl-row" draggable="true" ondragstart="drag(event)">';
-        newHtml += '<div class="fl-tl-cell fl-tl-name"><a href="#">' + track.name + '</a></div>\n';
-        newHtml += '<div class="fl-tl-cell fl-tl-artist"><a href="artists/' + encodeURI(artist.name) + '">' + artist.name + '</a></div>\n';
-        newHtml += '<div class="fl-tl-cell fl-tl-album"><a href="albums/' + encodeURI(album.name) + '">' + album.name + '</a></div>\n';
-        newHtml += '<div class="fl-tl-cell fl-tl-time">' + formatTime(track.duration) + '</div>\n';
-        newHtml += '</div>\n';
-    })
-
-    return newHtml;
 }
 
 function bindTracksDelete() {
@@ -797,28 +785,19 @@ function setupSearch() {
     var searchBox = document.getElementById("main-search");
     searchBox.addEventListener("input", function() {
         var split = this.value.split(" ");
+        var result = []
+        var theValue = this.value
+        doJSONRequest("GET", "/tracks", null, null, function(tracks){
+          result = fuzzyFind(tracks, "name", theValue);
 
-        result = fuzzyFind(model.tracks, "name", this.value);
-
-        if (this.value.trim() === "") {
+        if (theValue.trim() === "") {
             drawLibrary();
             return;
         }
 
-        var container = document.getElementById('tracks-list');
-        var classList = container.classList;
-
-        var newHtml = '<div class="fl-tl-thead fl-tl-row">\n\
-<div class="fl-tl-th fl-tl-name">Song</div>\n\
-<div class="fl-tl-th fl-tl-artist">Artist</div>\n\
-<div class="fl-tl-th fl-tl-album">Album</div>\n\
-<div class="fl-tl-th fl-tl-time">Time</div>\n\
-</div>';
-
-        newHtml += createHTMLLibrary(result);
-
-        container.innerHTML = newHtml;
+        drawLibrary(null, null, true, result)
     })
+  });
 }
 
 function find(arr, prop, val) {
@@ -1191,9 +1170,7 @@ function pause() {
 
 function playTrackById(trackId) {
     checkFirstTime = true;
-    incerementCounter({
-        "count_start": "inc"
-    }, trackId);
+    incerementCounter("count_start", trackId);
     var track = findOne(currentTracks, "_id", trackId);
 
     if (!track) return console.log("playTrackById(): Track not found!")
@@ -1220,13 +1197,11 @@ function playTrackById(trackId) {
         // console.log(audio.duration/2 + " : " + audio.currentTime)
         if (audio.currentTime > audio.duration / 2 && checkFirstTime) {
             checkFirstTime = false;
-            incerementCounter({"count_middle": "inc"}, trackId);
+            incerementCounter("count_middle", trackId);
         }
     });
     audio.addEventListener("ended", function() {
-        incerementCounter({
-            "count_end": "inc"
-        }, trackId)
+        incerementCounter("count_end", trackId)
     });
     play();
 }

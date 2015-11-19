@@ -73,17 +73,12 @@ router.put('/:trackid', function(req, res, next) {
     if (err) return next (err);
     if (track){
 
-      // Davide: the following three if are needed to be able to modify the counters
-      if (data.count_start == "inc")
-        track.count_start = track.count_start+1;
-      else if(data.count_start)
+      if(data.count_start)
         track.count_start = data.count_start;
       else
         track.count_start = track.count_start;
 
-      if (data.count_middle == "inc")
-        track.count_middle = track.count_middle+1;
-      else if(data.count_middle)
+      if(data.count_middle)
         track.count_middle = data.count_middle;
       else
         track.count_middle = track.count_middle;

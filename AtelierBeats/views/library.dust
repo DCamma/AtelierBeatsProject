@@ -96,7 +96,7 @@
   </div>
   <script src="/socket.io/socket.io.js"></script>
   <script src="js/dust-core.min.js"></script>
-  <script src="js/library.js"></script>
+  <!-- // <script src="js/library.js"></script> -->
   <script src="js/model.js"></script>
   <script src="js/utils.js"></script>
   <script src="views/views.js"></script>
