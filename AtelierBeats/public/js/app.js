@@ -20,7 +20,6 @@ window.onload = function() {
 
 function incerementCounter(counter, trackId) {
     doJSONRequest("PUT", "/tracks/" + trackId, null, counter, function() {
-        console.log("PUT req done")
     });
 }
 
@@ -32,7 +31,7 @@ function bindMenu() {
         if (menu[elem].getAttribute("href").indexOf("library.html") > -1) {
             menu[elem].onclick = function(e) {
                 drawLibrary(e);
-                setupPlayer();
+                // setupPlayer();
             }
         } else if (menu[elem].getAttribute("href").indexOf("artists.html") > -1)
             menu[elem].onclick = drawArtists;
@@ -1068,6 +1067,9 @@ function appendNewPlaylistToMenu(pl) {
 checkFirstTime = true;
 
 function setupPlayer() {
+    if(document.getElementsByTagName('audio').length !== 0){
+      audio.remove()
+    }
     // Buttons
     var playButton = document.getElementById("play-pause");
     var muteButton = document.getElementById("mute");
@@ -1231,7 +1233,7 @@ function playTrackById(trackId) {
     moImage.style.backgroundImage = "url(" + album.artwork + ")"
 
     audio.src = track.file;
-    // Davide: check if half of the song is played to call incerementCMiddle
+    // Davide: check if half of the song is played to call incerementCounter
     audio.addEventListener("timeupdate", function() {
         // console.log(audio.duration/2 + " : " + audio.currentTime)
         if (audio.currentTime > audio.duration / 2 && checkFirstTime) {
