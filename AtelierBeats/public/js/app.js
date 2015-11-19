@@ -506,7 +506,7 @@ function drawAlbums(e, addHistory, onlyFavourites, favDomColor) {
 
             for (var i = 0; i < data.albums.length; i++) {
                 if (data.albums[i].checked == true) {
-                    albums[i].style.backgroundColor = "#a44b4d";
+                    albums[i].style.backgroundColor = "#a44b4d"; // that red
                 } else {
                     albums[i].style.backgroundColor = "#605F61";
                 }

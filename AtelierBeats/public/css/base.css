@@ -1250,7 +1250,7 @@ ul.grid-list > li{
   width: 25%;
   float: left;
   margin: 10px 0;
-  padding: 0 10px!important;
+  padding: 0 15px!important;
 }
 
 .media-object{
@@ -1333,8 +1333,8 @@ ul.grid-list > li{
 @media (max-width: 640px) {
   ul.grid-list > li{
     width: 49%;
-    margin: 5px 0;
-    padding: 0 5px!important;
+    margin: 20px 0;
+    padding: 0 14px!important;
   }
 
 }
@@ -1343,13 +1343,17 @@ ul.grid-list > li{
 .delete-btn {
   border: 2px solid #c2c2c2;
   position: relative;
-  padding: 0px 5px 1px 5px;
+  padding: 0px 5.3px 1px 5.3px;
   background-color: #605F61;
   border-radius: 20px;
   float: right;
   top: -11px;
   right: -9px;
   z-index: 1;
+}
+
+.delete-btn:hover{
+  background-color: #a44b4d;
 }
 
 .delete-btn a {
@@ -1363,7 +1367,7 @@ ul.grid-list > li{
 .like-btn {
   border: 2px solid #c2c2c2;
   position: relative;
-  padding: 0px 5px 1px 5px;
+  padding: 0px 4px 1px 4px;
   background-color: #605F61;
   border-radius: 20px;
   float: left;
@@ -1373,42 +1377,86 @@ ul.grid-list > li{
 }
 
 .like-btn a {
-  font-size: 16px;
+  font-size: 14px;
   font-weight: bold;
   color: white;
   text-decoration: none;
 }
 
 .like-filter {
-  border: 2px solid #c2c2c2;
+  border: 0.5px solid #c2c2c2;
   position: relative;
-  padding: 0px 5px 1px 5px;
+  padding: 6px 5.5px 3px 5.5px;
   background-color: #605F61;
   border-radius: 20px;
-
   z-index: 1;
 }
 
-.like-filter a {
-  font-size: 16px;
-  font-weight: bold;
+.like-filter a span{
+  font-size: 20px;
   color: white;
   text-decoration: none;
+}
+
+.like-filter a{
+  cursor: pointer;
+  font-size: 13px;
+  color: white;
+  text-decoration: none;
+}
+
+.favs-icon{
+  position: relative;
+  margin-top: -10px;
 }
 
 .fav-albums{
   display: inline-block;
   margin: 15px;
-  margin-left: 17px;
+  margin-left: 19px;
   padding: 10px;
   border: 1px solid #c2c2c2;
-  border-radius: 3px;
+  border-radius: 1px;
+  background-color: #ddd;
 }
 
-/*.fav-albums:hover{
-  border: 1px solid #c5c5c5;
+.fav-albums-text{
+  padding-right: 10px;
 }
+
+@media (max-width: 640px) {
+  .fav-albums{
+    margin-left: 18px;
+  }
+}
+
+
+
+/* ----------------- Tooltip -----------------------
+
+Based on: http://www.webdesignerdepot.com/2012/11/how-to-create-a-simple-css3-tooltip/
 */
+
+.tooltip{
+    display: inline;
+    position: relative;
+}
+
+.tooltip:hover:after{
+    background: #4F2233;
+    background: rgba(0,0,0,.7);
+    border-radius: 5px;
+    bottom: 26px;
+    color: #fff;
+    content: attr(title);
+    left: 20%;
+    padding: 6px 15px;
+    position: absolute;
+    z-index: 98;
+    white-space:nowrap;
+    width: auto;
+}
+
 /* ---------------- Utility classes ---------------- */
 .float-left{
   float:left;

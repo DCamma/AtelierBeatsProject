@@ -1,7 +1,14 @@
 <section class="album-section">
 
 	<div class="fav-albums">
-		<span>Favorites</span> <span class="like-filter"><a>&#10084;</a></span>
+		<!-- <span class="fav-albums-text">Favorites</span> --> 
+		
+		<span class="like-filter">
+			<a title="Show only favourite albums" class="tooltip">
+				<span title="" >&#10084;</span>
+			</a>
+		</span>
+		
 	</div>
 	<br>
 	
