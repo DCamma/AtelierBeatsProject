@@ -4,7 +4,7 @@ var currentTracks;
 var currentArtists;
 var currentAlbums;
 
-var count;
+var count = true;
 
 window.onload = function() {
 
@@ -12,7 +12,7 @@ window.onload = function() {
 
     updatePage();
 
-    //setupPlaylists();
+    setupPlaylists();
 
     setupSearch();
 
@@ -504,7 +504,8 @@ function drawAlbums(e, addHistory, onlyFavourites, favDomColor) {
             favDom.childNodes[0].onclick = onFavouritesClick
             favDom.style.backgroundColor = favDomColor;
 
-            count = !count;
+            
+            console.log(count)
             var albums = document.querySelectorAll(".like-btn");
 
             for (var i = 0; i < data.albums.length; i++) {
@@ -524,8 +525,10 @@ function drawAlbums(e, addHistory, onlyFavourites, favDomColor) {
 function onFavouritesClick(e) {
     if (!count) {
         drawAlbums(null, false, false, "#605F61");
+        count = !count;
     } else {
         drawAlbums(null, false, true, "#a44b4d")
+        count = !count;
     }
 }
 
