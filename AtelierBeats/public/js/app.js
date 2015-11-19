@@ -86,8 +86,9 @@ function drawLibrary(e, addHistory) {
             bindTracksDelete();
 
             bindEditTrackName();
-
-            setupPlayer();
+            if (document.getElementsByTagName('audio').length === 0){
+              setupPlayer();
+            }
 
             //add one event listener for all tracks using event delegation
             document.addEventListener('click', function(event) {
