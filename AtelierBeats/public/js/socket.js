@@ -7,8 +7,7 @@ socket.on('change-track', function(data) {
 
 socket.on('change-album', function(data) {
     if (window.location.hash.indexOf('albums') != -1 || window.location.hash == '') {
-        var fav = document.querySelectorAll(".like-filter")[0];
-
+        var fav = document.querySelectorAll(".like-filter")[0]; 
         if (fav.style.backgroundColor == "rgb(164, 75, 77)") {
             drawAlbums(null, false, true, "rgb(164, 75, 77)");
         } else {

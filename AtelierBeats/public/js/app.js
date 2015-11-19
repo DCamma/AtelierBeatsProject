@@ -73,10 +73,8 @@ function drawLibrary(e, addHistory, preventBind) {
         };
 
         dust.render("tracks", data, function(err, out) {
-
             
             var content = document.getElementById("content");
-
             content.innerHTML = out;
 
             bindAlbumLink();
@@ -859,46 +857,59 @@ function findFirstAlbumInCollection(model, prop, array) {
 
 /* Playlist: Not working after the switch to AJAX */
 function setupPlaylists() {
-    loadPlaylistsFromLocalStorage();
+    doJSONRequest("GET", "users/564dcfa513dce9ec91e501d2/playlists", null, null, renderPlaylists);
 
-    var createPlBtn = document.getElementById("create-pl-btn");
-    createPlBtn.addEventListener('click', function() {
-
-        localStorage.pl_cnt = localStorage.pl_cnt || 0;
-        var cnt = localStorage.pl_cnt;
-        var _id = "pl-" + cnt
-        var name = 'New Playlist ' + (++cnt);
-        var newPlaylist = playlist(_id, name, model.users[0]._id, []);
-
-        //update localStorage counter
-        localStorage.pl_cnt = cnt;
-
-        //persist to localStorage
-        savePlaylist(newPlaylist);
-        appendNewPlaylistToMenu(newPlaylist);
-    })
-
-    document.addEventListener('click', function(e) {
-        if (e.target.classList.contains('edit-btn')) {
-            return onEditPlaylistClicked(e.target)
-        }
-
-        if (e.target.classList.contains('pl-name-input')) {
-            return e.preventDefault();
-        }
-
-        if (e.target.classList.contains('pl-name')) {
-            e.preventDefault();
-            return onPlaylistClicked(e.target)
-        }
-
-        //the click was outside an edit element, close currently edited ones
-        var currentlyEditing = document.querySelectorAll('#playlists > li.edit .edit-btn');
-        for (var i = currentlyEditing.length - 1; i >= 0; i--) {
-            onEditPlaylistClicked(currentlyEditing[i]);
+    function renderPlaylists(playlists){
+        var data = {
+            "playlists": playlists
         };
 
-    });
+        dust.render("playlists", data, function(err, out) {
+            document.getElementById('playlists').innerHTML = out;   
+        }); 
+
+    }
+
+    // loadPlaylistsFromLocalStorage();
+
+    // var createPlBtn = document.getElementById("create-pl-btn");
+    // createPlBtn.addEventListener('click', function() {
+
+    //     localStorage.pl_cnt = localStorage.pl_cnt || 0;
+    //     var cnt = localStorage.pl_cnt;
+    //     var _id = "pl-" + cnt
+    //     var name = 'New Playlist ' + (++cnt);
+    //     var newPlaylist = playlist(_id, name, model.users[0]._id, []);
+
+    //     //update localStorage counter
+    //     localStorage.pl_cnt = cnt;
+
+    //     //persist to localStorage
+    //     savePlaylist(newPlaylist);
+    //     appendNewPlaylistToMenu(newPlaylist);
+    // })
+
+    // document.addEventListener('click', function(e) {
+    //     if (e.target.classList.contains('edit-btn')) {
+    //         return onEditPlaylistClicked(e.target)
+    //     }
+
+    //     if (e.target.classList.contains('pl-name-input')) {
+    //         return e.preventDefault();
+    //     }
+
+    //     if (e.target.classList.contains('pl-name')) {
+    //         e.preventDefault();
+    //         return onPlaylistClicked(e.target)
+    //     }
+
+    //     //the click was outside an edit element, close currently edited ones
+    //     var currentlyEditing = document.querySelectorAll('#playlists > li.edit .edit-btn');
+    //     for (var i = currentlyEditing.length - 1; i >= 0; i--) {
+    //         onEditPlaylistClicked(currentlyEditing[i]);
+    //     };
+
+    // });
 }
 
 function allowDrop(evt) {
@@ -1000,6 +1011,7 @@ function onEditPlaylistClicked(btn) {
 }
 
 function loadPlaylistsFromLocalStorage() {
+    
     localStorage.playlists = localStorage.playlists || JSON.stringify({});
     var playlists = JSON.parse(localStorage.playlists);
     //merge localStorage playlists with model playlists
@@ -1034,6 +1046,7 @@ function appendNewPlaylistToMenu(pl) {
 
     document.getElementById('playlists').innerHTML += newHtml;
 }
+
 /* Playlist: Not working after the switch to AJAX */
 
 /* Player */

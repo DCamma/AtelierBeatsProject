@@ -25,6 +25,8 @@ router.get('/', function(req, res, next) {
     users.forEach(function(user){
       addLinks(user);
     });
+
+
     res.json(users);
   });
 });
