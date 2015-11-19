@@ -2,7 +2,7 @@ var socket = io.connect()
 
 socket.on('change-track', function(data) {
     if (window.location.hash.indexOf('library') != -1 || window.location.hash == '')
-        drawLibrary(null, false);
+        drawLibrary(null, false, true);
 })
 
 socket.on('change-album', function(data) {

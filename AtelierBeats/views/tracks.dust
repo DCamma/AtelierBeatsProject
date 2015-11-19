@@ -23,9 +23,9 @@
 			<a class="album-link" href="albums/{album._id}">{album.name}</a>
 			{/album}
 		</div>
-		<div class="fl-tl-cell fl-tl-counter">{count_start}</div>
-		<div class="fl-tl-cell fl-tl-counter">{count_middle}</div>
-		<div class="fl-tl-cell fl-tl-counter">{count_end}</div>
+		<div class="fl-tl-cell fl-tl-counter" id="count_start{_id}">{count_start}</div>
+		<div class="fl-tl-cell fl-tl-counter" id="count_middle{_id}">{count_middle}</div>
+		<div class="fl-tl-cell fl-tl-counter" id="count_end{_id}">{count_end}</div>
 		<div class="fl-tl-cell fl-tl-time">{duration}</div>
 		<div class="fl-tl-th fl-tl-delete"><a href="tracks/{_id}">&times;</a></div>
 	</div>

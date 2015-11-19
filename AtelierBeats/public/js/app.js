@@ -45,7 +45,7 @@ function bindMenu() {
 
 /* Library */
 
-function drawLibrary(e, addHistory) {
+function drawLibrary(e, addHistory, preventBind) {
 
     if (e && e.target) {
         e.preventDefault();
@@ -74,6 +74,7 @@ function drawLibrary(e, addHistory) {
 
         dust.render("tracks", data, function(err, out) {
 
+            
             var content = document.getElementById("content");
 
             content.innerHTML = out;
@@ -88,16 +89,18 @@ function drawLibrary(e, addHistory) {
             if (document.getElementsByTagName('audio').length === 0){
               setupPlayer();
             }
-
+            // The following if statement prevent the creation of more then one event listener
+            if(!preventBind){
             //add one event listener for all tracks using event delegation
-            document.addEventListener('click', function(event) {
-                if (event.target.classList.contains('fl-tl-file-link')) {
-                    // prevent anchor element from following link
-                    event.preventDefault();
+              document.addEventListener('click', function(event) {
+                  if (event.target.classList.contains('fl-tl-file-link')) {
+                      // prevent anchor element from following link
+                      event.preventDefault();
 
-                    playTrackById(event.target.dataset.tid)
-                }
-            })
+                      playTrackById(event.target.dataset.tid)
+                  }
+              })
+            }
 
         });
 

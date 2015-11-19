@@ -183,7 +183,7 @@ function onModelSave(res, status, sendItAsResponse){
   }
 
   // var obj = saved.toObject();
-  // pubsub.emit('track.updated', {})
+  pubsub.emit('track.updated', {})
   if( sendItAsResponse){
     var obj = saved.toObject();
     delete obj.password;
