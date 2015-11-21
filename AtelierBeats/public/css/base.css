@@ -1472,3 +1472,30 @@ Based on: http://www.webdesignerdepot.com/2012/11/how-to-create-a-simple-css3-to
   bottom: 10px;
   right: 10px;
 }
+#playlistHeader {
+  display: -webkit-flex;
+  display: flex;
+}
+
+#playlistHeader.hidden {
+  display: none;
+}
+
+.canvas-container{
+  padding: 10px;
+  width: 230px;
+}
+
+.playlist-info{
+  padding: 10px;
+  color: gray;
+  flex: 2;
+}
+
+.playlist-info-name{
+  font-weight: bold;
+  font-size: 2em;
+  color: #333;
+  padding-bottom: 2px;
+  border-bottom: 1px solid #713F40;
+}

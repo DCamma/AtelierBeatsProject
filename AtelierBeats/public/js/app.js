@@ -130,6 +130,7 @@ function buildTracksData(tracks) {
 
         newTracksData.album._id = tracks[track].album._id;
         newTracksData.album.name = tracks[track].album.name;
+        newTracksData.album.artwork = tracks[track].album.artwork;
 
         // Davide: Need this three lines to dosplay the counters in the dust view
         newTracksData.count_start = tracks[track].count_start;
@@ -139,7 +140,6 @@ function buildTracksData(tracks) {
         tracksData.push(newTracksData);
 
     }
-
     return tracksData;
 
 }
@@ -854,7 +854,7 @@ function setupPlaylists() {
         var menu = document.querySelectorAll("#playlists > li > a");
         for (var elem = 0; elem < menu.length; ++elem) {
                 menu[elem].onclick = function(e){
-                    drawPlaylist(e);
+                    drawPlaylist(e, null, true);
                 }
             
         }
@@ -902,7 +902,7 @@ function setupPlaylists() {
     // });
 }
 
-function drawPlaylist(e){
+function drawPlaylist(e, addHistory, preventBind){
     var href;
     var target = e.target;
 
@@ -911,11 +911,121 @@ function drawPlaylist(e){
         href = target.getAttribute("href");
     }
     doJSONRequest("GET", "users/564dcfa513dce9ec91e501d2/playlists/" + href, null, null, renderPlayTracks);
+    addPlaylistToHistory(addHistory)
+    function renderPlayTracks(playlist){
+        var tracks = []
+        for(var i = 0; i < playlist.tracks.length; i ++){
+            doJSONRequest("GET", "tracks/" + playlist.tracks[i], null, null, getTracks)
+        }
+        function getTracks(track){
+            tracks.push(track);
+            var formTracks = buildTracksData(tracks);
+            for(var i = 0; i < formTracks.length; i ++){
+                playlist.trackMsg = (formTracks && formTracks.length) ? formTracks.length + ' tracks' : '0 tracks';
+            }
+            var data = {
+                "tracks" : formTracks,
+                playlist
+            }
+            dust.render("playlist", data, function(err, out) {
+            var content = document.getElementById("content");
+            content.innerHTML = out;
+            generatePlaylistArtwork(data)
+            bindAlbumLink();
 
-    function renderPlayTracks(tracks){
-        console.log(tracks)
+            bindArtistLink();
+
+            bindTracksDelete();
+
+            bindEditTrackName();
+            if (document.getElementsByTagName('audio').length === 0){
+              setupPlayer();
+            }
+            // The following if statement prevent the creation of more then one event listener
+            if(!preventBind){
+            //add one event listener for all tracks using event delegation
+              document.addEventListener('click', function(event) {
+                  if (event.target.classList.contains('fl-tl-file-link')) {
+                      // prevent anchor element from following link
+                      event.preventDefault();
+
+                      playTrackById(event.target.dataset.tid)
+                  }
+              })
+            }
+
+        });
+        }
     }
 
+}
+
+function emptyPlaylistArtwork() {
+  var canvas = document.getElementById('playlistArtworkCanvas')
+  var ctx = canvas.getContext('2d')
+
+  ctx.fillStyle="#F0F0F0";
+  ctx.fillRect(0,0,canvas.width,canvas.height);
+  ctx.stroke();
+}
+
+function generatePlaylistArtwork(data) {
+  var canvas = document.getElementById('playlistArtworkCanvas')
+  var ctx = canvas.getContext('2d')
+
+  emptyPlaylistArtwork()
+
+  var w2 = canvas.width/2
+  var h2 = canvas.height/2
+  var images = get4PlaylistImages(data)
+
+  for(var i in images) {
+
+    var tempImage = new Image()
+    tempImage.pos = i
+    tempImage.onload = function(evt) {
+      var pos = this.pos
+      var x = (pos/2 >=1) ? w2: 0;
+      var y = (pos%2 ==1) ? h2: 0;
+      ctx.drawImage(evt.target,x,y , w2, h2);
+    }
+    //load image
+    tempImage.src = images[i];
+  };
+}
+
+function get4PlaylistImages(data){
+  if(!data.tracks.length) return;
+
+  // var seen = {};
+  var artworks = [];
+  for(var i = 0; i < data.tracks.length; i ++){
+    if(artworks.length == 4) return artworks;
+
+
+    // var t = findOne(window.data.tracks, "_id", tracks[i]);
+    // if(!t) throw new Error('No track for id: ' + tracks[i]);
+
+    // var album = findFirstAlbumInCollection(window.data.albums,'_id', t.collections)
+    // if(! album) continue;
+
+    // if(seen[album._id]) continue;
+
+    // seen[album._id] = true;
+    artworks.push(data.tracks[i].album.artwork);
+  }
+  return artworks;
+
+}
+
+function addPlaylistToHistory(addHistory) {
+    if ((("undefined" == typeof addHistory) || (addHistory === null)) || addHistory == true) {
+        var state = {
+            'function': 'drawPlaylist'
+        };
+
+        addToHistory(JSON.stringify(state), "/#playlist");
+    }
 }
 
 function allowDrop(evt) {
@@ -952,41 +1062,41 @@ function addTrackToPlaylist(playlistId, trackId) {
     localStorage.playlists = JSON.stringify(playlists);
 }
 
-function onPlaylistClicked(link) {
-    localStorage.playlists = localStorage.playlists || JSON.stringify({});
-    var playlists = JSON.parse(localStorage.playlists);
-    var id = link.dataset["for"];
-    var playlist = playlists[id];
-    var tracks = playlist.tracks;
-    var container = document.getElementById('tracks-list');
-    var classList = container.classList;
+// function onPlaylistClicked(link) {
+//     localStorage.playlists = localStorage.playlists || JSON.stringify({});
+//     var playlists = JSON.parse(localStorage.playlists);
+//     var id = link.dataset["for"];
+//     var playlist = playlists[id];
+//     var tracks = playlist.tracks;
+//     var container = document.getElementById('tracks-list');
+//     var classList = container.classList;
 
-    if (tracks.length < 1) {
-        return container.innerHTML = "Playlist " + playlist.name + " is empty."
-    }
+//     if (tracks.length < 1) {
+//         return container.innerHTML = "Playlist " + playlist.name + " is empty."
+//     }
 
-    var newHtml = '<div class="fl-tl-thead fl-tl-row">\n\
-<div class="fl-tl-th fl-tl-name">Song</div>\n\
-<div class="fl-tl-th fl-tl-artist">Artist</div>\n\
-<div class="fl-tl-th fl-tl-album">Album</div>\n\
-<div class="fl-tl-th fl-tl-time">Time</div>\n\
-</div>';
+//     var newHtml = '<div class="fl-tl-thead fl-tl-row">\n\
+// <div class="fl-tl-th fl-tl-name">Song</div>\n\
+// <div class="fl-tl-th fl-tl-artist">Artist</div>\n\
+// <div class="fl-tl-th fl-tl-album">Album</div>\n\
+// <div class="fl-tl-th fl-tl-time">Time</div>\n\
+// </div>';
 
-    tracks.forEach(function(track) {
-        track = findOne(model.tracks, "_id", track)
-        var artist = findOne(model.artists, "_id", track.artist);
-        var album = findOne(model.albums, "_id", track.album);
+//     tracks.forEach(function(track) {
+//         track = findOne(model.tracks, "_id", track)
+//         var artist = findOne(model.artists, "_id", track.artist);
+//         var album = findOne(model.albums, "_id", track.album);
 
-        newHtml += '<div id="' + track._id + '"" class="fl-tl-row" draggable="true">'
-        newHtml += '<div class="fl-tl-cell fl-tl-name"><a href="#">' + track.name + '</a></div>\n';
-        newHtml += '<div class="fl-tl-cell fl-tl-artist"><a href="artists/' + encodeURI(artist.name) + '">' + artist.name + '</a></div>\n';
-        newHtml += '<div class="fl-tl-cell fl-tl-album"><a href="albums/' + encodeURI(album.name) + '">' + album.name + '</a></div>\n';
-        newHtml += '<div class="fl-tl-cell fl-tl-time">' + formatTime(track.duration) + '</div>\n';
-        newHtml += '</div>\n';
-    })
+//         newHtml += '<div id="' + track._id + '"" class="fl-tl-row" draggable="true">'
+//         newHtml += '<div class="fl-tl-cell fl-tl-name"><a href="#">' + track.name + '</a></div>\n';
+//         newHtml += '<div class="fl-tl-cell fl-tl-artist"><a href="artists/' + encodeURI(artist.name) + '">' + artist.name + '</a></div>\n';
+//         newHtml += '<div class="fl-tl-cell fl-tl-album"><a href="albums/' + encodeURI(album.name) + '">' + album.name + '</a></div>\n';
+//         newHtml += '<div class="fl-tl-cell fl-tl-time">' + formatTime(track.duration) + '</div>\n';
+//         newHtml += '</div>\n';
+//     })
 
-    container.innerHTML = newHtml;
-}
+//     container.innerHTML = newHtml;
+// }
 
 function onEditPlaylistClicked(btn) {
     var id = btn.dataset["for"];
