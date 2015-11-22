@@ -16,6 +16,15 @@ window.onload = function() {
 
     setupSearch();
 
+    setupSyncCheckbox();
+
+}
+
+function setupSyncCheckbox(){
+  var checkbox = document.createElement('input');
+  checkbox.type = "checkbox";
+  checkbox.id = "syncCheck";
+  document.getElementById("pl-volume").appendChild(checkbox);
 }
 
 function incrementCounter(counter, trackId) {
@@ -164,7 +173,7 @@ function buildTracksData(tracks) {
         newTracksData.album.name = tracks[track].album.name;
         newTracksData.album.artwork = tracks[track].album.artwork;
 
-        // Davide: Need this three lines to dosplay the counters in the dust view
+        // Need this three lines to dosplay the counters in the dust view
         newTracksData.count_start = tracks[track].count_start;
         newTracksData.count_middle = tracks[track].count_middle;
         newTracksData.count_end = tracks[track].count_end;
@@ -1172,8 +1181,11 @@ function onEditPlaylistClicked(btn) {
  *
  * - When a track finishes your player should play the next one
  */
+
 function updatePlayer(data){
-  if(document.getElementsByTagName('audio').length !== 0 && data){
+  syncCheck = document.getElementById("syncCheck").checked
+  console.log(syncCheck)
+  if(document.getElementsByTagName('audio').length !== 0 && data && syncCheck){
       if(data.data.currentTime){audio.currentTime = data.data.currentTime;}
       if(data.data.playButton && data.data.playButton == 'play'){play()}
       if(data.data.playButton && data.data.playButton == 'pause'){pause()}
@@ -1365,7 +1377,7 @@ function playTrackById(trackId) {
     moImage.style.backgroundImage = "url(" + album.artwork + ")"
 
     audio.src = track.file;
-    // Davide: check if half of the song is played to call incrementCounter
+    // check if half of the song is played to call incrementCounter
     audio.addEventListener("timeupdate", function() {
         // console.log(audio.duration/2 + " : " + audio.currentTime)
         if (audio.currentTime > audio.duration / 2 && checkFirstTime) {

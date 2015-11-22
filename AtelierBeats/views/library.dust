@@ -82,7 +82,7 @@
                <div class="time time-total" id="time-total">2:19</div>
              </div>
            </div>
-           <div class="pl-volume">
+           <div class="pl-volume" id="pl-volume">
              <i class="btn-icon fa fa-volume-off" id="volume-off"></i>
              <div class="pl-volume-wrapper">
                <div class="pl-volume-rail" id="pl-volume-rail">

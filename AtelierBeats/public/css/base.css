@@ -460,6 +460,10 @@
   .player .btn-icon{
     color: #f7f7f7;
   }
+  
+  #syncCheck{
+    margin-left: 10px;
+  }
 
   .pl-timeline-wrapper, .pl-volume-wrapper{
     flex: 1;
@@ -490,7 +494,7 @@
   }
 
   .pl-volume{
-    flex: 0 0 120px;
+    flex: 0 0 160px;
     display:flex;
     padding: 7px 5px;
   }
