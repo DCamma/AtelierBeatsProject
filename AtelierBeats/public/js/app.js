@@ -859,47 +859,6 @@ function setupPlaylists() {
             
         }
     }
-
-    // loadPlaylistsFromLocalStorage();
-
-    // var createPlBtn = document.getElementById("create-pl-btn");
-    // createPlBtn.addEventListener('click', function() {
-
-    //     localStorage.pl_cnt = localStorage.pl_cnt || 0;
-    //     var cnt = localStorage.pl_cnt;
-    //     var _id = "pl-" + cnt
-    //     var name = 'New Playlist ' + (++cnt);
-    //     var newPlaylist = playlist(_id, name, model.users[0]._id, []);
-
-    //     //update localStorage counter
-    //     localStorage.pl_cnt = cnt;
-
-    //     //persist to localStorage
-    //     savePlaylist(newPlaylist);
-    //     appendNewPlaylistToMenu(newPlaylist);
-    // })
-
-    // document.addEventListener('click', function(e) {
-    //     if (e.target.classList.contains('edit-btn')) {
-    //         return onEditPlaylistClicked(e.target)
-    //     }
-
-    //     if (e.target.classList.contains('pl-name-input')) {
-    //         return e.preventDefault();
-    //     }
-
-    //     if (e.target.classList.contains('pl-name')) {
-    //         e.preventDefault();
-    //         return onPlaylistClicked(e.target)
-    //     }
-
-    //     //the click was outside an edit element, close currently edited ones
-    //     var currentlyEditing = document.querySelectorAll('#playlists > li.edit .edit-btn');
-    //     for (var i = currentlyEditing.length - 1; i >= 0; i--) {
-    //         onEditPlaylistClicked(currentlyEditing[i]);
-    //     };
-
-    // });
 }
 
 function drawPlaylist(e, addHistory, preventBind){
@@ -910,7 +869,7 @@ function drawPlaylist(e, addHistory, preventBind){
         e.preventDefault();
         href = target.getAttribute("href");
     }
-    doJSONRequest("GET", "users/564dcfa513dce9ec91e501d2/playlists/" + href, null, null, renderPlayTracks);
+    doJSONRequest("GET", "/users/564dcfa513dce9ec91e501d2/playlists/" + href, null, null, renderPlayTracks);
     addPlaylistToHistory(addHistory)
     function renderPlayTracks(playlist){
         var tracks = []
@@ -996,22 +955,10 @@ function generatePlaylistArtwork(data) {
 
 function get4PlaylistImages(data){
   if(!data.tracks.length) return;
-
-  // var seen = {};
   var artworks = [];
   for(var i = 0; i < data.tracks.length; i ++){
     if(artworks.length == 4) return artworks;
 
-
-    // var t = findOne(window.data.tracks, "_id", tracks[i]);
-    // if(!t) throw new Error('No track for id: ' + tracks[i]);
-
-    // var album = findFirstAlbumInCollection(window.data.albums,'_id', t.collections)
-    // if(! album) continue;
-
-    // if(seen[album._id]) continue;
-
-    // seen[album._id] = true;
     artworks.push(data.tracks[i].album.artwork);
   }
   return artworks;
@@ -1044,59 +991,12 @@ function drop(evt) {
 }
 
 function addTrackToPlaylist(playlistId, trackId) {
-    var playlists = JSON.parse(localStorage.playlists);
-    var pl = playlists[playlistId];
-    if (typeof pl === "undefined") {
-        throw new Error("playlist doesn't exist in localStorage")
+    doJSONRequest("GET", "/tracks/" + trackId, null, null, addTrack);
+
+    function addTrack(track){
+            doJSONRequest("PUT", "users/564dcfa513dce9ec91e501d2/playlists/" + playlistId, null, track, function(){});
     }
-
-    var track = findOne(model.tracks, "_id", trackId);
-    if (typeof track === "undefined" || track === null) {
-        throw new Error("track doesn't exist in the model")
-    }
-
-    pl.tracks.push(trackId);
-
-    //persist
-    playlists[playlistId] = pl;
-    localStorage.playlists = JSON.stringify(playlists);
 }
-
-// function onPlaylistClicked(link) {
-//     localStorage.playlists = localStorage.playlists || JSON.stringify({});
-//     var playlists = JSON.parse(localStorage.playlists);
-//     var id = link.dataset["for"];
-//     var playlist = playlists[id];
-//     var tracks = playlist.tracks;
-//     var container = document.getElementById('tracks-list');
-//     var classList = container.classList;
-
-//     if (tracks.length < 1) {
-//         return container.innerHTML = "Playlist " + playlist.name + " is empty."
-//     }
-
-//     var newHtml = '<div class="fl-tl-thead fl-tl-row">\n\
-// <div class="fl-tl-th fl-tl-name">Song</div>\n\
-// <div class="fl-tl-th fl-tl-artist">Artist</div>\n\
-// <div class="fl-tl-th fl-tl-album">Album</div>\n\
-// <div class="fl-tl-th fl-tl-time">Time</div>\n\
-// </div>';
-
-//     tracks.forEach(function(track) {
-//         track = findOne(model.tracks, "_id", track)
-//         var artist = findOne(model.artists, "_id", track.artist);
-//         var album = findOne(model.albums, "_id", track.album);
-
-//         newHtml += '<div id="' + track._id + '"" class="fl-tl-row" draggable="true">'
-//         newHtml += '<div class="fl-tl-cell fl-tl-name"><a href="#">' + track.name + '</a></div>\n';
-//         newHtml += '<div class="fl-tl-cell fl-tl-artist"><a href="artists/' + encodeURI(artist.name) + '">' + artist.name + '</a></div>\n';
-//         newHtml += '<div class="fl-tl-cell fl-tl-album"><a href="albums/' + encodeURI(album.name) + '">' + album.name + '</a></div>\n';
-//         newHtml += '<div class="fl-tl-cell fl-tl-time">' + formatTime(track.duration) + '</div>\n';
-//         newHtml += '</div>\n';
-//     })
-
-//     container.innerHTML = newHtml;
-// }
 
 function onEditPlaylistClicked(btn) {
     var id = btn.dataset["for"];

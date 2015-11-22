@@ -125,7 +125,6 @@ router.get('/:userid/playlists/:playlistsid', function(req, res, next) {
       });
       return;
     }
-    console.log(user.playlists)
     for(var i = 0; i < user.playlists.length; i ++){
       if(user.playlists[i]._id == req.params.playlistsid){
         res.json(user.playlists[i]);
@@ -142,9 +141,9 @@ router.get('/:userid/playlists/:playlistsid', function(req, res, next) {
 //update a user's playlists
 router.put('/:userid/playlists', function(req, res, next) {
   var data = req.body;
-
   User.findById(req.params.userid, fieldsFilter , function(err, user){
     if (err) return next (err);
+
     if (!user) {
       res.status(404);
       res.json({
@@ -155,6 +154,37 @@ router.put('/:userid/playlists', function(req, res, next) {
     }
     user.playlists = req.body;
     user.save(onModelSave(res));
+  });
+});
+
+router.put('/:userid/playlists/:playlistsid', function(req, res, next) {
+  var data = req.body;
+  console.log(data._id,"DIOV")
+  User.findById(req.params.userid, fieldsFilter , function(err, user){
+    if (err) return next (err);
+    if (!user) {
+      res.status(404);
+      res.json({
+        statusCode: 404,
+        message: "Not Found"
+      });
+      return;
+    }
+    for(var i = 0; i < user.playlists.length; i ++){
+      if(user.playlists[i]._id == req.params.playlistsid){
+        if(user.playlists[i].tracks.indexOf(data._id) == -1){
+          user.playlists[i].tracks.push(data._id)
+          user.save(onModelSave(res));
+          return;
+        }
+      }
+    }
+    res.json({
+        statusCode: 400,
+        message: "Bad Request"
+      });
+      return;
+    
   });
 });
 

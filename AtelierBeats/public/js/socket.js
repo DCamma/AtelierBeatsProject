@@ -3,6 +3,8 @@ var socket = io.connect()
 socket.on('change-track', function(data) {
     if (window.location.hash.indexOf('library') != -1 || window.location.hash == '')
         drawLibrary(null, false, true);
+    else if(window.location.hash.indexOf('playlist') != -1 || window.location.hash == '')
+        setupPlaylists()
 })
 
 socket.on('change-album', function(data) {
