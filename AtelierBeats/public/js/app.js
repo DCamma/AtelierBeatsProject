@@ -1140,9 +1140,21 @@ function onEditPlaylistClicked(btn) {
  *
  * - When a track finishes your player should play the next one
  */
+function updatePlayer(data){
+  if(document.getElementsByTagName('audio').length !== 0){
+      audio.currentTime = data.data.currentTime;
+    }
+}
 checkFirstTime = true;
 
-function setupPlayer() {
+function setupPlayer(data) {
+    if (data && data.trackId){
+      currentTrackId = data.trackId;
+      // currentTime = data.currentTime;
+      // currentState = data.currentState;
+    } else {
+      currentTrackId = currentTracks[0]._id;
+    }
     if(document.getElementsByTagName('audio').length !== 0){
       audio.remove()
     }
@@ -1179,7 +1191,7 @@ function setupPlayer() {
 
     document.body.appendChild(audio);
 
-    playTrackById(currentTracks[0]._id);
+    playTrackById(currentTrackId);
 
     // Event listener for the play/pause button
     playButton.addEventListener("click", function() {
@@ -1223,6 +1235,10 @@ function setupPlayer() {
         // Calculate the new time
         var time = audio.duration * frac;
         audio.currentTime = time;
+        currentData = {
+          'currentTime' : time,
+        }
+        doJSONRequest('PUT', "/tracks/player", null, currentData, null);
     });
 
     // Update the seek bar as the track plays

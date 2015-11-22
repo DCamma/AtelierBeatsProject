@@ -41,4 +41,8 @@ module.exports = function(httpServer) {
 	eventBus.on('artist.updated', function(event){
 		io.emit('change-artist', event)
 	})
+	// added to syncronize the player
+	eventBus.on('player.updated', function(event){
+		io.emit('change-player', event)
+	})
 }

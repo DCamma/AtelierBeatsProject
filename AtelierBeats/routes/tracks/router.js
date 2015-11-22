@@ -48,6 +48,17 @@ router.post('/', function(req, res, next) {
   newTrack.save(onModelSave(res, 201, true));
 });
 
+router.put('/player', function(req, res, next) {
+  // {
+  //   trackid : ,
+  //   currentTime : ,
+  //   currentState : ,
+  // }
+  console.log(req.body)
+  var data = req.body;
+  pubsub.emit('player.updated', {data})
+});
+
 //get a track
 router.get('/:trackid', function(req, res, next) {
   Track.findById(req.params.trackid, fieldsFilter).lean().populate('artist').populate('album').exec(function(err, track){
@@ -168,28 +179,27 @@ function onModelSave(res, status, sendItAsResponse){
       if (err.name === 'ValidationError' 
         || err.name === 'TypeError' ) {
         res.status(400)
-      return res.json({
-        statusCode: 400,
-        message: "Bad Request"
-      });
+        return res.json({
+          statusCode: 400,
+          message: "Bad Request"
+        });
+      }else{
+        return next (err);
+      }
+    }
+
+    // var obj = saved.toObject();
+    pubsub.emit('track.updated', {})
+    if( sendItAsResponse){
+      var obj = saved.toObject();
+      delete obj.password;
+      delete obj.__v;
+      addLinks(obj);
+      return res.status(statusCode).json(obj);
     }else{
-      return next (err);
+      return res.status(statusCode).end();
     }
   }
-
-  // var obj = saved.toObject();
-  pubsub.emit('track.updated', {})
-  if( sendItAsResponse){
-    var obj = saved.toObject();
-    delete obj.password;
-    delete obj.__v;
-    addLinks(obj);
-    return res.status(statusCode).json(obj);
-  }else{
-    return res.status(statusCode).end();
-  }
-
-}
 }
 
 function addLinks(track){
