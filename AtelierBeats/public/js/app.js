@@ -190,7 +190,6 @@ function deleteTrack(e) {
 function bindEditTrackName() {
 
     var tracksName = document.querySelectorAll("#tracks-list > div > div.fl-tl-name > span + .edit-btn");
-
     for (var elem = 0; elem < tracksName.length; ++elem) {
         tracksName[elem].onclick = editTrackName;
     }
@@ -847,6 +846,8 @@ function setupPlaylists() {
             document.getElementById('playlists').innerHTML = out;
 
             bindPlaylist();   
+
+            bindEditPlaylistName();
         }); 
 
     }
@@ -962,6 +963,83 @@ function get4PlaylistImages(data){
     artworks.push(data.tracks[i].album.artwork);
   }
   return artworks;
+
+}
+
+function bindEditPlaylistName() {
+
+    var playlistsName = document.querySelectorAll("#playlists > li > .pl-name + .edit-btn");
+    for (var elem = 0; elem < playlistsName.length; ++elem) {
+        playlistsName[elem].onclick = editPlaylistName;
+    }
+
+}
+
+function editPlaylistName(e) {
+
+    if (e && e.target) {
+        e.preventDefault();
+    }
+
+    var target = e.target;
+
+    //console.log(target);
+
+    var editable = target.previousSibling;
+
+    //console.log(editable.contentEditable);
+    //console.log(editable.contentEditable ==  "false");
+
+    if (editable.contentEditable == "false" || editable.contentEditable == "inherit") { //we have to enable the editing
+
+        editable.contentEditable = "true";
+
+        removeClass(target.firstChild, "fa-pencil");
+
+        removeClass(target.firstChild, "fl-tl-pencil");
+
+        addClass(target.firstChild, "fa-check");
+
+        addClass(target.firstChild, "fl-tl-check");
+
+        //set the cursor on the editable element
+        var s = window.getSelection(),
+            r = document.createRange();
+        r.setStart(editable, 0);
+        r.setEnd(editable, 0);
+        s.removeAllRanges();
+        s.addRange(r);
+
+    } else { //we have to save the modified name
+
+        var id = editable.parentNode.getAttribute("id");
+
+        //send the data to the server
+        var newName = editable.innerText;
+
+
+        var updatedPlaylist = {
+            "name": newName,
+            "id" : id
+        }
+
+        doJSONRequest("PUT", "/users/564dcfa513dce9ec91e501d2/playlists/" + id, null, updatedPlaylist, disableEditing);
+
+        function disableEditing() {
+
+            editable.contentEditable = "false";
+
+            removeClass(target.firstChild, "fa-check");
+
+            removeClass(target.firstChild, "fl-tl-check");
+
+            addClass(target.firstChild, "fa-pencil");
+
+            addClass(target.firstChild, "fl-tl-pencil");
+
+        }
+
+    }
 
 }
 

@@ -159,7 +159,6 @@ router.put('/:userid/playlists', function(req, res, next) {
 
 router.put('/:userid/playlists/:playlistsid', function(req, res, next) {
   var data = req.body;
-  console.log(data._id,"DIOV")
   User.findById(req.params.userid, fieldsFilter , function(err, user){
     if (err) return next (err);
     if (!user) {
@@ -172,19 +171,25 @@ router.put('/:userid/playlists/:playlistsid', function(req, res, next) {
     }
     for(var i = 0; i < user.playlists.length; i ++){
       if(user.playlists[i]._id == req.params.playlistsid){
-        if(user.playlists[i].tracks.indexOf(data._id) == -1){
-          user.playlists[i].tracks.push(data._id)
+        if(data._id){
+          if(user.playlists[i].tracks.indexOf(data._id) == -1){
+            user.playlists[i].tracks.push(data._id)
+            user.save(onModelSave(res));
+            return;
+          }
+        }
+        else{
+          user.playlists[i].name = data.name;
           user.save(onModelSave(res));
           return;
         }
       }
     }
-    res.json({
+    res.status(400);
+      res.json({
         statusCode: 400,
         message: "Bad Request"
       });
-      return;
-    
   });
 });
 
