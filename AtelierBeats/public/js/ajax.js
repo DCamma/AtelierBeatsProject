@@ -63,7 +63,7 @@
     } else {
       if(isJSON(r.responseText))
         callback(JSON.parse(r.responseText));
-      else
+      else if (callback !== null)
         callback();
     }
   };

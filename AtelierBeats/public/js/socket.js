@@ -26,9 +26,5 @@ socket.on('change-artist', function(data) {
 
 // added to sync players
 socket.on('change-player', function(data) {
-    // if (window.location.hash.indexOf('library') != -1 || window.location.hash == '')
-    //     drawLibrary(null, false, true);
-    // else if(window.location.hash.indexOf('playlist') != -1 || window.location.hash == '')
-    //     setupPlaylists()
     updatePlayer(data);	
 })

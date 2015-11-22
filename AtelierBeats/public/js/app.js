@@ -22,7 +22,7 @@ function incrementCounter(counter, trackId) {
   doJSONRequest("GET", "/tracks/" + trackId, null, null, function(track){
     incCounter = {};
     incCounter[counter] = track[counter]+1;
-    doJSONRequest("PUT", "/tracks/" + trackId, null, incCounter, function(){});
+    doJSONRequest("PUT", "/tracks/" + trackId, null, incCounter, null);
   });
 }
 
@@ -1173,8 +1173,10 @@ function onEditPlaylistClicked(btn) {
  * - When a track finishes your player should play the next one
  */
 function updatePlayer(data){
-  if(document.getElementsByTagName('audio').length !== 0){
-      audio.currentTime = data.data.currentTime;
+  if(document.getElementsByTagName('audio').length !== 0 && data){
+      if(data.data.currentTime){audio.currentTime = data.data.currentTime;}
+      if(data.data.playButton && data.data.playButton == 'play'){play()}
+      if(data.data.playButton && data.data.playButton == 'pause'){pause()}
     }
 }
 checkFirstTime = true;
@@ -1229,8 +1231,16 @@ function setupPlayer(data) {
     playButton.addEventListener("click", function() {
         if (audio.paused == true) {
             play()
+            currentData = {
+              'playButton' : 'play',
+            }
+            doJSONRequest('PUT', "/tracks/player", null, currentData, null);
         } else {
             pause()
+            currentData = {
+              'playButton' : 'pause',
+            }
+            doJSONRequest('PUT', "/tracks/player", null, currentData, null);
         }
     });
 

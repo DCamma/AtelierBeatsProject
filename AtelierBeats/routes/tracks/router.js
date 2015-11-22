@@ -49,14 +49,9 @@ router.post('/', function(req, res, next) {
 });
 
 router.put('/player', function(req, res, next) {
-  // {
-  //   trackid : ,
-  //   currentTime : ,
-  //   currentState : ,
-  // }
-  console.log(req.body)
   var data = req.body;
   pubsub.emit('player.updated', {data})
+  res.status(204).end();
 });
 
 //get a track
