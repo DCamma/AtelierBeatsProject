@@ -43,7 +43,7 @@ var artists = {
       "_id"          : ObjectId(),
       "name"         : "God is an Astronaut",
       "genre"        : "Post Rock",
-      "artwork"      : "http://38.media.tumblr.com/bb80c0bb50ad6cdd93aacf43621b8466/tumblr_n4s5k2Rn3c1qb48t9o1_500.jpg",
+      "artwork"      : "http://voyalconcierto.com/wp-content/uploads/2013/06/god-is-an-astronaut-en-Espa%C3%B1a-20131.jpg",
       "dateCreated"  : "Sat Sep 27 2014 10:42:10 GMT+0200 (CEST)"
     }
   ]
@@ -76,7 +76,7 @@ var albums = {
       "_id"          : ObjectId(),
       "artist"       : artists.data[1]._id,
       "name"         : "Back in Black",
-      "artwork"      : "http://www.ar15.com/media/mediaFiles/1715/47731.JPG",
+      "artwork"      : "https://i.ytimg.com/vi/NIWavHZRUdM/maxresdefault.jpg",
       "dateReleased" : "Fri Jul 25 1980 00:00:00 GMT+0100 (CET)",
       "dateCreated"  : "Sat Sep 27 2014 10:42:10 GMT+0200 (CEST)",
       "label"        : "Albert/Atlantic Records"
@@ -106,7 +106,7 @@ var albums = {
       "_id"          : ObjectId(),
       "artist"       : artists.data[2]._id,
       "name"         : "Master of Puppets",
-      "artwork"      : "http://www.blogdosedupla.com.br/wp-content/uploads/2012/12/Master+of+Puppets+PNG.png",
+      "artwork"      : "http://www.metal-archives.com/images/5/4/7/547.jpg?4520",
       "dateReleased" : "Mon Feb 24 1986 00:00:00 GMT+0100 (CET)",
       "dateCreated"  : "Sat Sep 27 2014 10:42:10 GMT+0200 (CEST)",
       "label"        : "Elektra/Asylum"
@@ -116,7 +116,7 @@ var albums = {
       "_id"          : ObjectId(),
       "artist"       : artists.data[3]._id,
       "name"         : "Reign in Blood",
-      "artwork"      : "http://www.metal411.com/wp-content/uploads/2013/10/reign-in-blood.png",
+      "artwork"      : "http://www.riceandbreadmagazine.com/wp-content/uploads/2014/09/Slayer-Reign-In-Blood-1024x1024.jpg",
       "dateReleased" : "Tue Oct 07 1986 00:00:00 GMT+0100 (CET)",
       "dateCreated"  : "Sat Sep 27 2014 10:42:10 GMT+0200 (CEST)",
       "label"        : "Def Jam"
