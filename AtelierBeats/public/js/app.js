@@ -36,12 +36,44 @@ function bindMenu() {
                 drawLibrary(e);
                 // setupPlayer();
             }
-        } else if (menu[elem].getAttribute("href").indexOf("artists.html") > -1)
+        } else if (menu[elem].getAttribute("href").indexOf("artists.html") > -1){           
             menu[elem].onclick = drawArtists;
-        else if (menu[elem].getAttribute("href").indexOf("albums.html") > -1)
+        } else if (menu[elem].getAttribute("href").indexOf("albums.html") > -1){
             menu[elem].onclick = drawAlbums;
+        } else if (menu[elem].getAttribute("href").indexOf("activities.html") > -1){
+            menu[elem].onclick = drawActivities;
+        }
+    
     }
 }
+
+
+
+/* EXERCISE 9 - Activities */
+
+function drawActivities(e, addHistory){
+    if(e && e.target){
+        e.preventDefault();
+    }
+
+    // A user has a static id used for tests...
+    doJSONRequest("GET", "users/564dcfa513dce9ec91e501d2/activities", null, null, renderActivities);
+
+    function renderActivities(activities){
+
+        var data = {
+            "activities": activities            
+        }
+
+        dust.render("activities", data, function(err, out){
+            var content = document.getElementById("content");
+            content.innerHTML = out;
+
+        })
+    }
+
+}
+
 
 //<!-- /build -->
 

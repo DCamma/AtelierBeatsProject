@@ -193,6 +193,22 @@ router.put('/:userid/playlists/:playlistsid', function(req, res, next) {
   });
 });
 
+// EXERCISE 9
+router.get("/:userid/activities", function(req, res, next){
+  User.findById(req.params.userid, fieldsFilter, function(err, user){
+    if(err) return next(err);
+    if(!user) {
+      res.status(404);
+      return res.json({
+        statusCode: 404,
+        message: "User Not Found"
+      })
+    }
+
+    res.json(user.activities)
+  })
+})
+
 function onModelSave(res, status, sendItAsResponse){
   var statusCode = status || 204;
   var sendItAsResponse = sendItAsResponse || false;
