@@ -35,7 +35,6 @@ function incrementCounter(counter, trackId) {
  incCounter[counter] = track[counter]+1;
  doJSONRequest("PUT", "/tracks/" + trackId, null, incCounter, null);
  });
-}
 
 function bindMenu() {
   var menu = document.querySelectorAll("#main-menu > li > a");
@@ -1411,7 +1410,6 @@ function setupPlayer(data) {
     nextButton.addEventListener("click", function() {
         if (!currentPlayingTrack) return;
         var currentIdx = currentTracks.indexOf(currentPlayingTrack);
-
         if (currentIdx == -1) {
             return console.log("invalid currentTrack");
         }
@@ -1508,9 +1506,9 @@ function playTrackById(trackId) {
     checkFirstTime = true;
     incrementCounter("count_start", trackId);
     var track = findOne(currentTracks, "_id", trackId);
-
     if (!track) return console.log("playTrackById(): Track not found!")
 
+    console.log(currentTracks)
     currentPlayingTrack = track;
 
     var artist = findOne(currentArtists, "_id", track.artist._id);
