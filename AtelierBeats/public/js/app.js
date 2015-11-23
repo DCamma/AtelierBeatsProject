@@ -57,6 +57,7 @@ function bindMenu() {
   }
 }
 
+
 /* EXERCISE 9 - Activities */
 
 function drawActivities(e, addHistory) {
@@ -82,6 +83,8 @@ function drawActivities(e, addHistory) {
     // representing their respective position in the UI view
     for(var i=0; i<activities.length; i++){
         activities[i].n = i + 1;
+        console.log(typeof activities[i].timestamp)
+        activities[i].timestamp = formatTimestamp(new Date(activities[i].timestamp));
     }
 
     var data = {

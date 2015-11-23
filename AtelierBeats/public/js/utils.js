@@ -9,6 +9,13 @@ function formatTime(totalSec){
 	return result;
 }
 
+
+function formatTimestamp(d){
+	if(d instanceof Date){
+		return d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds() + ", " + d.getDate() + "/" + (d.getMonth() + 1)  + "/" + d.getFullYear();
+	} else throw new Error("d is not a date");
+}
+
 function hasClass(ele,cls) {
 	return ele.className.match(new RegExp('(\\s|^)'+cls+'(\\s|$)'));
 }
