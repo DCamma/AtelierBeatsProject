@@ -35,6 +35,7 @@ function incrementCounter(counter, trackId) {
  incCounter[counter] = track[counter]+1;
  doJSONRequest("PUT", "/tracks/" + trackId, null, incCounter, null);
  });
+}
 
 function bindMenu() {
   var menu = document.querySelectorAll("#main-menu > li > a");
