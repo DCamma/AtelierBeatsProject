@@ -792,7 +792,9 @@ function likeAlbum(e) {
       albumData.checked = !(album.checked);
 
       doJSONRequest("PUT", href, null, albumData, checkLikedAlbum);
+
       var toCheck = target.parentNode.parentNode;
+      
       if (album.checked == false) {
         toCheck.childNodes[1].style.backgroundColor = "#a44b4d";
       } else {
@@ -961,8 +963,11 @@ function setupPlaylists() {
   }
 
   function bindPlaylist() {
-    var menu = document.querySelectorAll("#playlists > li > a");
+    var menu = document.querySelectorAll("#playlists > li");
+    console.log(menu)
+
     for (var elem = 0; elem < menu.length; ++elem) {
+
       menu[elem].onclick = function(e) {
         drawPlaylist(e, null, true);
       }
@@ -1086,15 +1091,19 @@ function managePlaylistNameEdit(editButton){
 }
 
 function drawPlaylist(e, addHistory, preventBind) {
-  var href;
+  var playlistId;
   var target = e.target;
 
   if (e && e.target) {
     e.preventDefault();
-    href = target.getAttribute("href");
+    playlistId = target.getAttribute("id");
   }
 
-  doJSONRequest("GET", "/users/564dcfa513dce9ec91e501d2/playlists/" + href, null, null, renderPlayTracks);
+  console.log(target)
+
+  console.log(playlistId)
+
+  doJSONRequest("GET", "/users/564dcfa513dce9ec91e501d2/playlists/" + playlistId, null, null, renderPlayTracks);
   addPlaylistToHistory(addHistory)
 
   function renderPlayTracks(playlist) {
@@ -1507,7 +1516,7 @@ function playTrackById(trackId) {
     var track = findOne(currentTracks, "_id", trackId);
     if (!track) return console.log("playTrackById(): Track not found!")
 
-    console.log(currentTracks)
+    // console.log(currentTracks)
     currentPlayingTrack = track;
 
     var artist = findOne(currentArtists, "_id", track.artist._id);
