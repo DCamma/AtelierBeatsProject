@@ -30,6 +30,7 @@
           <!-- Adding a new menu item for ex 9 -->
           <li><a href="activities.html"><i class="nav-menu-icon glyphicon glyphicon-stats"></i>Activities</a></li>
 
+          <li id="clientNumber"><i class="nav-menu-icon fa fa-user"></i>Client n.</li>
           <li class="mm-user-item"><a href="login.html"><i class="nav-menu-icon fa fa-user"></i>triglian</a></li>
           <li class="mm-user-item"><a href="login.html"><i class="nav-menu-icon fa fa-sign-out"></i>logout</a></li>
         </ul>

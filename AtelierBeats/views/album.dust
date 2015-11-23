@@ -1,5 +1,5 @@
 <section class="single-album-section">
-	<ul class="grid-list clearfix">
+	<ul class="grid-list">
 		<li>
 			<div class="media-object">
 				<div class="mo-image" style="background-image: url({album.artwork})"></div>

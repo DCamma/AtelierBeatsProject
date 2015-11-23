@@ -3,7 +3,6 @@
 var currentTracks;
 var currentArtists;
 var currentAlbums;
-
 var count = true;
 
 var playlistLeftIcon; // global warning!
@@ -18,7 +17,7 @@ window.onload = function() {
 
   setupSearch();
 
-    setupSyncCheckbox();
+  setupSyncCheckbox();
 
 }
 
@@ -1335,7 +1334,6 @@ function onEditPlaylistClicked(btn) {
 
 function updatePlayer(data){
   syncCheck = document.getElementById("syncCheck").checked
-  console.log(syncCheck)
   if(document.getElementsByTagName('audio').length !== 0 && data && syncCheck){
       if(data.data.currentTime){audio.currentTime = data.data.currentTime;}
       if(data.data.playButton && data.data.playButton == 'play'){play()}

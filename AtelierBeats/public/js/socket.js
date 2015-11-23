@@ -28,3 +28,12 @@ socket.on('change-artist', function(data) {
 socket.on('change-player', function(data) {
     updatePlayer(data);	
 })
+
+socket.on('clientConnected', function(clientNumber) {
+	var textHTML = '<i class="nav-menu-icon fa fa-user"></i>Clients n. ' + clientNumber;
+	document.getElementById('clientNumber').innerHTML = textHTML;
+})
+socket.on('clientDisconnected', function(clientNumber) {
+	var textHTML = '<i class="nav-menu-icon fa fa-user"></i>Clients n. ' + clientNumber;
+	document.getElementById('clientNumber').innerHTML = textHTML;
+})

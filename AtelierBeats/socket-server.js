@@ -2,15 +2,21 @@ var socketIo = require('socket.io')
 
 var eventBus = require('./pubsub')
 
+var clientNumber = 0;
+
 module.exports = function(httpServer) {
 	var io = socketIo(httpServer)
 
 	// Socket.io server
 	io.on('connect', function(socket){
 		// console.log('Connected')
+		clientNumber += 1;
+		io.emit('clientConnected', clientNumber)
 
 		socket.on('disconnect', function(){
 			// console.log('Disconnected')
+			clientNumber -= 1;
+			io.emit('clientDisconnected', clientNumber)
 		})
 
 		socket.on('error', function(err){
