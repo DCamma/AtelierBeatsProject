@@ -7,7 +7,7 @@
 		<span id="{_id}">{name}</span>
 	</a>
 
-	<a class="edit-btn" data-for={_id} href="#" id="{_id}">
+	<a class="edit-btn" data-for={_id} href="#">
 		<i class="fa fa-pencil"></i>
 	</a>
 
