@@ -49,7 +49,7 @@
   //create an ajax request
   var r = new XMLHttpRequest();
 
-  //open a connection to the server using method method on the url API
+  //open a connection to the server using method on the url API
   r.open(method, url, true);
 
   //set the headers

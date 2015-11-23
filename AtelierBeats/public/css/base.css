@@ -504,7 +504,6 @@
     width:auto;
   }
 
-
   .pl-artwork{
     float:left;
     height:50px;
@@ -562,6 +561,20 @@
     white-space: nowrap;
   }
 
+  /* ---------------- ACTIVITIES ---------------- */
+
+  .fl-tl-position {
+    flex: 0 0 40px;
+    text-align: left;
+    width: 40px;
+    padding: 0 5px 0 6px;
+    max-width: 40px;
+  }
+
+  /* end */
+
+
+
   /* ---------------- Library flex list ---------------- */
   .flex-tracklist {
     width: 100%;
@@ -612,6 +625,7 @@
     width: 78px;
     padding: 0 5px 0 12px;
   }
+
 
   /* Davide: css needed for counters in library view */
   .fl-tl-counter{
@@ -989,9 +1003,9 @@ a.create-playlist{
   background: rgba(0,0,0,0.1);
   display: inline-block;
   width: auto;
-  padding: 2px 5px 4px;
-  margin: 0 0 20px 10px;
-  font-size: 1.2em;
+  padding: 4px 7px 6px;
+  margin: 0 0 10px 18px;
+  font-size: 1.25em;
   line-height: 1;
   white-space: nowrap;
   overflow: hidden;
@@ -1227,6 +1241,18 @@ a.create-playlist:hover, a.create-playlist:active{
   #main-menu-toggle-label, #main-menu-toggle, .mm-user-item{
     display:none;
   }
+}
+
+/* ---------------- Custom style for new Playlist button ---------------- */
+
+.new-playlist-circle{
+  display: block;
+  padding-top: 3.5px;
+  padding-right: 10px;
+}
+
+#np-circle{
+  font-size: 20px;
 }
 
 /* ---------------- User nav ---------------- */

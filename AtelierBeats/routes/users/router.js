@@ -6,7 +6,11 @@ var router = express.Router();
 var middleware =  require('../middleware');
 var mongoose = require('mongoose');
 var ObjectId = mongoose.Types.ObjectId;
+
 var User = mongoose.model('User');
+var Activity = mongoose.model("Activity");
+var Playlist = mongoose.model("Playlist");
+
 var config = require("../../config");
 
 //fields we don't want to show to the client
@@ -25,7 +29,6 @@ router.get('/', function(req, res, next) {
     users.forEach(function(user){
       addLinks(user);
     });
-
 
     res.json(users);
   });
@@ -69,6 +72,7 @@ router.put('/:userid', function(req, res, next) {
       user.playlists = data.playlists;
 
       user.save(onModelSave(res));
+
     }else{
       //user does not exist create it
       var newUser = new User(data);
@@ -138,9 +142,12 @@ router.get('/:userid/playlists/:playlistsid', function(req, res, next) {
       return;
   });
 });
+
 //update a user's playlists
 router.put('/:userid/playlists', function(req, res, next) {
+  
   var data = req.body;
+
   User.findById(req.params.userid, fieldsFilter , function(err, user){
     if (err) return next (err);
 
@@ -152,15 +159,27 @@ router.put('/:userid/playlists', function(req, res, next) {
       });
       return;
     }
-    user.playlists = req.body;
+
+    // Exercise 9
+    if(!data || !data.name) {
+      data = {
+        name: "Playlist " + (user.playlists.length + 1)
+      }
+    }
+
+    var newPlaylist = new Playlist(data);
+    user.playlists.push(newPlaylist);
     user.save(onModelSave(res));
   });
+
 });
 
 router.put('/:userid/playlists/:playlistsid', function(req, res, next) {
   var data = req.body;
+
   User.findById(req.params.userid, fieldsFilter , function(err, user){
     if (err) return next (err);
+    
     if (!user) {
       res.status(404);
       res.json({
@@ -169,6 +188,7 @@ router.put('/:userid/playlists/:playlistsid', function(req, res, next) {
       });
       return;
     }
+
     for(var i = 0; i < user.playlists.length; i ++){
       if(user.playlists[i]._id == req.params.playlistsid){
         if(data._id){
@@ -185,15 +205,44 @@ router.put('/:userid/playlists/:playlistsid', function(req, res, next) {
         }
       }
     }
+
     res.status(400);
       res.json({
         statusCode: 400,
         message: "Bad Request"
       });
-  });
+  }); 
+
 });
 
-// EXERCISE 9
+
+// Exercise 9 - Activities
+
+router.put("/:userid/activities/:activityid", function(req, res, next) {
+
+  var data = req.body;
+
+  User.findById(req.params.userid, fieldsFilter, function(err, user){
+    if (err) return next (err);
+    
+    if (!user) {
+      res.status(404);
+      return res.json({
+        statusCode: 404,
+        message: "User Not Found"
+      });
+    } else { // user exits
+
+      var activity = new Activity(data);
+      user.activities.push(activity);
+      user.save(onModelSave(res))
+    }
+
+  });
+
+});
+
+
 router.get("/:userid/activities", function(req, res, next){
   User.findById(req.params.userid, fieldsFilter, function(err, user){
     if(err) return next(err);
@@ -205,7 +254,7 @@ router.get("/:userid/activities", function(req, res, next){
       })
     }
 
-    res.json(user.activities)
+    res.json(user.activities);
   })
 })
 

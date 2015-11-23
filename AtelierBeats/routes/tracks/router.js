@@ -135,7 +135,6 @@ router.put('/:trackid', function(req, res, next) {
         track.dateReleased = data.dateReleased;
       else
         track.dateReleased = track.dateReleased;
-
       track.save(onModelSave(res));
     }else{
       //track does not exist create it
@@ -185,6 +184,7 @@ function onModelSave(res, status, sendItAsResponse){
 
     // var obj = saved.toObject();
     pubsub.emit('track.updated', {})
+
     if( sendItAsResponse){
       var obj = saved.toObject();
       delete obj.password;

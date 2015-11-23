@@ -1,29 +1,34 @@
+<!-- CSS classes are the same as for tracks.dust -->
+
 <section class="flex-tracklist" id="tracks-list">
+
 	<div class="fl-tl-thead fl-tl-row">
+		<div class="fl-tl-th fl-tl-position">#</div>
 		<div class="fl-tl-th fl-tl-name">Action</div>
 		<div class="fl-tl-th fl-tl-artist">Target</div>
 		<div class="fl-tl-th fl-tl-album">Timestamp</div>
 	</div>
 
 	{#activities}
-		<!-- TODO! -->
-		<!--		
-		<div id="{_id}" class="fl-tl-row" draggable="true" ondragstart="drag(event)">
+
+		<div id="{_id}" class="fl-tl-row" draggable="true" ondragstart="drag(event)" data-tid="{_id}"  href="#">
+			
+			<div class="fl-tl-cell fl-tl-position">
+				<span>{n}</span>
+			</div>			
+
 			<div class="fl-tl-cell fl-tl-name">
-				<span class="fl-tl-file-link" data-tid="{_id}" href="tracks/{_id}">
-					{name}
-				</span>
-				<a class="edit-btn" href="#"><i class="fa fa-pencil fl-tl-pencil"></i></a>
+				<span class="fl-tl-file-link">{action}</span>
 			</div>
 
-			<div class="fl-tl-cell fl-tl-artist"><a class="artist-link" href="artists/{artist._id}">{artist.name}</a></div>
+			<div class="fl-tl-cell fl-tl-artist">
+				<span class="fl-tl-file-link">{target}</span>
+			</div>
 
 			<div class="fl-tl-cell fl-tl-album">
-				{?album}
-				<a class="album-link" href="albums/{album._id}">{album.name}</a>
-				{/album}
+				<span class="fl-tl-file-link">{timestamp}</span>
 			</div>
+		</div>
 
-		</div> -->
 	{/activities}
 </section>

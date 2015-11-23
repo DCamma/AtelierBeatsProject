@@ -30,6 +30,10 @@ var ActivitySchema = new mongoose.Schema({
             type: Date,
             default: Date.now
         },
+        url: {
+            type: String,
+            required: true
+        }
     }
 
 );

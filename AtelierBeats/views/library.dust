@@ -34,7 +34,8 @@
           <li class="mm-user-item"><a href="login.html"><i class="nav-menu-icon fa fa-sign-out"></i>logout</a></li>
         </ul>
 
-       <a href="#" class="create-playlist" id="create-pl-btn"><i class="fa fa-plus"></i> new playlist</a>
+       <a href="#" class="create-playlist" id="create-pl-btn"><i class="fa fa-plus-circle new-playlist-circle"></i><span>New Playlist</span></a>
+
         <ul class="nav-menu" id="playlists">
         <!-- Playlists will be rendered here -->
         </ul>
