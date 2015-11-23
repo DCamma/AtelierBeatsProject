@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="css/glyphicons.css">
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
+
 </head>
 <body class="body library">
   <div class="container main-wrapper">
@@ -103,6 +104,7 @@
   <script src="/socket.io/socket.io.js"></script>
   <script src="js/dust-core.min.js"></script>
   <!-- // <script src="js/library.js"></script> -->
+  <script src="http://rubaxa.github.io/Sortable/Sortable.js"></script>
   <script src="js/model.js"></script>
   <script src="js/utils.js"></script>
   <script src="views/views.js"></script>
