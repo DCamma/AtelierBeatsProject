@@ -871,6 +871,10 @@
 }
 
 /* ---------------- Main Nav ---------------- */
+#clientNumber{
+  font-size: 1.4em;
+}
+
 #main-nav{
   width:300px;
   height: 100%;
