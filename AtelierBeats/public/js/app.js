@@ -1137,6 +1137,7 @@ function drawPlaylist(e, addHistory, preventBind) {
       for (var i = 0; i < playlist.tracks.length; i++) {
         doJSONRequest("GET", "tracks/" + playlist.tracks[i], null, null, getTracks)
       }
+      currentTracks = tracks
     }
 
     function renderPlaylist(data) {
