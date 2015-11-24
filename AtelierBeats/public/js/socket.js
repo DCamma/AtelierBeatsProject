@@ -29,11 +29,12 @@ socket.on('change-player', function(data) {
     updatePlayer(data);	
 })
 
+// <i class="nav-menu-icon fa fa-user"></i>
+var textHTML = 'Connected clients : ';
+
 socket.on('clientConnected', function(clientNumber) {
-	var textHTML = '<i class="nav-menu-icon fa fa-user"></i>Clients n. ' + clientNumber;
-	document.getElementById('clientNumber').innerHTML = textHTML;
+	document.getElementById('clientNumber').innerHTML = textHTML + clientNumber;
 })
 socket.on('clientDisconnected', function(clientNumber) {
-	var textHTML = '<i class="nav-menu-icon fa fa-user"></i>Clients n. ' + clientNumber;
-	document.getElementById('clientNumber').innerHTML = textHTML;
+	document.getElementById('clientNumber').innerHTML = textHTML + clientNumber;
 })
