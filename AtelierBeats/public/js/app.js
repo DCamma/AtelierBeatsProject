@@ -1596,18 +1596,18 @@ function playTrackById(trackId) {
 
   audio.src = track.file;
   // check if half of the song is played to call incrementCounter
-  audio.addEventListener("timeupdate", function() {
+  audio.ontimeupdate = function() {
     // console.log(audio.duration/2 + " : " + audio.currentTime)
     if (audio.currentTime > audio.duration / 2 && checkFirstTime) {
       checkFirstTime = false;
       incrementCounter("count_middle", trackId);
     }
-  });
-  audio.addEventListener("ended", function() {
+  };
+  audio.onended = function() {
     incrementCounter("count_end", trackId);
     playNext();
     console.log(trackId)
-  });
+  };
   play();
 }
 function playNext() {
