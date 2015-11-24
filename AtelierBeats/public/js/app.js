@@ -1144,7 +1144,8 @@ function drawPlaylist(e, addHistory, preventBind) {
       dust.render("playlist", data, function(err, out) {
         var content = document.getElementById("content");
         content.innerHTML = out;
-
+        var a = document.getElementById("tracks-list")
+        Sortable.create(a, {})
         generatePlaylistArtwork(data)
 
         bindAlbumLink();
@@ -1469,7 +1470,11 @@ function setupPlayer(data) {
   // Event listeners for the previous/next buttons
   nextButton.addEventListener("click", function() {
     if (!currentPlayingTrack) return;
-    var currentIdx = currentTracks.indexOf(currentPlayingTrack);
+    for(var i = 0; i < currentTracks.length; i++){
+        if(currentPlayingTrack._id == currentTracks[i]._id){
+            var currentIdx = i
+        }
+    }
     if (currentIdx == -1) {
       return console.log("invalid currentTrack");
     }
@@ -1480,13 +1485,17 @@ function setupPlayer(data) {
 
   previousButton.addEventListener("click", function() {
     if (!currentPlayingTrack) return;
-    var currentIdx = currentTracks.indexOf(currentPlayingTrack);
+    for(var i = 0; i < currentTracks.length; i++){
+        if(currentPlayingTrack._id == currentTracks[i]._id){
+            var currentIdx = i
+        }
+    }
 
     if (currentIdx == -1) {
       return console.log("invalid currentTrack");
     }
 
-    var prevIdx = (--currentIdx > 0) ? currentIdx : (currentTracks.length - 1)
+    var prevIdx = (--currentIdx >= 0) ? currentIdx : (currentTracks.length - 1)
     playTrackById(currentTracks[prevIdx]._id);
   });
 
@@ -1595,11 +1604,24 @@ function playTrackById(trackId) {
     }
   });
   audio.addEventListener("ended", function() {
-    incrementCounter("count_end", trackId)
+    incrementCounter("count_end", trackId);
+    playNext();
+    console.log(trackId)
   });
   play();
 }
-// var a = document.getElementById("content")
-// console.log(a)
-// Sortable.create(a, {});
+function playNext() {
+    if (!currentPlayingTrack) return;
+    for(var i = 0; i < currentTracks.length; i++){
+        if(currentPlayingTrack._id == currentTracks[i]._id){
+            var currentIdx = i
+        }
+    }
+    if (currentIdx == -1) {
+      return console.log("invalid currentTrack");
+    }
+
+    var nextIdx = (++currentIdx < currentTracks.length) ? currentIdx : 0
+    playTrackById(currentTracks[nextIdx]._id);
+  }
 //<!-- /build -->

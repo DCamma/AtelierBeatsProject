@@ -135,6 +135,7 @@ router.get('/:userid/playlists/:playlistsid', function(req, res, next) {
     for (var i = 0; i < user.playlists.length; i++) {
       if (user.playlists[i]._id == req.params.playlistsid) {
         res.json(user.playlists[i]);
+        console.log(user.playlists[i])
         return;
       }
     }
@@ -198,6 +199,7 @@ router.put('/:userid/playlists/:playlistsid', function(req, res, next) {
           if (user.playlists[i].tracks.indexOf(data._id) == -1) {
             user.playlists[i].tracks.push(data._id)
             user.save(onModelSave(res));
+            console.log(user.playlists[i].tracks)
             return;
           }
         } else {
