@@ -11,22 +11,22 @@
 
 	{#activities}
 
-		<div id="{_id}" class="fl-tl-row" draggable="true" ondragstart="drag(event)" data-tid="{_id}"  href="#">
+		<div id="{_id}" class="fl-tl-row activity-row" draggable="true" ondragstart="drag(event)" data-tid="{_id}">
 			
 			<div class="fl-tl-cell fl-tl-position">
 				<span>{n}</span>
 			</div>			
 
-			<div class="fl-tl-cell fl-tl-name">
-				<span class="fl-tl-file-link">{action}</span>
+			<div class="fl-tl-cell fl-tl-name activity-row" data-url="{url}">
+				<span class="activity-row" data-url="{url}">{action}</span>
 			</div>
 
 			<div class="fl-tl-cell fl-tl-artist">
-				<span class="fl-tl-file-link">{target}</span>
+				<span>{target}</span>
 			</div>
 
 			<div class="fl-tl-cell fl-tl-album">
-				<span class="fl-tl-file-link">{timestamp}</span>
+				<span>{timestamp}</span>
 			</div>
 		</div>
 

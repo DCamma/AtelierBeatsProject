@@ -59,7 +59,6 @@ function bindMenu() {
 
 /* EXERCISE 9 - Activities */
 
-
 function drawActivities(e, addHistory) {
 
   if (e && e.target) {
@@ -94,6 +93,38 @@ function drawActivities(e, addHistory) {
     dust.render("activities", data, function(err, out) {
       var content = document.getElementById("content");
       content.innerHTML = out;
+
+      document.onclick = function(e) {
+        if (e.target.classList.contains("activity-row")) {
+
+          e.preventDefault();
+
+          var dataURL = e.target.getAttribute("data-url");
+          var playlistId = dataURL.substr(dataURL.lastIndexOf("/")).replace("/", "");
+
+          console.log(playlistId);
+          console.log(dataURL);
+
+          if (dataURL) {
+
+            doJSONRequest("GET", dataURL, null, null, function(d) {
+              if (dataURL.indexOf("playlists") > -1) {
+                drawPlaylist(null, null, null, playlistId);
+                console.log("Drawing playlist")
+
+              } else if (dataURL.indexOf("tracks") > -1) {
+                drawLibrary(e);
+                console.log("Drawing library")
+              }
+
+              console.log(d)
+              console.log("GET request finished.");
+            });
+          }
+
+        }
+      }
+
     });
 
   }
@@ -324,6 +355,7 @@ function editTrackName(e) {
   if (editable.contentEditable == "false" || editable.contentEditable == "inherit") { //we have to enable the editing
 
     editable.contentEditable = "true";
+    editable.className = "pl-name-editing";
 
     removeClass(target.firstChild, "fa-pencil");
 
@@ -357,6 +389,7 @@ function editTrackName(e) {
     function disableEditing() {
 
       editable.contentEditable = "false";
+      editable.className = "pl-name";
 
       removeClass(target.firstChild, "fa-check");
 
@@ -940,7 +973,6 @@ function findFirstAlbumInCollection(model, prop, array) {
 
 /* Search */
 
-
 /* Playlist: Not working after the switch to AJAX */
 
 function setupPlaylists() {
@@ -1033,14 +1065,11 @@ function managePlaylistNameEdit(editButton) {
 
   if (editable.contentEditable == "false" || editable.contentEditable == "inherit") { // we have to enable the editing
 
-
     editable.removeChild(playlistLeftIcon)
 
     editable.contentEditable = "true";
     editable.style.paddingLeft = "20px";
     editable.className = "pl-name-editing";
-
-    console.log(editable)
 
     editable.focus();
 
@@ -1090,7 +1119,6 @@ function managePlaylistNameEdit(editButton) {
 
       addClass(editButton.firstChild, "fl-tl-pencil");
 
-
       if (addPlaylistCreationActivity) {
         var updatedActivity = {
           "action": "Playlist Creation",
@@ -1098,7 +1126,7 @@ function managePlaylistNameEdit(editButton) {
           "target": newName
         }
 
-        doJSONRequest("PUT", "/users/564dcfa513dce9ec91e501d2/activities", null, updatedActivity, function(){
+        doJSONRequest("PUT", "/users/564dcfa513dce9ec91e501d2/activities", null, updatedActivity, function() {
           console.log("Activity with url '" + "/users/564dcfa513dce9ec91e501d2/playlists/" + id + "' updated.")
           addPlaylistCreationActivity = false;
         });
@@ -1109,16 +1137,22 @@ function managePlaylistNameEdit(editButton) {
   }
 }
 
-function drawPlaylist(e, addHistory, preventBind) {
+function drawPlaylist(e, addHistory, preventBind, pId) {
   var playlistId;
-  var target = e.target;
+  var target;
 
-  // if the user only clicks on the edit button, the playlist should not be drawn.
-  if (target.className == "edit-btn") return;
+  if (!pId) { // if the pId is not already provided
+    target = e.target;
+    // if the user only clicks on the edit button, the playlist should not be drawn.
+    if (target.className == "edit-btn") return;
 
-  if (e && e.target) {
-    e.preventDefault();
-    playlistId = target.getAttribute("id");
+    if (e && e.target) {
+      e.preventDefault();
+      playlistId = target.getAttribute("id");
+    }
+
+  } else {
+    playlistId = pId;
   }
 
   addPlaylistToHistory(addHistory)
@@ -1169,7 +1203,7 @@ function drawPlaylist(e, addHistory, preventBind) {
               event.preventDefault();
 
               playTrackById(event.target.dataset.tid)
-            }
+            } 
           })
         }
 
@@ -1254,24 +1288,22 @@ function bindEditPlaylistName() {
 
 }
 
-
-
 function editPlaylistName(e) {
 
-  function existsCurrentEdit(clickedEditBtn){
+  function existsCurrentEdit(clickedEditBtn) {
     var playlists = document.getElementById("playlists").childNodes;
 
-    for(var i=0; i<playlists.length; i++){
+    for (var i = 0; i < playlists.length; i++) {
 
       var editButton = playlists[i].childNodes[1];
 
-      if(editButton.isSameNode(clickedEditBtn)){
+      if (editButton.isSameNode(clickedEditBtn)) {
         return false;
       }
 
       var editButtonLi = editButton.firstChild;
 
-      if(editButtonLi.classList.contains("fa-check") || editButtonLi.classList.contains("fl-tl-check")){
+      if (editButtonLi.classList.contains("fa-check") || editButtonLi.classList.contains("fl-tl-check")) {
         return true;
       }
 
@@ -1283,8 +1315,10 @@ function editPlaylistName(e) {
     e.preventDefault();
   }
 
-  if(existsCurrentEdit(e.target)) return alert("An edit already in course...");
+  // alert("here!!!")
 
+  if (existsCurrentEdit(e.target))
+    return alert("An edit already in course...");
 
   var editButton = e.target;
 
@@ -1471,10 +1505,10 @@ function setupPlayer(data) {
   // Event listeners for the previous/next buttons
   nextButton.addEventListener("click", function() {
     if (!currentPlayingTrack) return;
-    for(var i = 0; i < currentTracks.length; i++){
-        if(currentPlayingTrack._id == currentTracks[i]._id){
-            var currentIdx = i
-        }
+    for (var i = 0; i < currentTracks.length; i++) {
+      if (currentPlayingTrack._id == currentTracks[i]._id) {
+        var currentIdx = i
+      }
     }
     if (currentIdx == -1) {
       return console.log("invalid currentTrack");
@@ -1486,10 +1520,10 @@ function setupPlayer(data) {
 
   previousButton.addEventListener("click", function() {
     if (!currentPlayingTrack) return;
-    for(var i = 0; i < currentTracks.length; i++){
-        if(currentPlayingTrack._id == currentTracks[i]._id){
-            var currentIdx = i
-        }
+    for (var i = 0; i < currentTracks.length; i++) {
+      if (currentPlayingTrack._id == currentTracks[i]._id) {
+        var currentIdx = i
+      }
     }
 
     if (currentIdx == -1) {
@@ -1611,18 +1645,19 @@ function playTrackById(trackId) {
   };
   play();
 }
-function playNext() {
-    if (!currentPlayingTrack) return;
-    for(var i = 0; i < currentTracks.length; i++){
-        if(currentPlayingTrack._id == currentTracks[i]._id){
-            var currentIdx = i
-        }
-    }
-    if (currentIdx == -1) {
-      return console.log("invalid currentTrack");
-    }
 
-    var nextIdx = (++currentIdx < currentTracks.length) ? currentIdx : 0
-    playTrackById(currentTracks[nextIdx]._id);
+function playNext() {
+  if (!currentPlayingTrack) return;
+  for (var i = 0; i < currentTracks.length; i++) {
+    if (currentPlayingTrack._id == currentTracks[i]._id) {
+      var currentIdx = i
+    }
   }
+  if (currentIdx == -1) {
+    return console.log("invalid currentTrack");
+  }
+
+  var nextIdx = (++currentIdx < currentTracks.length) ? currentIdx : 0
+  playTrackById(currentTracks[nextIdx]._id);
+}
 //<!-- /build -->
