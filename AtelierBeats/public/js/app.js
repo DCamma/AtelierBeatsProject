@@ -476,7 +476,7 @@ function drawArtist(e, addHistory) {
     })), null, null, renderShowArtist);
 
     function renderShowArtist(tracks) {
-
+      currentTracks = tracks
       var artistData = [];
       var artistTracks = buildTracksData(tracks);
 
@@ -692,7 +692,7 @@ function drawAlbum(e, addHistory) {
     })), null, null, renderShowAlbum);
 
     function renderShowAlbum(tracks) {
-
+      currentTracks = tracks  
       var albumData = [];
       var albumTracks = buildTracksData(tracks);
 
