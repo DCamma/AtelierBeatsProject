@@ -3,7 +3,7 @@ var currentTracks;
 var currentArtists;
 var currentAlbums;
 var count = true;
-var playlistLeftIcon;
+var playlistLeftIcon; // helpful for editing the playlist name
 var addPlaylistCreationActivity = false;
 
 /* Setup on Page Load */
@@ -58,17 +58,18 @@ function bindMenu() {
 }
 
 /* EXERCISE 9 - Activities */
-
 function drawActivities(e, addHistory) {
 
   if (e && e.target) {
     e.preventDefault();
   }
 
+  var href = "/users/564dcfa513dce9ec91e501d2/activities";
+
   addActivitiesToHistory(addHistory);
 
   // A user has a static id used for tests...
-  doJSONRequest("GET", "/users/564dcfa513dce9ec91e501d2/activities", null, null, renderActivities);
+  doJSONRequest("GET", href, null, null, renderActivities);
 
   function renderActivities(activities) {
 
@@ -95,30 +96,24 @@ function drawActivities(e, addHistory) {
       content.innerHTML = out;
 
       document.onclick = function(e) {
-        if (e.target.classList.contains("activity-row")) {
 
-          e.preventDefault();
+        if (e.target.classList.contains("activity-row")) {
+          if (e) e.preventDefault();
 
           var dataURL = e.target.getAttribute("data-url");
           var playlistId = dataURL.substr(dataURL.lastIndexOf("/")).replace("/", "");
 
-          console.log(playlistId);
-          console.log(dataURL);
-
           if (dataURL) {
 
             doJSONRequest("GET", dataURL, null, null, function(d) {
+
               if (dataURL.indexOf("playlists") > -1) {
-                drawPlaylist(null, null, null, playlistId);
-                console.log("Drawing playlist")
+                drawPlaylist(null, null, null, playlistId); // passing the id of the playlist to draw
 
               } else if (dataURL.indexOf("tracks") > -1) {
-                drawLibrary(e);
-                console.log("Drawing library")
+                drawLibrary();
               }
-
-              console.log(d)
-              console.log("GET request finished.");
+              console.log("GET request to the activity finished.");
             });
           }
 
@@ -437,7 +432,6 @@ function drawArtists(e, addHistory) {
 
     });
 
-    //console.log(artists);
   }
 
 }
@@ -872,11 +866,12 @@ function updatePage(event) {
 
   //get reference to the hash and to the current state
   var hash = document.location.hash;
+
   if (event && event.state)
     var currentState = JSON.parse(event.state);
 
-  // console.log("Hash: " + hash);
-  // console.log("Current State: " + currentState);  
+  console.log("Hash: " + hash);
+  console.log("Current State: " + currentState);
 
   if (currentState) {
 
@@ -893,19 +888,37 @@ function updatePage(event) {
 
   } else if (hash) {
 
-    //console.log(hash);
-    //console.log(currentState);
-
     if (hash.indexOf("library") > -1)
       drawLibrary(null, false);
+
     else if (hash.indexOf("#artists/") > -1)
       drawArtist(hash.replace("#", ""), false);
-    else if (hash.indexOf("#albums/") > -1)
-      drawAlbum(hash.replace("#", ""), false);
-    else if (hash.indexOf("albums") > -1)
-      drawAlbums(null, false);
+
     else if (hash.indexOf("artists") > -1)
       drawArtists(null, false);
+
+    else if (hash.indexOf("#albums/") > -1)
+      drawAlbum(hash.replace("#", ""), false);
+
+    else if (hash.indexOf("albums") > -1)
+      drawAlbums(null, false);
+
+    else if (hash.indexOf("#activities/") > -1 || hash.indexOf("activities"))
+      drawActivities(null, false)
+
+    // function addPlaylistToHistory(addHistory) {
+    //   if ((("undefined" == typeof addHistory) || (addHistory === null)) || addHistory == true) {
+    //     var state = {
+    //       'function': 'drawPlaylist'
+    //     };
+
+    //     addToHistory(JSON.stringify(state), "/#playlist");
+    //   }
+    // }
+
+    else if (hash.indexOf("#playlists/") > -1) {
+      drawPlaylist()
+    }
 
   } else {
     drawLibrary(null, false);
@@ -1137,6 +1150,12 @@ function managePlaylistNameEdit(editButton) {
   }
 }
 
+/*
+ * pId was added in order to draw the correct playlist 
+ * when we click on the activity creation of the same,
+ * since e and e.target are different from those 
+ * when you click directly on the playlist name from the menu.
+ */
 function drawPlaylist(e, addHistory, preventBind, pId) {
   var playlistId;
   var target;
@@ -1194,8 +1213,11 @@ function drawPlaylist(e, addHistory, preventBind, pId) {
         if (document.getElementsByTagName('audio').length === 0) {
           setupPlayer();
         }
+
         // The following if statement prevent the creation of more then one event listener
         if (!preventBind) {
+
+          // Does not happen when clicked from the activities view.
           //add one event listener for all tracks using event delegation
           document.addEventListener('click', function(event) {
             if (event.target.classList.contains('fl-tl-file-link')) {
@@ -1203,7 +1225,7 @@ function drawPlaylist(e, addHistory, preventBind, pId) {
               event.preventDefault();
 
               playTrackById(event.target.dataset.tid)
-            } 
+            }
           })
         }
 
@@ -1315,10 +1337,8 @@ function editPlaylistName(e) {
     e.preventDefault();
   }
 
-  // alert("here!!!")
-
-  if (existsCurrentEdit(e.target))
-    return alert("An edit already in course...");
+  // if (existsCurrentEdit(e.target))
+  //   return alert("An edit already in course...");
 
   var editButton = e.target;
 
