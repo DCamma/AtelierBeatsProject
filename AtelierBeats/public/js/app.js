@@ -1202,7 +1202,18 @@ function drawPlaylist(e, addHistory, preventBind, pId) {
         var content = document.getElementById("content");
         content.innerHTML = out;
         var a = document.getElementById("tracks-list")
-        Sortable.create(a, {})
+        var sortable = Sortable.create(a, {})
+        document.getElementById("ignore").ondragstart = function(){
+            sortable.option("disabled", true);
+            console.log(sortable.option("disabled"), "DIOCAN1");
+        };
+        document.getElementById("ignore").ondragend = function(){
+            sortable.option("disabled", false);
+            console.log(sortable.option("disabled"), "DIOCAN2");
+        };
+        sortable;
+
+
         generatePlaylistArtwork(data)
 
         bindAlbumLink();
