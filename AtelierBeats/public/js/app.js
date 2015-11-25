@@ -905,12 +905,10 @@ function updatePage(event) {
       drawAlbums(null, false);
 
     else if (hash.indexOf("#playlist/" + playlistId) > -1) {
-        console.log(hash.indexOf("#playlist"))
       drawPlaylist(null, null, false, playlistId)
     }
 
     else if (hash.indexOf("#activities/") > -1 || hash.indexOf("activities")){
-        console.log("DIC")
       drawActivities(null, false)
     }
 
