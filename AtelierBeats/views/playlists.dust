@@ -1,8 +1,12 @@
 {#playlists}
 
 <li id="{_id}" ondrop="drop(event)" ondragover="allowDrop(event)">
-
-	<a class="pl-name" data-for={_id} href="{_id}" id="{_id}">
+	
+	<!-- To add "select all" when clicking on the edit button
+	add the following: onfocus="document.execCommand('selectAll', false, null);"
+	to the following <a> tag. -->
+	
+	<a class="pl-name single-line" data-for={_id} href="{_id}" id="{_id}">
 		<i class="nav-menu-icon fa fa-bars"></i>
 		<span id="{_id}">{name}</span>
 	</a>

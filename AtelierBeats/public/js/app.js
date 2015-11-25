@@ -864,8 +864,6 @@ function updatePage(event) {
   if (event && event.state)
     var currentState = JSON.parse(event.state);
 
-  console.log("Hash: " + hash);
-  console.log("Current State: " + currentState);
   if (currentState) {
 
     if (currentState.function == 'drawLibrary')
@@ -998,6 +996,15 @@ function setupPlaylists() {
       playlistsName[elem].onclick = editPlaylistName;
     }
 
+    // preventing inserting DOM elements on ENTER press.
+    var editables = document.querySelectorAll("#playlists > li > .pl-name");
+
+    for (var elem = 0; elem < editables.length; ++elem) {
+      editables[elem].onkeypress = function(e) {
+        if (e && e.keyCode == 13) e.preventDefault();
+      }
+    }
+
     function editPlaylistName(e) {
 
       if (e && e.target) {
@@ -1092,8 +1099,8 @@ function managePlaylistNameEdit(editButton) {
 
     editable.removeChild(playlistLeftIcons[editable]);
     editable.contentEditable = "true";
-    editable.style.paddingLeft = "20px";
-    editable.className = "pl-name-editing";
+    editable.classList.remove("pl-name");
+    editable.classList.add("pl-name-editing");
 
     removeClass(editButton.firstChild, "fa-pencil");
     removeClass(editButton.firstChild, "fl-tl-pencil");
@@ -1114,7 +1121,10 @@ function managePlaylistNameEdit(editButton) {
     var id = editable.parentNode.getAttribute("id");
 
     //send the data to the server
-    var newName = editable.innerText;
+
+    // Replaces newlines with spaces (i.e. new lines not allowed in names)
+    var newName = editable.innerText.replace(/\n/g, " ").trim();
+    console.log(JSON.stringify(newName));
 
     var updatedPlaylist = {
       "name": newName,
@@ -1127,8 +1137,8 @@ function managePlaylistNameEdit(editButton) {
 
       editable.insertBefore(playlistLeftIcons[editable], editable.firstChild);
       editable.contentEditable = "false";
-      editable.style.paddingLeft = "0";
-      editable.className = "pl-name";
+      editable.classList.remove("pl-name-editing");
+      editable.classList.add("pl-name");
 
       removeClass(editButton.firstChild, "fa-check");
       removeClass(editButton.firstChild, "fl-tl-check");
@@ -1348,7 +1358,6 @@ function addTrackToPlaylist(playlistId, trackId) {
     doJSONRequest("PUT", "users/564dcfa513dce9ec91e501d2/playlists/" + playlistId, null, track, function() {});
   }
 }
-
 
 /* Player */
 
