@@ -3,8 +3,9 @@ var currentTracks;
 var currentArtists;
 var currentAlbums;
 var count = true;
-var playlistLeftIcon; // helpful for editing the playlist name
+var playlistLeftIcons = {}; // helpful for editing the playlist name
 var addPlaylistCreationActivity = false;
+var editHappening = false;
 
 /* Setup on Page Load */
 window.onload = function() {
@@ -339,13 +340,7 @@ function editTrackName(e) {
   }
 
   var target = e.target;
-
-  //console.log(target);
-
   var editable = target.previousSibling;
-
-  //console.log(editable.contentEditable);
-  //console.log(editable.contentEditable ==  "false");
 
   if (editable.contentEditable == "false" || editable.contentEditable == "inherit") { //we have to enable the editing
 
@@ -353,11 +348,9 @@ function editTrackName(e) {
     editable.className = "pl-name-editing";
 
     removeClass(target.firstChild, "fa-pencil");
-
     removeClass(target.firstChild, "fl-tl-pencil");
 
     addClass(target.firstChild, "fa-check");
-
     addClass(target.firstChild, "fl-tl-check");
 
     //set the cursor on the editable element
@@ -387,11 +380,9 @@ function editTrackName(e) {
       editable.className = "pl-name";
 
       removeClass(target.firstChild, "fa-check");
-
       removeClass(target.firstChild, "fl-tl-check");
 
       addClass(target.firstChild, "fa-pencil");
-
       addClass(target.firstChild, "fl-tl-pencil");
 
     }
@@ -661,6 +652,8 @@ function addAlbumsToHistory(addHistory) {
   }
 }
 
+/* Album */
+
 function drawAlbum(e, addHistory) {
   var href;
 
@@ -686,7 +679,7 @@ function drawAlbum(e, addHistory) {
     })), null, null, renderShowAlbum);
 
     function renderShowAlbum(tracks) {
-      currentTracks = tracks  
+      currentTracks = tracks
       var albumData = [];
       var albumTracks = buildTracksData(tracks);
 
@@ -836,6 +829,7 @@ function likeAlbum(e) {
     }
   }
 }
+/* Album */
 
 /* Albums */
 
@@ -904,24 +898,11 @@ function updatePage(event) {
       drawAlbums(null, false);
 
     else if (hash.indexOf("#playlist/" + playlistId) > -1) {
-      drawPlaylist(null, null, false, playlistId)
-    }
-
-    else if (hash.indexOf("#activities/") > -1 || hash.indexOf("activities")){
+      drawPlaylist(null, null, false, playlistId);
+      
+    } else if (hash.indexOf("#activities/") > -1 || hash.indexOf("activities")) {
       drawActivities(null, false)
     }
-
-    // function addPlaylistToHistory(addHistory) {
-    //   if ((("undefined" == typeof addHistory) || (addHistory === null)) || addHistory == true) {
-    //     var state = {
-    //       'function': 'drawPlaylist'
-    //     };
-
-    //     addToHistory(JSON.stringify(state), "/#playlist");
-    //   }
-    // }
-
-    
 
   } else {
     drawLibrary(null, false);
@@ -989,8 +970,6 @@ function findFirstAlbumInCollection(model, prop, array) {
 
 /* Search */
 
-/* Playlist: Not working after the switch to AJAX */
-
 function setupPlaylists() {
 
   doJSONRequest("GET", "users/564dcfa513dce9ec91e501d2/playlists", null, null, renderPlaylists);
@@ -1003,7 +982,7 @@ function setupPlaylists() {
     dust.render("playlists", data, function(err, out) {
       document.getElementById('playlists').innerHTML = out;
 
-      bindPlaylist();
+      bindPlaylistNameClick();
 
       bindNewPlaylist(); // Exercise 9
 
@@ -1012,7 +991,28 @@ function setupPlaylists() {
 
   }
 
-  function bindPlaylist() {
+  function bindEditPlaylistName() {
+
+    var playlistsName = document.querySelectorAll("#playlists > li > .pl-name + .edit-btn");
+
+    for (var elem = 0; elem < playlistsName.length; ++elem) {
+      playlistsName[elem].onclick = editPlaylistName;
+    }
+
+    function editPlaylistName(e) {
+
+      if (e && e.target) {
+        e.preventDefault();
+      }
+
+      var editButton = e.target;
+      managePlaylistNameEdit(editButton);
+    
+    }
+
+  }
+
+  function bindPlaylistNameClick() {
     var menu = document.querySelectorAll("#playlists > li");
 
     for (var elem = 0; elem < menu.length; ++elem) {
@@ -1020,7 +1020,6 @@ function setupPlaylists() {
       menu[elem].onclick = function(e) {
         drawPlaylist(e, null, true);
       }
-
     }
   }
 
@@ -1028,41 +1027,51 @@ function setupPlaylists() {
   function bindNewPlaylist() {
     var newPlaylistButton = document.getElementById("create-pl-btn");
     newPlaylistButton.onclick = createPlaylist;
-  }
 
-  function createPlaylist(e) {
-    if (e && e.target) {
-      e.preventDefault();
+    function createPlaylist(e) {
+      if (e && e.target) {
+        e.preventDefault();
+      }
+
+      // Initially stores a default playlist to the server
+      doJSONRequest("PUT", "/users/564dcfa513dce9ec91e501d2/playlists", null, {}, function() {
+
+        doJSONRequest("GET", "users/564dcfa513dce9ec91e501d2/playlists", null, null, function(data) {
+
+          renderPlaylists(data);
+
+          var lastPlaylistDOM = document.getElementById("playlists").lastChild;
+          var lastPlaylistDOMId = lastPlaylistDOM.id;
+          var lastPlaylistDOMName = lastPlaylistDOM.firstChild.lastChild.innerHTML;
+          var editButton = lastPlaylistDOM.childNodes[1];
+
+          // Stores the activity of a playlist creation into the server
+          var userActivity = {
+            "action": "Playlist Creation",
+            "url": "/users/564dcfa513dce9ec91e501d2/playlists/" + lastPlaylistDOMId,
+            "target": lastPlaylistDOMName
+          }
+
+          doJSONRequest("PUT", "/users/564dcfa513dce9ec91e501d2/activities", null, userActivity, function() {
+            console.log("doJSONRequest finished for a PUT on playlist creation");
+
+            /* This variable is used in the case the user 
+            updates the default name  of the just created playlist,
+            which can only happen if there's no other edit happening.
+            If set to true, another PUT request is made to update the name chosen by the user. */
+            addPlaylistCreationActivity = true;
+
+            managePlaylistNameEdit(editButton);
+
+          });
+
+        });
+      });
+
     }
 
-    doJSONRequest("PUT", "/users/564dcfa513dce9ec91e501d2/playlists", null, {}, function() {
-      doJSONRequest("GET", "users/564dcfa513dce9ec91e501d2/playlists", null, null, function(data) {
-
-        renderPlaylists(data);
-
-        var lastPlaylistDOM = document.getElementById("playlists").lastChild;
-        var lastPlaylistDOMId = lastPlaylistDOM.id;
-        var lastPlaylistDOMName = lastPlaylistDOM.firstChild.lastChild.innerHTML;
-        var editButton = lastPlaylistDOM.childNodes[1];
-
-        var userActivity = {
-          "action": "Playlist Creation",
-          "url": "/users/564dcfa513dce9ec91e501d2/playlists/" + lastPlaylistDOMId,
-          "target": lastPlaylistDOMName
-        }
-
-        doJSONRequest("PUT", "/users/564dcfa513dce9ec91e501d2/activities", null, userActivity, function() {
-          console.log("doJSONRequest finished for a PUT on playlist creation");
-
-          addPlaylistCreationActivity = true;
-
-          managePlaylistNameEdit(editButton);
-        });
-
-      });
-    });
-
   }
+
 }
 
 /* 
@@ -1076,25 +1085,20 @@ function managePlaylistNameEdit(editButton) {
   var editable = editButton.previousSibling;
 
   if (editable.childNodes.length == 2) {
-    playlistLeftIcon = editable.childNodes[0];
+    playlistLeftIcons[editable] = editable.firstChild;
   }
 
   if (editable.contentEditable == "false" || editable.contentEditable == "inherit") { // we have to enable the editing
 
-    editable.removeChild(playlistLeftIcon)
-
+    editable.removeChild(playlistLeftIcons[editable]);
     editable.contentEditable = "true";
     editable.style.paddingLeft = "20px";
     editable.className = "pl-name-editing";
 
-    editable.focus();
-
     removeClass(editButton.firstChild, "fa-pencil");
-
     removeClass(editButton.firstChild, "fl-tl-pencil");
 
     addClass(editButton.firstChild, "fa-check");
-
     addClass(editButton.firstChild, "fl-tl-check");
 
     //set the cursor on the editable element
@@ -1121,18 +1125,15 @@ function managePlaylistNameEdit(editButton) {
 
     function disableEditing() {
 
-      editable.insertBefore(playlistLeftIcon, editable.firstChild);
-
+      editable.insertBefore(playlistLeftIcons[editable], editable.firstChild);
       editable.contentEditable = "false";
       editable.style.paddingLeft = "0";
       editable.className = "pl-name";
 
       removeClass(editButton.firstChild, "fa-check");
-
       removeClass(editButton.firstChild, "fl-tl-check");
 
       addClass(editButton.firstChild, "fa-pencil");
-
       addClass(editButton.firstChild, "fl-tl-pencil");
 
       if (addPlaylistCreationActivity) {
@@ -1301,51 +1302,6 @@ function get4PlaylistImages(data) {
     artworks.push(data.tracks[i].album.artwork);
   }
   return artworks;
-
-}
-
-function bindEditPlaylistName() {
-
-  var playlistsName = document.querySelectorAll("#playlists > li > .pl-name + .edit-btn");
-  for (var elem = 0; elem < playlistsName.length; ++elem) {
-    playlistsName[elem].onclick = editPlaylistName;
-  }
-
-}
-
-function editPlaylistName(e) {
-
-  function existsCurrentEdit(clickedEditBtn) {
-    var playlists = document.getElementById("playlists").childNodes;
-
-    for (var i = 0; i < playlists.length; i++) {
-
-      var editButton = playlists[i].childNodes[1];
-
-      if (editButton.isSameNode(clickedEditBtn)) {
-        return false;
-      }
-
-      var editButtonLi = editButton.firstChild;
-
-      if (editButtonLi.classList.contains("fa-check") || editButtonLi.classList.contains("fl-tl-check")) {
-        return true;
-      }
-
-    }
-    return false;
-  }
-
-  if (e && e.target) {
-    e.preventDefault();
-  }
-
-  // if (existsCurrentEdit(e.target))
-  //   return alert("An edit already in course...");
-
-  var editButton = e.target;
-
-  managePlaylistNameEdit(editButton);
 
 }
 
