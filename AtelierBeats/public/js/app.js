@@ -873,7 +873,6 @@ function updatePage(event) {
 
   console.log("Hash: " + hash);
   console.log("Current State: " + currentState);
-  console.log(hash.indexOf("#playlist") > -1, "DIO")
   if (currentState) {
 
     if (currentState.function == 'drawLibrary')
