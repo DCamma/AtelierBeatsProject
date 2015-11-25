@@ -867,12 +867,13 @@ function updatePage(event) {
   //get reference to the hash and to the current state
   var hash = document.location.hash;
 
+  var playlistId = hash.split('/')[1]
   if (event && event.state)
     var currentState = JSON.parse(event.state);
 
   console.log("Hash: " + hash);
   console.log("Current State: " + currentState);
-
+  console.log(hash.indexOf("#playlist") > -1, "DIO")
   if (currentState) {
 
     if (currentState.function == 'drawLibrary')
@@ -903,8 +904,15 @@ function updatePage(event) {
     else if (hash.indexOf("albums") > -1)
       drawAlbums(null, false);
 
-    else if (hash.indexOf("#activities/") > -1 || hash.indexOf("activities"))
+    else if (hash.indexOf("#playlist/" + playlistId) > -1) {
+        console.log(hash.indexOf("#playlist"))
+      drawPlaylist(null, null, false, playlistId)
+    }
+
+    else if (hash.indexOf("#activities/") > -1 || hash.indexOf("activities")){
+        console.log("DIC")
       drawActivities(null, false)
+    }
 
     // function addPlaylistToHistory(addHistory) {
     //   if ((("undefined" == typeof addHistory) || (addHistory === null)) || addHistory == true) {
@@ -916,9 +924,7 @@ function updatePage(event) {
     //   }
     // }
 
-    else if (hash.indexOf("#playlists/") > -1) {
-      drawPlaylist()
-    }
+    
 
   } else {
     drawLibrary(null, false);
@@ -1174,7 +1180,7 @@ function drawPlaylist(e, addHistory, preventBind, pId) {
     playlistId = pId;
   }
 
-  addPlaylistToHistory(addHistory)
+  addPlaylistToHistory(addHistory, playlistId)
 
   doJSONRequest("GET", "/users/564dcfa513dce9ec91e501d2/playlists/" + playlistId, null, null, renderPlayTracks);
 
@@ -1194,7 +1200,6 @@ function drawPlaylist(e, addHistory, preventBind, pId) {
     }
 
     function renderPlaylist(data) {
-
       dust.render("playlist", data, function(err, out) {
         var content = document.getElementById("content");
         content.innerHTML = out;
@@ -1235,6 +1240,7 @@ function drawPlaylist(e, addHistory, preventBind, pId) {
 
     function getTracks(track) {
       tracks.push(track);
+      console.log(track)
       var formTracks = buildTracksData(tracks);
 
       for (var i = 0; i < formTracks.length; i++) {
@@ -1346,13 +1352,13 @@ function editPlaylistName(e) {
 
 }
 
-function addPlaylistToHistory(addHistory) {
+function addPlaylistToHistory(addHistory, playlistId) {
   if ((("undefined" == typeof addHistory) || (addHistory === null)) || addHistory == true) {
     var state = {
       'function': 'drawPlaylist'
     };
 
-    addToHistory(JSON.stringify(state), "/#playlist");
+    addToHistory(JSON.stringify(state), "/#playlist/" + playlistId);
   }
 }
 
