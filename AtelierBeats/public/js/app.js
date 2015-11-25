@@ -4,8 +4,7 @@ var currentArtists;
 var currentAlbums;
 var count = true;
 var playlistLeftIcons = {}; // helpful for editing the playlist name
-var addPlaylistCreationActivity = false;
-var editHappening = false;
+var addPlaylistCreationActivity = false; // Used to update the default activity when a playlist is created
 
 /* Setup on Page Load */
 window.onload = function() {
@@ -899,7 +898,7 @@ function updatePage(event) {
 
     else if (hash.indexOf("#playlist/" + playlistId) > -1) {
       drawPlaylist(null, null, false, playlistId);
-      
+
     } else if (hash.indexOf("#activities/") > -1 || hash.indexOf("activities")) {
       drawActivities(null, false)
     }
@@ -1007,7 +1006,7 @@ function setupPlaylists() {
 
       var editButton = e.target;
       managePlaylistNameEdit(editButton);
-    
+
     }
 
   }
@@ -1056,8 +1055,7 @@ function setupPlaylists() {
             console.log("doJSONRequest finished for a PUT on playlist creation");
 
             /* This variable is used in the case the user 
-            updates the default name  of the just created playlist,
-            which can only happen if there's no other edit happening.
+            updates the default name  of the just created playlist.
             If set to true, another PUT request is made to update the name chosen by the user. */
             addPlaylistCreationActivity = true;
 
@@ -1076,6 +1074,8 @@ function setupPlaylists() {
 
 /* 
  * This function is responsible for managing each playlist's name edit.
+ * It is called either when a new playlist is created 
+ * or when the user clicks to edit a playlist's name.
  * 
  * A PUT request for storing an activity on the server
  * is done whenever a new playlist is created.
@@ -1338,35 +1338,6 @@ function addTrackToPlaylist(playlistId, trackId) {
   }
 }
 
-function onEditPlaylistClicked(btn) {
-  var id = btn.dataset["for"];
-  var el = document.getElementById(id);
-  var input = document.querySelector('#' + id + " > input[type='text']");
-
-  if (el.classList.contains("edit")) {
-    el.classList.remove('edit')
-    btn.innerHTML = '<i class="fa fa-pencil" ></i>'
-    var input = document.querySelector('#' + id + " > input[type='text']");
-    var nameLink = document.querySelector('#' + id + " > .pl-name");
-
-    //return on empty string
-    if (input.value.trim() == '') return;
-
-    nameLink.innerHTML = '<i class="nav-menu-icon fa fa-bars"></i> ' + input.value;
-    nameLink.href = "playlists/" + encodeURI(input.value)
-
-    //persist change
-    var playlists = JSON.parse(localStorage.playlists);
-    playlists[id]["name"] = input.value;
-    localStorage.playlists = JSON.stringify(playlists);
-  } else {
-    el.classList.add('edit')
-    btn.innerHTML = '<i class="fa fa-check" ></i>'
-    input.focus();
-  }
-}
-
-/* Playlist: Not working after the switch to AJAX */
 
 /* Player */
 
@@ -1416,6 +1387,7 @@ function updatePlayer(data) {
     }
   }
 }
+
 checkFirstTime = true;
 
 function setupPlayer(data) {
