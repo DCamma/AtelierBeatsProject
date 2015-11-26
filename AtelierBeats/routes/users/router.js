@@ -64,7 +64,7 @@ router.get('/:userid', function(req, res, next) {
 //update a user
 router.put('/:userid', function(req, res, next) {
   var data = req.body;
-
+  console.log(data)
   User.findById(req.params.userid, fieldsFilter, function(err, user) {
     if (err) return next(err);
 

@@ -1607,7 +1607,7 @@ function setupPlayer(data) {
 
   //Click listener for shuffle
   shuffle.addEventListener("click", function(){
-    doJSONRequest("GET", "/users" + userid, null, null, function(user){
+    doJSONRequest("GET", "/users/" + userid, null, null, function(user){
         var userData = {};
         
         userData.artist = {};
@@ -1620,7 +1620,8 @@ function setupPlayer(data) {
         userData.randomPlayback = !(user.randomPlayback);
         userData.activities = user.activities;
 
-        doJSONRequest("PUT", "/users/" + userid, null, userData, function(){})
+        doJSONRequest("PUT", "/users/" + userid, null, userData, function(){
+        })
     })
   })
 }
