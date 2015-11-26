@@ -6,6 +6,11 @@ var count = true;
 var playlistLeftIcons = {}; // helpful for editing the playlist name
 var addPlaylistCreationActivity = false; // Used to update the default activity when a playlist is created
 
+var randomPlayback = false;
+
+var userid = "564dcfa513dce9ec91e501d2";
+
+
 /* Setup on Page Load */
 window.onload = function() {
 
@@ -64,7 +69,7 @@ function drawActivities(e, addHistory) {
     e.preventDefault();
   }
 
-  var href = "/users/564dcfa513dce9ec91e501d2/activities";
+  var href = "/users/" + userid +  "/activities";
 
   addActivitiesToHistory(addHistory);
 
@@ -206,7 +211,7 @@ function drawLibrary(e, addHistory, preventBind, foundedTracks) {
               "targetID": trackId
             }
 
-            doJSONRequest("PUT", "/users/564dcfa513dce9ec91e501d2/activities", null, userActivity, function() {
+            doJSONRequest("PUT", "/users/" + userid + "/activities", null, userActivity, function() {
               console.log("doJSONRequest finished for a PUT (for activities) on track click");
             });
 
@@ -310,7 +315,7 @@ function deleteTrack(e) {
     "targetID": trackId
   }
 
-  doJSONRequest("PUT", "/users/564dcfa513dce9ec91e501d2/activities", null, userActivity, function() {
+  doJSONRequest("PUT", "/users/" + userid + "/activities", null, userActivity, function() {
     console.log("doJSONRequest finished for a PUT (activity) on track deletion");
   });
 
@@ -971,7 +976,7 @@ function findFirstAlbumInCollection(model, prop, array) {
 
 function setupPlaylists() {
 
-  doJSONRequest("GET", "users/564dcfa513dce9ec91e501d2/playlists", null, null, renderPlaylists);
+  doJSONRequest("GET", "users/" + userid + "/playlists", null, null, renderPlaylists);
 
   function renderPlaylists(playlists) {
     var data = {
@@ -1003,7 +1008,9 @@ function setupPlaylists() {
 
     for (var elem = 0; elem < editables.length; ++elem) {
       editables[elem].onkeypress = function(e) {
-        if (e && e.keyCode == 13 && e.target.contentEditable) e.preventDefault();
+        if (e && e.keyCode == 13 && e.target.contentEditable) {
+          e.preventDefault();
+        }
       }
     }
 
@@ -1042,9 +1049,9 @@ function setupPlaylists() {
       }
 
       // Initially stores a default playlist to the server
-      doJSONRequest("PUT", "/users/564dcfa513dce9ec91e501d2/playlists", null, {}, function() {
+      doJSONRequest("PUT", "/users/" +  userid + "/playlists", null, {}, function() {
 
-        doJSONRequest("GET", "users/564dcfa513dce9ec91e501d2/playlists", null, null, function(data) {
+        doJSONRequest("GET", "users/" + userid + "/playlists", null, null, function(data) {
 
           renderPlaylists(data);
 
@@ -1058,12 +1065,12 @@ function setupPlaylists() {
 
           var userActivity = {
             "action": "Playlist Creation", 
-            "url": "/users/564dcfa513dce9ec91e501d2/playlists/" + lastPlaylistDOMId,
+            "url": "/users/" + userid + "/playlists/" + lastPlaylistDOMId,
             "target": lastPlaylistDOMName,
             "targetID": lastPlaylistDOMId
           }
 
-          doJSONRequest("PUT", "/users/564dcfa513dce9ec91e501d2/activities", null, userActivity, function() {
+          doJSONRequest("PUT", "/users/" + userid + "/activities", null, userActivity, function() {
             console.log("doJSONRequest finished for a PUT on playlist creation");
 
             /* This variable is used in the case the user 
@@ -1137,7 +1144,7 @@ function managePlaylistNameEdit(editButton) {
       "id": id
     }
 
-    doJSONRequest("PUT", "/users/564dcfa513dce9ec91e501d2/playlists/" + id, null, updatedPlaylist, disableEditing);
+    doJSONRequest("PUT", "/users/" + userid + "/playlists/" + id, null, updatedPlaylist, disableEditing);
 
     function disableEditing() {
 
@@ -1182,13 +1189,13 @@ function managePlaylistNameEdit(editButton) {
 
         var updatedActivity = {
           "action": "Playlist Creation",
-          "url": "/users/564dcfa513dce9ec91e501d2/playlists/" + id,
+          "url": "/users/" + userid + "/playlists/" + id,
           "targetID": id,
           "target": newName
         }
 
         // Updating activity with updatedActivity.targetURL
-        doJSONRequest("PUT", "/users/564dcfa513dce9ec91e501d2/activities/" + updatedActivity.targetID, null, updatedActivity, function() {
+        doJSONRequest("PUT", "/users/" + userid + "/activities/" + updatedActivity.targetID, null, updatedActivity, function() {
           console.log("Activity with targetID " + updatedActivity.targetID + " updated.")
           addPlaylistCreationActivity = false;
         });
@@ -1225,7 +1232,7 @@ function drawPlaylist(e, addHistory, preventBind, pId) {
 
   addPlaylistToHistory(addHistory, playlistId)
 
-  doJSONRequest("GET", "/users/564dcfa513dce9ec91e501d2/playlists/" + playlistId, null, null, renderPlayTracks);
+  doJSONRequest("GET", "/users/" + userid + "/playlists/" + playlistId, null, null, renderPlayTracks);
 
   function renderPlayTracks(playlist) {
 
@@ -1390,7 +1397,7 @@ function addTrackToPlaylist(playlistId, trackId) {
   doJSONRequest("GET", "/tracks/" + trackId, null, null, addTrack);
 
   function addTrack(track) {
-    doJSONRequest("PUT", "users/564dcfa513dce9ec91e501d2/playlists/" + playlistId, null, track, function() {});
+    doJSONRequest("PUT", "users/" + userid + "/playlists/" + playlistId, null, track, function() {});
   }
 }
 
@@ -1456,6 +1463,12 @@ function setupPlayer(data) {
   if (document.getElementsByTagName('audio').length !== 0) {
     audio.remove()
   }
+
+  doJSONRequest("GET", "/users/" + userid, null, null, function(user){
+    randomPlayback = user.randomPlayback;
+    // console.log(randomPlayback);
+  });
+
   // Buttons
   var playButton = document.getElementById("play-pause");
   var muteButton = document.getElementById("mute");

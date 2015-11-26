@@ -67,12 +67,14 @@ router.put('/:userid', function(req, res, next) {
 
   User.findById(req.params.userid, fieldsFilter, function(err, user) {
     if (err) return next(err);
+
     if (user) {
       user.userName = data.userName;
       user.firstName = data.firstName;
       user.lastName = data.lastName;
       user.email = data.email;
       user.playlists = data.playlists;
+      user.randomPlayback = data.randomPlayback;
 
       user.save(onModelSave(res));
 

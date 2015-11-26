@@ -19,7 +19,6 @@ var bcrypt = require('bcrypt');
 var SALT_WORK_FACTOR = 10;
 var PlaylistSchema = require('./Playlist');
 var ActivitySchema = require("./Activity");
-
 /** @constructor
 * @param {Object} definition
 */
@@ -32,7 +31,8 @@ var userSchema = new mongoose.Schema(
   email   : { type: String, required: true },
   dateCreated : { type: Date, required: true, default: Date.now },
   playlists : { type: [PlaylistSchema], default: [] },
-  activities: { type: [ActivitySchema], default: []} // ex 9
+  activities: { type: [ActivitySchema], default: []}, // ex 9
+  randomPlayback: { type: Boolean, default: false }
 }
 );
 
