@@ -202,11 +202,12 @@ function drawLibrary(e, addHistory, preventBind, foundedTracks) {
             var userActivity = {
               "action": "Track Playback",
               "url": "/tracks/" + trackId,
-              "target": event.target.innerHTML
+              "target": event.target.innerHTML, 
+              "targetID": trackId
             }
 
             doJSONRequest("PUT", "/users/564dcfa513dce9ec91e501d2/activities", null, userActivity, function() {
-              console.log("doJSONRequest finished for a PUT on track click");
+              console.log("doJSONRequest finished for a PUT (for activities) on track click");
             });
 
           }
@@ -305,11 +306,12 @@ function deleteTrack(e) {
   var userActivity = {
     "action": "Track Deletion",
     "url": "/tracks/" + trackId,
-    "target": trackName
+    "target": trackName,
+    "targetID": trackId
   }
 
   doJSONRequest("PUT", "/users/564dcfa513dce9ec91e501d2/activities", null, userActivity, function() {
-    console.log("doJSONRequest finished for a PUT on track deletion");
+    console.log("doJSONRequest finished for a PUT (activity) on track deletion");
   });
 
   function removeTrack() {
@@ -1053,10 +1055,12 @@ function setupPlaylists() {
           var editButton = lastPlaylistDOM.childNodes[1];
 
           // Stores the activity of a playlist creation into the server
+
           var userActivity = {
-            "action": "Playlist Creation",
+            "action": "Playlist Creation", 
             "url": "/users/564dcfa513dce9ec91e501d2/playlists/" + lastPlaylistDOMId,
-            "target": lastPlaylistDOMName
+            "target": lastPlaylistDOMName,
+            "targetID": lastPlaylistDOMId
           }
 
           doJSONRequest("PUT", "/users/564dcfa513dce9ec91e501d2/activities", null, userActivity, function() {
@@ -1092,7 +1096,7 @@ function managePlaylistNameEdit(editButton) {
 
   var editable = editButton.previousSibling;
 
-  console.log(editButton)
+  // console.log(editButton)
 
   if (editable.childNodes.length == 2) {
     playlistLeftIcons[editable] = editable.firstChild;
@@ -1159,10 +1163,12 @@ function managePlaylistNameEdit(editButton) {
       without confirming the name of the playlist just created B,
       addPlaylistCreationActivity is still true,
       and if we click to confirm the new name for A,
-      then the following code is executed,
+      then the following code without the second condition:
+        editButton.isSameNode(lastPlaylistButton)
+      would be executed,
       i.e. we are going to store an activity that we should not store.
 
-      editButton should always be defined,
+      editButton should always be defined (it is passed as parameter),
       because it should represent the button clicked,
       either for editing the name of a playlist or for confirming it. 
 
@@ -1177,11 +1183,13 @@ function managePlaylistNameEdit(editButton) {
         var updatedActivity = {
           "action": "Playlist Creation",
           "url": "/users/564dcfa513dce9ec91e501d2/playlists/" + id,
+          "targetID": id,
           "target": newName
         }
 
-        doJSONRequest("PUT", "/users/564dcfa513dce9ec91e501d2/activities", null, updatedActivity, function() {
-          console.log("Activity with url '" + "/users/564dcfa513dce9ec91e501d2/playlists/" + id + "' updated.")
+        // Updating activity with updatedActivity.targetURL
+        doJSONRequest("PUT", "/users/564dcfa513dce9ec91e501d2/activities/" + updatedActivity.targetID, null, updatedActivity, function() {
+          console.log("Activity with targetID " + updatedActivity.targetID + " updated.")
           addPlaylistCreationActivity = false;
         });
       }

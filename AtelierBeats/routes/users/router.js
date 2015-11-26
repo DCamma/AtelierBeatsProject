@@ -221,31 +221,22 @@ router.put('/:userid/playlists/:playlistsid', function(req, res, next) {
 
 // Exercise 9 - Activities
 
-router.put("/:userid/activities/:activityid", function(req, res, next) {
-
-  var data = req.body;
-
+router.get("/:userid/activities", function(req, res, next) {
   User.findById(req.params.userid, fieldsFilter, function(err, user) {
     if (err) return next(err);
-
     if (!user) {
       res.status(404);
       return res.json({
         statusCode: 404,
         message: "User Not Found"
-      });
-    } else { // user exits
-      res.status(400);
-      res.json({
-        statusCode: 400,
-        message: "Rounter '/:userid/activities/:activityid' not implemented yet!"
-      });
+      })
     }
 
-  });
-
+    res.json(user.activities);
+  })
 });
 
+/* Just creates a new activity with the data received. */
 router.put("/:userid/activities", function(req, res, next) {
 
   var data = req.body;
@@ -260,13 +251,36 @@ router.put("/:userid/activities", function(req, res, next) {
         message: "User Not Found"
       });
     } else {
+      var activity = new Activity(data);
+      user.activities.push(activity);
+      user.save(onModelSave(res));
+    }
+
+  });
+});
+
+/* Updates the activity with targetID=req.params.targetid, 
+else a new activity document is created and stored to the db. */
+router.put("/:userid/activities/:targetid", function(req, res, next) {
+
+  var data = req.body;
+
+  User.findById(req.params.userid, fieldsFilter, function(err, user) {
+    if (err) return next(err);
+
+    if (!user) {
+      res.status(404);
+      return res.json({
+        statusCode: 404,
+        message: "User Not Found"
+      });
+    } else { // user exits
       var found = false;
 
       for (var i = 0; i < user.activities.length && !found; i++) {
 
-        // Updates the activity with the url == data.url
-        // the url should represent the route to the target of the activity
-        if (user.activities[i].url == data.url) {
+        if (user.activities[i].targetID == req.params.targetid) {
+
           user.activities[i].action = data.action || user.activities[i].action;
           user.activities[i].target = data.target || user.activities[i].target;
           user.activities[i].timestamp = data.timestamp || user.activities[i].timestamp;
@@ -282,27 +296,11 @@ router.put("/:userid/activities", function(req, res, next) {
       }
 
       user.save(onModelSave(res));
-
     }
 
   });
 
 });
-
-router.get("/:userid/activities", function(req, res, next) {
-  User.findById(req.params.userid, fieldsFilter, function(err, user) {
-    if (err) return next(err);
-    if (!user) {
-      res.status(404);
-      return res.json({
-        statusCode: 404,
-        message: "User Not Found"
-      })
-    }
-
-    res.json(user.activities);
-  })
-})
 
 function onModelSave(res, status, sendItAsResponse) {
   var statusCode = status || 204;

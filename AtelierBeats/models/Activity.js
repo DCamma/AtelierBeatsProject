@@ -33,6 +33,10 @@ var ActivitySchema = new mongoose.Schema({
   url: {
     type: String,
     required: true
+  },
+  targetID: {
+    type: String,
+    required: true
   }
 });
 
