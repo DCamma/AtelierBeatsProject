@@ -1001,7 +1001,7 @@ function setupPlaylists() {
 
     for (var elem = 0; elem < editables.length; ++elem) {
       editables[elem].onkeypress = function(e) {
-        if (e && e.keyCode == 13) e.preventDefault();
+        if (e && e.keyCode == 13 && e.target.contentEditable) e.preventDefault();
       }
     }
 
@@ -1048,6 +1048,7 @@ function setupPlaylists() {
 
           var lastPlaylistDOM = document.getElementById("playlists").lastChild;
           var lastPlaylistDOMId = lastPlaylistDOM.id;
+
           var lastPlaylistDOMName = lastPlaylistDOM.firstChild.lastChild.innerHTML;
           var editButton = lastPlaylistDOM.childNodes[1];
 
@@ -1062,7 +1063,7 @@ function setupPlaylists() {
             console.log("doJSONRequest finished for a PUT on playlist creation");
 
             /* This variable is used in the case the user 
-            updates the default name  of the just created playlist.
+            updates the default name of the just created playlist.
             If set to true, another PUT request is made to update the name chosen by the user. */
             addPlaylistCreationActivity = true;
 
@@ -1082,7 +1083,7 @@ function setupPlaylists() {
 /* 
  * This function is responsible for managing each playlist's name edit.
  * It is called either when a new playlist is created 
- * or when the user clicks to edit a playlist's name.
+ * or when the user clicks to edit the name of an existing playlist.
  * 
  * A PUT request for storing an activity on the server
  * is done whenever a new playlist is created.
@@ -1090,6 +1091,8 @@ function setupPlaylists() {
 function managePlaylistNameEdit(editButton) {
 
   var editable = editButton.previousSibling;
+
+  console.log(editButton)
 
   if (editable.childNodes.length == 2) {
     playlistLeftIcons[editable] = editable.firstChild;
@@ -1124,7 +1127,6 @@ function managePlaylistNameEdit(editButton) {
 
     // Replaces newlines with spaces (i.e. new lines not allowed in names)
     var newName = editable.innerText.replace(/\n/g, " ").trim();
-    console.log(JSON.stringify(newName));
 
     var updatedPlaylist = {
       "name": newName,
@@ -1146,7 +1148,32 @@ function managePlaylistNameEdit(editButton) {
       addClass(editButton.firstChild, "fa-pencil");
       addClass(editButton.firstChild, "fl-tl-pencil");
 
-      if (addPlaylistCreationActivity) {
+      var playlistsButtons = document.querySelectorAll("#playlists > li > .edit-btn");
+      var lastPlaylistButton;
+      if(playlistsButtons.length > 0) lastPlaylistButton = playlistsButtons[playlistsButtons.length - 1];
+      // console.log(lastPlaylistButton);
+
+      /** 
+      addPlaylistCreationActivity is only set to true when a new playlist is created (lets call it B),
+      but if we try to modify the name of another playlist A,
+      without confirming the name of the playlist just created B,
+      addPlaylistCreationActivity is still true,
+      and if we click to confirm the new name for A,
+      then the following code is executed,
+      i.e. we are going to store an activity that we should not store.
+
+      editButton should always be defined,
+      because it should represent the button clicked,
+      either for editing the name of a playlist or for confirming it. 
+
+      If addPlaylistCreationActivity == true, 
+      then the name of the last created playlist is still in edit mode.
+      We want to execute the following code 
+      only when the editButton is the editButton of the last playlist created,
+      which is identified by lastPlaylistButton.
+      */
+      if (addPlaylistCreationActivity && editButton.isSameNode(lastPlaylistButton)) {
+
         var updatedActivity = {
           "action": "Playlist Creation",
           "url": "/users/564dcfa513dce9ec91e501d2/playlists/" + id,
