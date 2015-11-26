@@ -30,3 +30,12 @@ function removeClass(ele,cls) {
 		ele.className=ele.className.replace(reg,' ');
 	}
 }
+
+/**
+ * Returns a random number between min (inclusive) and max (inclusive).
+ *
+ * Source: http://stackoverflow.com/a/1527820/3924118
+ */
+function randomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}

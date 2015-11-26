@@ -9,7 +9,6 @@ var checkFirstTime = true;
 var randomPlayback = false;
 var userid = "564dcfa513dce9ec91e501d2";
 
-
 /* Setup on Page Load */
 window.onload = function() {
 
@@ -60,77 +59,6 @@ function bindMenu() {
 
   }
 }
-
-/* EXERCISE 9 - Activities */
-function drawActivities(e, addHistory) {
-
-  if (e && e.target) {
-    e.preventDefault();
-  }
-
-  var href = "/users/" + userid +  "/activities";
-
-  addActivitiesToHistory(addHistory);
-
-  // A user has a static id used for tests...
-  doJSONRequest("GET", href, null, null, renderActivities);
-
-  function renderActivities(activities) {
-
-    // sort activities by timestamp
-    activities.sort(function(a, b) {
-      return new Date(b.timestamp) - new Date(a.timestamp);
-    });
-
-    activities = activities.slice(0, 25); // show only first 25 activities
-
-    // Adding a property to all objects in the activities 
-    // representing their respective position in the UI view
-    for (var i = 0; i < activities.length; i++) {
-      activities[i].n = i + 1;
-      activities[i].timestamp = formatTimestamp(new Date(activities[i].timestamp));
-    }
-
-    var data = {
-      "activities": activities
-    }
-
-    dust.render("activities", data, function(err, out) {
-      var content = document.getElementById("content");
-      content.innerHTML = out;
-
-      document.onclick = function(e) {
-
-        if (e.target.classList.contains("activity-row")) {
-          if (e) e.preventDefault();
-
-          var dataURL = e.target.getAttribute("data-url");
-          var playlistId = dataURL.substr(dataURL.lastIndexOf("/")).replace("/", "");
-
-          if (dataURL) {
-
-            doJSONRequest("GET", dataURL, null, null, function(d) {
-
-              if (dataURL.indexOf("playlists") > -1) {
-                drawPlaylist(null, null, null, playlistId); // passing the id of the playlist to draw
-
-              } else if (dataURL.indexOf("tracks") > -1) {
-                drawLibrary();
-              }
-              console.log("GET request to the activity finished.");
-            });
-          }
-
-        }
-      }
-
-    });
-
-  }
-
-}
-
-//<!-- /build -->
 
 /* UI */
 
@@ -206,12 +134,12 @@ function drawLibrary(e, addHistory, preventBind, foundedTracks) {
             var userActivity = {
               "action": "Track Playback",
               "url": "/tracks/" + trackId,
-              "target": event.target.innerHTML, 
+              "target": event.target.innerHTML,
               "targetID": trackId
             }
 
             doJSONRequest("PUT", "/users/" + userid + "/activities", null, userActivity, function() {
-              console.log("doJSONRequest finished for a PUT (for activities) on track click");
+              // console.log("doJSONRequest finished for a PUT (for activities) on track click");
             });
 
           }
@@ -269,18 +197,6 @@ function addLibraryToHistory(addHistory) {
   }
 }
 
-// Exercise 9
-function addActivitiesToHistory(addHistory) {
-  if ((("undefined" == typeof addHistory) || (addHistory === null)) || addHistory == true) {
-
-    var state = {
-      'function': 'drawActivities'
-    };
-
-    addToHistory(JSON.stringify(state), "/#activities");
-  }
-}
-
 function bindTracksDelete() {
   var tracks = document.querySelectorAll(".fl-tl-delete a");
 
@@ -315,7 +231,7 @@ function deleteTrack(e) {
   }
 
   doJSONRequest("PUT", "/users/" + userid + "/activities", null, userActivity, function() {
-    console.log("doJSONRequest finished for a PUT (activity) on track deletion");
+    // console.log("doJSONRequest finished for a PUT (activity) on track deletion");
   });
 
   function removeTrack() {
@@ -395,8 +311,6 @@ function editTrackName(e) {
   }
 
 }
-
-/* Library */
 
 /* Artists */
 
@@ -838,6 +752,515 @@ function likeAlbum(e) {
 
 /* Albums */
 
+/* Activities */
+function drawActivities(e, addHistory) {
+
+  if (e && e.target) {
+    e.preventDefault();
+  }
+
+  var href = "/users/" + userid + "/activities";
+
+  addActivitiesToHistory(addHistory);
+
+  // A user has a static id used for tests...
+  doJSONRequest("GET", href, null, null, renderActivities);
+
+  function renderActivities(activities) {
+
+    // sort activities by timestamp
+    activities.sort(function(a, b) {
+      return new Date(b.timestamp) - new Date(a.timestamp);
+    });
+
+    activities = activities.slice(0, 25); // show only first 25 activities
+
+    // Adding a property to all objects in the activities 
+    // representing their respective position in the UI view
+    for (var i = 0; i < activities.length; i++) {
+      activities[i].n = i + 1;
+      activities[i].timestamp = formatTimestamp(new Date(activities[i].timestamp));
+    }
+
+    var data = {
+      "activities": activities
+    }
+
+    dust.render("activities", data, function(err, out) {
+      var content = document.getElementById("content");
+      content.innerHTML = out;
+
+      document.onclick = function(e) {
+
+        if (e.target.classList.contains("activity-row")) {
+          if (e) e.preventDefault();
+
+          var dataURL = e.target.getAttribute("data-url");
+          var playlistId = dataURL.substr(dataURL.lastIndexOf("/")).replace("/", "");
+
+          if (dataURL) {
+
+            doJSONRequest("GET", dataURL, null, null, function(d) {
+
+              if (dataURL.indexOf("playlists") > -1) {
+                drawPlaylist(null, null, null, playlistId); // passing the id of the playlist to draw
+
+              } else if (dataURL.indexOf("tracks") > -1) {
+                drawLibrary();
+              }
+              // console.log("GET request to the activity finished.");
+            });
+          }
+
+        }
+      }
+
+    });
+
+  }
+
+}
+
+function addActivitiesToHistory(addHistory) {
+  if ((("undefined" == typeof addHistory) || (addHistory === null)) || addHistory == true) {
+
+    var state = {
+      'function': 'drawActivities'
+    };
+
+    addToHistory(JSON.stringify(state), "/#activities");
+  }
+}
+
+/* Activities */
+
+function setupPlaylists() {
+
+  doJSONRequest("GET", "users/" + userid + "/playlists", null, null, renderPlaylists);
+
+  function renderPlaylists(playlists) {
+    var data = {
+      "playlists": playlists
+    };
+
+    dust.render("playlists", data, function(err, out) {
+      document.getElementById('playlists').innerHTML = out;
+
+      bindPlaylistNameClick();
+
+      bindNewPlaylist(); // Exercise 9
+
+      bindEditPlaylistName();
+    });
+
+  }
+
+  function bindEditPlaylistName() {
+
+    var playlistsName = document.querySelectorAll("#playlists > li > .pl-name + .edit-btn");
+
+    for (var elem = 0; elem < playlistsName.length; ++elem) {
+      playlistsName[elem].onclick = editPlaylistName;
+    }
+
+    // preventing inserting DOM elements on ENTER press.
+    var editables = document.querySelectorAll("#playlists > li > .pl-name");
+
+    for (var elem = 0; elem < editables.length; ++elem) {
+      editables[elem].onkeypress = function(e) {
+        if (e && e.keyCode == 13 && e.target.contentEditable) {
+          e.preventDefault();
+        }
+      }
+    }
+
+    function editPlaylistName(e) {
+
+      if (e && e.target) {
+        e.preventDefault();
+      }
+
+      var editButton = e.target;
+      managePlaylistNameEdit(editButton);
+
+    }
+
+  }
+
+  function bindPlaylistNameClick() {
+    var menu = document.querySelectorAll("#playlists > li");
+
+    for (var elem = 0; elem < menu.length; ++elem) {
+
+      menu[elem].onclick = function(e) {
+        drawPlaylist(e, null, true);
+      }
+    }
+  }
+
+  // Exercise 9
+  function bindNewPlaylist() {
+    var newPlaylistButton = document.getElementById("create-pl-btn");
+    newPlaylistButton.onclick = createPlaylist;
+
+    function createPlaylist(e) {
+      if (e && e.target) {
+        e.preventDefault();
+      }
+
+      // Initially stores a default playlist to the server
+      doJSONRequest("PUT", "/users/" + userid + "/playlists", null, {}, function() {
+
+        doJSONRequest("GET", "users/" + userid + "/playlists", null, null, function(data) {
+
+          renderPlaylists(data);
+
+          var lastPlaylistDOM = document.getElementById("playlists").lastChild;
+          var lastPlaylistDOMId = lastPlaylistDOM.id;
+
+          var lastPlaylistDOMName = lastPlaylistDOM.firstChild.lastChild.innerHTML;
+          var editButton = lastPlaylistDOM.childNodes[1];
+
+          // Stores the activity of a playlist creation into the server
+
+          var userActivity = {
+            "action": "Playlist Creation",
+            "url": "/users/" + userid + "/playlists/" + lastPlaylistDOMId,
+            "target": lastPlaylistDOMName,
+            "targetID": lastPlaylistDOMId
+          }
+
+          doJSONRequest("PUT", "/users/" + userid + "/activities", null, userActivity, function() {
+            // console.log("doJSONRequest finished for a PUT on playlist creation");
+
+            /* This variable is used in the case the user 
+            updates the default name of the just created playlist.
+            If set to true, another PUT request is made to update the name chosen by the user. */
+            addPlaylistCreationActivity = true;
+
+            managePlaylistNameEdit(editButton);
+
+          });
+
+        });
+      });
+
+    }
+
+  }
+
+}
+
+/* 
+ * This function is responsible for managing each playlist's name edit.
+ * It is called either when a new playlist is created 
+ * or when the user clicks to edit the name of an existing playlist.
+ * 
+ * A PUT request for storing an activity on the server
+ * is done whenever a new playlist is created.
+ */
+function managePlaylistNameEdit(editButton) {
+
+  var editable = editButton.previousSibling;
+
+  // console.log(editButton)
+
+  if (editable.childNodes.length == 2) {
+    playlistLeftIcons[editable] = editable.firstChild;
+  }
+
+  if (editable.contentEditable == "false" || editable.contentEditable == "inherit") { // we have to enable the editing
+
+    editable.removeChild(playlistLeftIcons[editable]);
+    editable.contentEditable = "true";
+    editable.classList.remove("pl-name");
+    editable.classList.add("pl-name-editing");
+
+    removeClass(editButton.firstChild, "fa-pencil");
+    removeClass(editButton.firstChild, "fl-tl-pencil");
+
+    addClass(editButton.firstChild, "fa-check");
+    addClass(editButton.firstChild, "fl-tl-check");
+
+    //set the cursor on the editable element
+    var s = window.getSelection(),
+      r = document.createRange();
+    r.setStart(editable, 0);
+    r.setEnd(editable, 0);
+    s.removeAllRanges();
+    s.addRange(r);
+
+  } else { //we have to save the modified name
+
+    var id = editable.parentNode.getAttribute("id");
+
+    //send the data to the server
+
+    // Replaces newlines with spaces (i.e. new lines not allowed in names)
+    var newName = editable.innerText.replace(/\n/g, " ").trim();
+    if (!newName) return;
+
+    var updatedPlaylist = {
+      "name": newName,
+      "id": id
+    }
+
+    doJSONRequest("PUT", "/users/" + userid + "/playlists/" + id, null, updatedPlaylist, disableEditing);
+
+    function disableEditing() {
+
+      editable.insertBefore(playlistLeftIcons[editable], editable.firstChild);
+      editable.contentEditable = "false";
+      editable.classList.remove("pl-name-editing");
+      editable.classList.add("pl-name");
+
+      removeClass(editButton.firstChild, "fa-check");
+      removeClass(editButton.firstChild, "fl-tl-check");
+
+      addClass(editButton.firstChild, "fa-pencil");
+      addClass(editButton.firstChild, "fl-tl-pencil");
+
+      var playlistsButtons = document.querySelectorAll("#playlists > li > .edit-btn");
+      var lastPlaylistButton;
+      if (playlistsButtons.length > 0) lastPlaylistButton = playlistsButtons[playlistsButtons.length - 1];
+      // console.log(lastPlaylistButton);
+
+      /** 
+      addPlaylistCreationActivity is only set to true when a new playlist is created (lets call it B),
+      but if we try to modify the name of another playlist A,
+      without confirming the name of the playlist just created B,
+      addPlaylistCreationActivity is still true,
+      and if we click to confirm the new name for A,
+      then the following code without the second condition:
+        editButton.isSameNode(lastPlaylistButton)
+      would be executed,
+      i.e. we are going to store an activity that we should not store.
+
+      editButton should always be defined (it is passed as parameter),
+      because it should represent the button clicked,
+      either for editing the name of a playlist or for confirming it. 
+
+      If addPlaylistCreationActivity == true, 
+      then the name of the last created playlist is still in edit mode.
+      We want to execute the following code 
+      only when the editButton is the editButton of the last playlist created,
+      which is identified by lastPlaylistButton.
+      */
+      if (addPlaylistCreationActivity && editButton.isSameNode(lastPlaylistButton)) {
+
+        var updatedActivity = {
+          "action": "Playlist Creation",
+          "url": "/users/" + userid + "/playlists/" + id,
+          "targetID": id,
+          "target": newName
+        }
+
+        // Updating activity with updatedActivity.targetURL
+        doJSONRequest("PUT", "/users/" + userid + "/activities/" + updatedActivity.targetID, null, updatedActivity, function() {
+          // console.log("Activity with targetID " + updatedActivity.targetID + " updated.")
+          addPlaylistCreationActivity = false;
+        });
+      }
+
+    }
+
+  }
+}
+
+/*
+ * pId was added in order to draw the correct playlist 
+ * when we click on the activity creation of the same,
+ * since e and e.target are different from those 
+ * when you click directly on the playlist name from the menu.
+ */
+function drawPlaylist(e, addHistory, preventBind, pId) {
+  var playlistId;
+  var target;
+
+  if (!pId) { // if the pId is not already provided
+    target = e.target;
+    // if the user only clicks on the edit button, the playlist should not be drawn.
+    if (target.className == "edit-btn") return;
+
+    if (e && e.target) {
+      e.preventDefault();
+      playlistId = target.getAttribute("id");
+    }
+
+  } else {
+    playlistId = pId;
+  }
+
+  addPlaylistToHistory(addHistory, playlistId)
+
+  doJSONRequest("GET", "/users/" + userid + "/playlists/" + playlistId, null, null, renderPlayTracks);
+
+  function renderPlayTracks(playlist) {
+
+    var tracks = []
+
+    if (playlist.tracks.length == 0) {
+      renderPlaylist({
+        "playlist": playlist
+      })
+    } else {
+      for (var i = 0; i < playlist.tracks.length; i++) {
+        doJSONRequest("GET", "tracks/" + playlist.tracks[i], null, null, getTracks)
+      }
+      currentTracks = tracks
+    }
+
+    function renderPlaylist(data) {
+      dust.render("playlist", data, function(err, out) {
+        var content = document.getElementById("content");
+        content.innerHTML = out;
+        var a = document.getElementById("tracks-list")
+        var sortable = Sortable.create(a, {})
+        document.getElementById("ignore").ondragstart = function() {
+          sortable.option("disabled", true);
+          console.log(sortable.option("disabled"), "DIOCAN1");
+        };
+        document.getElementById("ignore").ondragend = function() {
+          sortable.option("disabled", false);
+          console.log(sortable.option("disabled"), "DIOCAN2");
+        };
+        sortable;
+
+        generatePlaylistArtwork(data)
+
+        bindAlbumLink();
+
+        bindArtistLink();
+
+        bindTracksDelete();
+
+        bindEditTrackName();
+
+        if (document.getElementsByTagName('audio').length === 0) {
+          setupPlayer();
+        }
+
+        // The following if statement prevent the creation of more then one event listener
+        if (!preventBind) {
+
+          // Does not happen when clicked from the activities view.
+          //add one event listener for all tracks using event delegation
+          document.addEventListener('click', function(event) {
+            if (event.target.classList.contains('fl-tl-file-link')) {
+              // prevent anchor element from following link
+              event.preventDefault();
+
+              playTrackById(event.target.dataset.tid)
+            }
+          })
+        }
+
+      });
+
+    }
+
+    function getTracks(track) {
+      tracks.push(track);
+      // console.log(track)
+      var formTracks = buildTracksData(tracks);
+
+      for (var i = 0; i < formTracks.length; i++) {
+        playlist.trackMsg = (formTracks && formTracks.length) ? formTracks.length + ' tracks' : '0 tracks';
+      }
+
+      var data = {
+        "tracks": formTracks,
+        "playlist": playlist
+      }
+
+      renderPlaylist(data);
+
+    }
+  }
+
+}
+
+function emptyPlaylistArtwork() {
+  var canvas = document.getElementById('playlistArtworkCanvas')
+  var ctx = canvas.getContext('2d')
+
+  ctx.fillStyle = "#F0F0F0";
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.stroke();
+}
+
+function generatePlaylistArtwork(data) {
+  var canvas = document.getElementById('playlistArtworkCanvas')
+  var ctx = canvas.getContext('2d')
+
+  emptyPlaylistArtwork()
+
+  var w2 = canvas.width / 2
+  var h2 = canvas.height / 2
+  var images = get4PlaylistImages(data)
+
+  for (var i in images) {
+
+    var tempImage = new Image()
+    tempImage.pos = i
+    tempImage.onload = function(evt) {
+        var pos = this.pos
+        var x = (pos / 2 >= 1) ? w2 : 0;
+        var y = (pos % 2 == 1) ? h2 : 0;
+        ctx.drawImage(evt.target, x, y, w2, h2);
+      }
+      //load image
+    tempImage.src = images[i];
+  };
+}
+
+function get4PlaylistImages(data) {
+
+  if (!data.tracks || !data.tracks.length) return;
+
+  var artworks = [];
+  for (var i = 0; i < data.tracks.length; i++) {
+    if (artworks.length == 4) return artworks;
+
+    artworks.push(data.tracks[i].album.artwork);
+  }
+  return artworks;
+
+}
+
+function addPlaylistToHistory(addHistory, playlistId) {
+  if ((("undefined" == typeof addHistory) || (addHistory === null)) || addHistory == true) {
+    var state = {
+      'function': 'drawPlaylist'
+    };
+
+    addToHistory(JSON.stringify(state), "/#playlist/" + playlistId);
+  }
+}
+
+function allowDrop(evt) {
+  evt.preventDefault();
+}
+
+function drag(evt) {
+  evt.dataTransfer.setData("text/plain", evt.currentTarget.id);
+}
+
+function drop(evt) {
+  evt.preventDefault();
+  var trackId = evt.dataTransfer.getData("text/plain");
+  var playlistId = evt.currentTarget.id
+  addTrackToPlaylist(playlistId, trackId)
+}
+
+function addTrackToPlaylist(playlistId, trackId) {
+  doJSONRequest("GET", "/tracks/" + trackId, null, null, addTrack);
+
+  function addTrack(track) {
+    doJSONRequest("PUT", "users/" + userid + "/playlists/" + playlistId, null, track, function() {});
+  }
+}
+
 /* UI */
 
 /* History Navigation */
@@ -973,433 +1396,6 @@ function findFirstAlbumInCollection(model, prop, array) {
 
 /* Search */
 
-function setupPlaylists() {
-
-  doJSONRequest("GET", "users/" + userid + "/playlists", null, null, renderPlaylists);
-
-  function renderPlaylists(playlists) {
-    var data = {
-      "playlists": playlists
-    };
-
-    dust.render("playlists", data, function(err, out) {
-      document.getElementById('playlists').innerHTML = out;
-
-      bindPlaylistNameClick();
-
-      bindNewPlaylist(); // Exercise 9
-
-      bindEditPlaylistName();
-    });
-
-  }
-
-  function bindEditPlaylistName() {
-
-    var playlistsName = document.querySelectorAll("#playlists > li > .pl-name + .edit-btn");
-
-    for (var elem = 0; elem < playlistsName.length; ++elem) {
-      playlistsName[elem].onclick = editPlaylistName;
-    }
-
-    // preventing inserting DOM elements on ENTER press.
-    var editables = document.querySelectorAll("#playlists > li > .pl-name");
-
-    for (var elem = 0; elem < editables.length; ++elem) {
-      editables[elem].onkeypress = function(e) {
-        if (e && e.keyCode == 13 && e.target.contentEditable) {
-          e.preventDefault();
-        }
-      }
-    }
-
-    function editPlaylistName(e) {
-
-      if (e && e.target) {
-        e.preventDefault();
-      }
-
-      var editButton = e.target;
-      managePlaylistNameEdit(editButton);
-
-    }
-
-  }
-
-  function bindPlaylistNameClick() {
-    var menu = document.querySelectorAll("#playlists > li");
-
-    for (var elem = 0; elem < menu.length; ++elem) {
-
-      menu[elem].onclick = function(e) {
-        drawPlaylist(e, null, true);
-      }
-    }
-  }
-
-  // Exercise 9
-  function bindNewPlaylist() {
-    var newPlaylistButton = document.getElementById("create-pl-btn");
-    newPlaylistButton.onclick = createPlaylist;
-
-    function createPlaylist(e) {
-      if (e && e.target) {
-        e.preventDefault();
-      }
-
-      // Initially stores a default playlist to the server
-      doJSONRequest("PUT", "/users/" +  userid + "/playlists", null, {}, function() {
-
-        doJSONRequest("GET", "users/" + userid + "/playlists", null, null, function(data) {
-
-          renderPlaylists(data);
-
-          var lastPlaylistDOM = document.getElementById("playlists").lastChild;
-          var lastPlaylistDOMId = lastPlaylistDOM.id;
-
-          var lastPlaylistDOMName = lastPlaylistDOM.firstChild.lastChild.innerHTML;
-          var editButton = lastPlaylistDOM.childNodes[1];
-
-          // Stores the activity of a playlist creation into the server
-
-          var userActivity = {
-            "action": "Playlist Creation", 
-            "url": "/users/" + userid + "/playlists/" + lastPlaylistDOMId,
-            "target": lastPlaylistDOMName,
-            "targetID": lastPlaylistDOMId
-          }
-
-          doJSONRequest("PUT", "/users/" + userid + "/activities", null, userActivity, function() {
-            console.log("doJSONRequest finished for a PUT on playlist creation");
-
-            /* This variable is used in the case the user 
-            updates the default name of the just created playlist.
-            If set to true, another PUT request is made to update the name chosen by the user. */
-            addPlaylistCreationActivity = true;
-
-            managePlaylistNameEdit(editButton);
-
-          });
-
-        });
-      });
-
-    }
-
-  }
-
-}
-
-/* 
- * This function is responsible for managing each playlist's name edit.
- * It is called either when a new playlist is created 
- * or when the user clicks to edit the name of an existing playlist.
- * 
- * A PUT request for storing an activity on the server
- * is done whenever a new playlist is created.
- */
-function managePlaylistNameEdit(editButton) {
-
-  var editable = editButton.previousSibling;
-
-  // console.log(editButton)
-
-  if (editable.childNodes.length == 2) {
-    playlistLeftIcons[editable] = editable.firstChild;
-  }
-
-  if (editable.contentEditable == "false" || editable.contentEditable == "inherit") { // we have to enable the editing
-
-    editable.removeChild(playlistLeftIcons[editable]);
-    editable.contentEditable = "true";
-    editable.classList.remove("pl-name");
-    editable.classList.add("pl-name-editing");
-
-    removeClass(editButton.firstChild, "fa-pencil");
-    removeClass(editButton.firstChild, "fl-tl-pencil");
-
-    addClass(editButton.firstChild, "fa-check");
-    addClass(editButton.firstChild, "fl-tl-check");
-
-    //set the cursor on the editable element
-    var s = window.getSelection(),
-      r = document.createRange();
-    r.setStart(editable, 0);
-    r.setEnd(editable, 0);
-    s.removeAllRanges();
-    s.addRange(r);
-
-  } else { //we have to save the modified name
-
-    var id = editable.parentNode.getAttribute("id");
-
-    //send the data to the server
-
-    // Replaces newlines with spaces (i.e. new lines not allowed in names)
-    var newName = editable.innerText.replace(/\n/g, " ").trim();
-
-    var updatedPlaylist = {
-      "name": newName,
-      "id": id
-    }
-
-    doJSONRequest("PUT", "/users/" + userid + "/playlists/" + id, null, updatedPlaylist, disableEditing);
-
-    function disableEditing() {
-
-      editable.insertBefore(playlistLeftIcons[editable], editable.firstChild);
-      editable.contentEditable = "false";
-      editable.classList.remove("pl-name-editing");
-      editable.classList.add("pl-name");
-
-      removeClass(editButton.firstChild, "fa-check");
-      removeClass(editButton.firstChild, "fl-tl-check");
-
-      addClass(editButton.firstChild, "fa-pencil");
-      addClass(editButton.firstChild, "fl-tl-pencil");
-
-      var playlistsButtons = document.querySelectorAll("#playlists > li > .edit-btn");
-      var lastPlaylistButton;
-      if(playlistsButtons.length > 0) lastPlaylistButton = playlistsButtons[playlistsButtons.length - 1];
-      // console.log(lastPlaylistButton);
-
-      /** 
-      addPlaylistCreationActivity is only set to true when a new playlist is created (lets call it B),
-      but if we try to modify the name of another playlist A,
-      without confirming the name of the playlist just created B,
-      addPlaylistCreationActivity is still true,
-      and if we click to confirm the new name for A,
-      then the following code without the second condition:
-        editButton.isSameNode(lastPlaylistButton)
-      would be executed,
-      i.e. we are going to store an activity that we should not store.
-
-      editButton should always be defined (it is passed as parameter),
-      because it should represent the button clicked,
-      either for editing the name of a playlist or for confirming it. 
-
-      If addPlaylistCreationActivity == true, 
-      then the name of the last created playlist is still in edit mode.
-      We want to execute the following code 
-      only when the editButton is the editButton of the last playlist created,
-      which is identified by lastPlaylistButton.
-      */
-      if (addPlaylistCreationActivity && editButton.isSameNode(lastPlaylistButton)) {
-
-        var updatedActivity = {
-          "action": "Playlist Creation",
-          "url": "/users/" + userid + "/playlists/" + id,
-          "targetID": id,
-          "target": newName
-        }
-
-        // Updating activity with updatedActivity.targetURL
-        doJSONRequest("PUT", "/users/" + userid + "/activities/" + updatedActivity.targetID, null, updatedActivity, function() {
-          console.log("Activity with targetID " + updatedActivity.targetID + " updated.")
-          addPlaylistCreationActivity = false;
-        });
-      }
-
-    }
-
-  }
-}
-
-/*
- * pId was added in order to draw the correct playlist 
- * when we click on the activity creation of the same,
- * since e and e.target are different from those 
- * when you click directly on the playlist name from the menu.
- */
-function drawPlaylist(e, addHistory, preventBind, pId) {
-  var playlistId;
-  var target;
-
-  if (!pId) { // if the pId is not already provided
-    target = e.target;
-    // if the user only clicks on the edit button, the playlist should not be drawn.
-    if (target.className == "edit-btn") return;
-
-    if (e && e.target) {
-      e.preventDefault();
-      playlistId = target.getAttribute("id");
-    }
-
-  } else {
-    playlistId = pId;
-  }
-
-  addPlaylistToHistory(addHistory, playlistId)
-
-  doJSONRequest("GET", "/users/" + userid + "/playlists/" + playlistId, null, null, renderPlayTracks);
-
-  function renderPlayTracks(playlist) {
-
-    var tracks = []
-
-    if (playlist.tracks.length == 0) {
-      renderPlaylist({
-        "playlist": playlist
-      })
-    } else {
-      for (var i = 0; i < playlist.tracks.length; i++) {
-        doJSONRequest("GET", "tracks/" + playlist.tracks[i], null, null, getTracks)
-      }
-      currentTracks = tracks
-    }
-
-    function renderPlaylist(data) {
-      dust.render("playlist", data, function(err, out) {
-        var content = document.getElementById("content");
-        content.innerHTML = out;
-        var a = document.getElementById("tracks-list")
-        var sortable = Sortable.create(a, {})
-        document.getElementById("ignore").ondragstart = function(){
-            sortable.option("disabled", true);
-            console.log(sortable.option("disabled"), "DIOCAN1");
-        };
-        document.getElementById("ignore").ondragend = function(){
-            sortable.option("disabled", false);
-            console.log(sortable.option("disabled"), "DIOCAN2");
-        };
-        sortable;
-
-
-        generatePlaylistArtwork(data)
-
-        bindAlbumLink();
-
-        bindArtistLink();
-
-        bindTracksDelete();
-
-        bindEditTrackName();
-
-        if (document.getElementsByTagName('audio').length === 0) {
-          setupPlayer();
-        }
-
-        // The following if statement prevent the creation of more then one event listener
-        if (!preventBind) {
-
-          // Does not happen when clicked from the activities view.
-          //add one event listener for all tracks using event delegation
-          document.addEventListener('click', function(event) {
-            if (event.target.classList.contains('fl-tl-file-link')) {
-              // prevent anchor element from following link
-              event.preventDefault();
-
-              playTrackById(event.target.dataset.tid)
-            }
-          })
-        }
-
-      });
-
-    }
-
-    function getTracks(track) {
-      tracks.push(track);
-      console.log(track)
-      var formTracks = buildTracksData(tracks);
-
-      for (var i = 0; i < formTracks.length; i++) {
-        playlist.trackMsg = (formTracks && formTracks.length) ? formTracks.length + ' tracks' : '0 tracks';
-      }
-
-      var data = {
-        "tracks": formTracks,
-        "playlist": playlist
-      }
-
-      renderPlaylist(data);
-
-    }
-  }
-
-}
-
-function emptyPlaylistArtwork() {
-  var canvas = document.getElementById('playlistArtworkCanvas')
-  var ctx = canvas.getContext('2d')
-
-  ctx.fillStyle = "#F0F0F0";
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-  ctx.stroke();
-}
-
-function generatePlaylistArtwork(data) {
-  var canvas = document.getElementById('playlistArtworkCanvas')
-  var ctx = canvas.getContext('2d')
-
-  emptyPlaylistArtwork()
-
-  var w2 = canvas.width / 2
-  var h2 = canvas.height / 2
-  var images = get4PlaylistImages(data)
-
-  for (var i in images) {
-
-    var tempImage = new Image()
-    tempImage.pos = i
-    tempImage.onload = function(evt) {
-        var pos = this.pos
-        var x = (pos / 2 >= 1) ? w2 : 0;
-        var y = (pos % 2 == 1) ? h2 : 0;
-        ctx.drawImage(evt.target, x, y, w2, h2);
-      }
-      //load image
-    tempImage.src = images[i];
-  };
-}
-
-function get4PlaylistImages(data) {
-
-  if (!data.tracks || !data.tracks.length) return;
-
-  var artworks = [];
-  for (var i = 0; i < data.tracks.length; i++) {
-    if (artworks.length == 4) return artworks;
-
-    artworks.push(data.tracks[i].album.artwork);
-  }
-  return artworks;
-
-}
-
-function addPlaylistToHistory(addHistory, playlistId) {
-  if ((("undefined" == typeof addHistory) || (addHistory === null)) || addHistory == true) {
-    var state = {
-      'function': 'drawPlaylist'
-    };
-
-    addToHistory(JSON.stringify(state), "/#playlist/" + playlistId);
-  }
-}
-
-function allowDrop(evt) {
-  evt.preventDefault();
-}
-
-function drag(evt) {
-  evt.dataTransfer.setData("text/plain", evt.currentTarget.id);
-}
-
-function drop(evt) {
-  evt.preventDefault();
-  var trackId = evt.dataTransfer.getData("text/plain");
-  var playlistId = evt.currentTarget.id
-  addTrackToPlaylist(playlistId, trackId)
-}
-
-function addTrackToPlaylist(playlistId, trackId) {
-  doJSONRequest("GET", "/tracks/" + trackId, null, null, addTrack);
-
-  function addTrack(track) {
-    doJSONRequest("PUT", "users/" + userid + "/playlists/" + playlistId, null, track, function() {});
-  }
-}
-
 /* Player */
 
 /**
@@ -1457,11 +1453,12 @@ function setupPlayer(data) {
   } else {
     currentTrackId = currentTracks[0]._id;
   }
+
   if (document.getElementsByTagName('audio').length !== 0) {
     audio.remove()
   }
 
-  doJSONRequest("GET", "/users/" + userid, null, null, function(user){
+  doJSONRequest("GET", "/users/" + userid, null, null, function(user) {
     randomPlayback = user.randomPlayback;
     // console.log(randomPlayback);
   });
@@ -1523,34 +1520,33 @@ function setupPlayer(data) {
   nextButton.addEventListener("click", function() {
     if (!currentPlayingTrack) return;
 
-    if(!randomPlayback){
-      
+    if (!randomPlayback) {
+
       for (var i = 0; i < currentTracks.length; i++) {
         if (currentPlayingTrack._id == currentTracks[i]._id) {
           var currentIdx = i
         }
       }
-      
+
       if (currentIdx == -1) {
         return console.log("invalid currentTrack");
       }
 
       var nextIdx = (++currentIdx < currentTracks.length) ? currentIdx : 0
 
-      playTrackById(currentTracks[nextIdx]._id); 
+      playTrackById(currentTracks[nextIdx]._id);
 
     } else {
 
-      var randIdx = Math.floor(Math.random() * currentTracks.length);
-      playTrackById(currentTracks[randIdx]._id); 
+      playTrackById(currentTracks[randomInt(0, currentTracks.length - 1)]._id);
     }
 
   });
 
   previousButton.addEventListener("click", function() {
     if (!currentPlayingTrack) return;
-  
-    if(!randomPlayback){
+
+    if (!randomPlayback) {
       for (var i = 0; i < currentTracks.length; i++) {
         if (currentPlayingTrack._id == currentTracks[i]._id) {
           var currentIdx = i
@@ -1563,11 +1559,9 @@ function setupPlayer(data) {
 
       var prevIdx = (--currentIdx >= 0) ? currentIdx : (currentTracks.length - 1)
       playTrackById(currentTracks[prevIdx]._id);
-    
-    } else {
-      var randIdx = Math.floor(Math.random() * currentTracks.length);
-      playTrackById(currentTracks[randIdx]._id); 
 
+    } else {
+      playTrackById(currentTracks[randomInt(0, currentTracks.length - 1)]._id);
     }
   });
 
@@ -1623,23 +1617,23 @@ function setupPlayer(data) {
   });
 
   //Click listener for shuffle
-  shuffle.addEventListener("click", function(){
-    doJSONRequest("GET", "/users/" + userid, null, null, function(user){
-        var userData = {};
-        
-        userData.artist = {};
+  shuffle.addEventListener("click", function() {
+    doJSONRequest("GET", "/users/" + userid, null, null, function(user) {
+      var userData = {};
 
-        userData.userName = user.userName;
-        userData.firstName = user.firstName;
-        userData.lastName = user.lastName;
-        userData.email = user.email
-        userData.playlists = user.playlists;
-        userData.randomPlayback = !(user.randomPlayback);
-        userData.activities = user.activities;
+      userData.artist = {};
 
-        doJSONRequest("PUT", "/users/" + userid, null, userData, function(){
-          randomPlayback = userData.randomPlayback;
-        })
+      userData.userName = user.userName;
+      userData.firstName = user.firstName;
+      userData.lastName = user.lastName;
+      userData.email = user.email
+      userData.playlists = user.playlists;
+      randomPlayback = userData.randomPlayback = !(user.randomPlayback);
+      userData.activities = user.activities;
+
+      doJSONRequest("PUT", "/users/" + userid, null, userData, function() {
+        // console.log("shuffle clicked");
+      })
     })
   })
 }
@@ -1698,18 +1692,18 @@ function playTrackById(trackId) {
     }
   };
 
-
   audio.onended = function() {
     incrementCounter("count_end", trackId);
     playNext();
   };
+
   play();
 }
 
 function playNext() {
   if (!currentPlayingTrack) return;
 
-  if(!randomPlayback){
+  if (!randomPlayback) {
     for (var i = 0; i < currentTracks.length; i++) {
       if (currentPlayingTrack._id == currentTracks[i]._id) {
         var currentIdx = i
@@ -1720,12 +1714,11 @@ function playNext() {
     }
 
     var nextIdx = (++currentIdx < currentTracks.length) ? currentIdx : 0
-    playTrackById(currentTracks[nextIdx]._id);    
-  } else { 
-     var randIdx = Math.floor(Math.random() * currentTracks.length);
-      playTrackById(currentTracks[randIdx]._id); 
-
+    playTrackById(currentTracks[nextIdx]._id);
+  } else {
+    playTrackById(currentTracks[randomInt(0, currentTracks.length - 1)]._id);
   }
 
 }
-//<!-- /build -->
+
+/* Player */
