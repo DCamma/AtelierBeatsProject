@@ -1477,6 +1477,7 @@ function setupPlayer(data) {
   var volumeUp = document.getElementById("volume-up");
   var nextButton = document.getElementById("next");
   var previousButton = document.getElementById("previous");
+  var shuffle = document.getElementById("shuffle");
 
   // Sliders
   var seekRail = document.getElementById("pl-timeline-rail");
@@ -1603,6 +1604,25 @@ function setupPlayer(data) {
     volumeUp.classList.add("active");
     volumeOff.classList.remove("active");
   });
+
+  //Click listener for shuffle
+  shuffle.addEventListener("click", function(){
+    doJSONRequest("GET", "/users" + userid, null, null, function(user){
+        var userData = {};
+        
+        userData.artist = {};
+
+        userData.userName = user.userName;
+        userData.firstName = user.firstName;
+        userData.lastName = user.lastName;
+        userData.email = user.email
+        userData.playlists = user.playlists;
+        userData.randomPlayback = !(user.randomPlayback);
+        userData.activities = user.activities;
+
+        doJSONRequest("PUT", "/users/" + userid, null, userData, function(){})
+    })
+  })
 }
 
 function play() {
@@ -1660,7 +1680,6 @@ function playTrackById(trackId) {
   audio.onended = function() {
     incrementCounter("count_end", trackId);
     playNext();
-    console.log(trackId)
   };
   play();
 }
