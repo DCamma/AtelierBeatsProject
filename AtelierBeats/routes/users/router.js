@@ -75,6 +75,7 @@ router.put('/:userid', function(req, res, next) {
       user.email = data.email;
       user.playlists = data.playlists;
       user.randomPlayback = data.randomPlayback;
+      user.activities = data.activities;
 
       user.save(onModelSave(res));
 

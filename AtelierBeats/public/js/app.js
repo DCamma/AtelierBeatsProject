@@ -5,9 +5,8 @@ var currentAlbums;
 var count = true;
 var playlistLeftIcons = {}; // helpful for editing the playlist name
 var addPlaylistCreationActivity = false; // Used to update the default activity when a playlist is created
-
+var checkFirstTime = true;
 var randomPlayback = false;
-
 var userid = "564dcfa513dce9ec91e501d2";
 
 
@@ -1450,8 +1449,6 @@ function updatePlayer(data) {
   }
 }
 
-checkFirstTime = true;
-
 function setupPlayer(data) {
   if (data && data.trackId) {
     currentTrackId = data.trackId;
@@ -1525,33 +1522,53 @@ function setupPlayer(data) {
   // Event listeners for the previous/next buttons
   nextButton.addEventListener("click", function() {
     if (!currentPlayingTrack) return;
-    for (var i = 0; i < currentTracks.length; i++) {
-      if (currentPlayingTrack._id == currentTracks[i]._id) {
-        var currentIdx = i
+
+    if(!randomPlayback){
+      
+      for (var i = 0; i < currentTracks.length; i++) {
+        if (currentPlayingTrack._id == currentTracks[i]._id) {
+          var currentIdx = i
+        }
       }
-    }
-    if (currentIdx == -1) {
-      return console.log("invalid currentTrack");
+      
+      if (currentIdx == -1) {
+        return console.log("invalid currentTrack");
+      }
+
+      var nextIdx = (++currentIdx < currentTracks.length) ? currentIdx : 0
+
+      playTrackById(currentTracks[nextIdx]._id); 
+
+    } else {
+
+      var randIdx = Math.floor(Math.random() * currentTracks.length);
+      playTrackById(currentTracks[randIdx]._id); 
     }
 
-    var nextIdx = (++currentIdx < currentTracks.length) ? currentIdx : 0
-    playTrackById(currentTracks[nextIdx]._id);
   });
 
   previousButton.addEventListener("click", function() {
     if (!currentPlayingTrack) return;
-    for (var i = 0; i < currentTracks.length; i++) {
-      if (currentPlayingTrack._id == currentTracks[i]._id) {
-        var currentIdx = i
+  
+    if(!randomPlayback){
+      for (var i = 0; i < currentTracks.length; i++) {
+        if (currentPlayingTrack._id == currentTracks[i]._id) {
+          var currentIdx = i
+        }
       }
-    }
 
-    if (currentIdx == -1) {
-      return console.log("invalid currentTrack");
-    }
+      if (currentIdx == -1) {
+        return console.log("invalid currentTrack");
+      }
 
-    var prevIdx = (--currentIdx >= 0) ? currentIdx : (currentTracks.length - 1)
-    playTrackById(currentTracks[prevIdx]._id);
+      var prevIdx = (--currentIdx >= 0) ? currentIdx : (currentTracks.length - 1)
+      playTrackById(currentTracks[prevIdx]._id);
+    
+    } else {
+      var randIdx = Math.floor(Math.random() * currentTracks.length);
+      playTrackById(currentTracks[randIdx]._id); 
+
+    }
   });
 
   // Event listener for the seek bar
@@ -1621,6 +1638,7 @@ function setupPlayer(data) {
         userData.activities = user.activities;
 
         doJSONRequest("PUT", "/users/" + userid, null, userData, function(){
+          randomPlayback = userData.randomPlayback;
         })
     })
   })
@@ -1670,6 +1688,7 @@ function playTrackById(trackId) {
   moImage.style.backgroundImage = "url(" + album.artwork + ")"
 
   audio.src = track.file;
+
   // check if half of the song is played to call incrementCounter
   audio.ontimeupdate = function() {
     // console.log(audio.duration/2 + " : " + audio.currentTime)
@@ -1678,6 +1697,8 @@ function playTrackById(trackId) {
       incrementCounter("count_middle", trackId);
     }
   };
+
+
   audio.onended = function() {
     incrementCounter("count_end", trackId);
     playNext();
@@ -1687,16 +1708,24 @@ function playTrackById(trackId) {
 
 function playNext() {
   if (!currentPlayingTrack) return;
-  for (var i = 0; i < currentTracks.length; i++) {
-    if (currentPlayingTrack._id == currentTracks[i]._id) {
-      var currentIdx = i
+
+  if(!randomPlayback){
+    for (var i = 0; i < currentTracks.length; i++) {
+      if (currentPlayingTrack._id == currentTracks[i]._id) {
+        var currentIdx = i
+      }
     }
-  }
-  if (currentIdx == -1) {
-    return console.log("invalid currentTrack");
+    if (currentIdx == -1) {
+      return console.log("invalid currentTrack");
+    }
+
+    var nextIdx = (++currentIdx < currentTracks.length) ? currentIdx : 0
+    playTrackById(currentTracks[nextIdx]._id);    
+  } else { 
+     var randIdx = Math.floor(Math.random() * currentTracks.length);
+      playTrackById(currentTracks[randIdx]._id); 
+
   }
 
-  var nextIdx = (++currentIdx < currentTracks.length) ? currentIdx : 0
-  playTrackById(currentTracks[nextIdx]._id);
 }
 //<!-- /build -->
