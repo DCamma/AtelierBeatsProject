@@ -21,11 +21,13 @@ var router = express.Router();
 router.all('/', middleware.supportedMethods('GET, POST, PUT, OPTIONS'));
 
 var isAuthenticated = function(req, res, next) {
+  console.log("PORCO DIO LA MADONNA")
   // if user is authenticated in the session, call the next() to call the next request handler 
   // Passport adds this method to request object. A middleware is allowed to add properties to
   // request and response objects
-  if (req.isAuthenticated())
+  if (req.isAuthenticated()) {    
     return next();
+  }
   // if the user is not authenticated then redirect him to the login page
   res.redirect('/');
 }
@@ -40,7 +42,11 @@ module.exports = function(passport) {
     });
   });
 
-  /* Handle Login POST */
+  /* Handle Login POST 
+
+  password.authenticate is used to delegate the authentication 
+  to the login strategy when a HTTP POST is made to /login.
+  */
   router.post('/login', passport.authenticate('login', {
     successRedirect: '/library',
     failureRedirect: '/',
@@ -54,7 +60,11 @@ module.exports = function(passport) {
     });
   });
 
-  /* Handle Registration POST */
+  /* Handle Registration POST 
+
+  password.authenticate is used to delegate the authentication 
+  to the signup strategy when a HTTP POST is made to /signup.
+  */
   router.post('/signup', passport.authenticate('signup', {
     successRedirect: '/',
     failureRedirect: '/signup',

@@ -15,6 +15,21 @@ mongoose.connect(config.mongoUrl + config.mongoDbName);
 // Register model definition here
 require('./models');
 
+// dustjs view engine setup
+app.engine('dust', dustjs.dust());
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'dust');
+
+//configure app
+app.use(logger('dev'));
+
+app.use(bodyParser.urlencoded({
+  extended: false
+})); // parse application/x-www-form-urlencoded
+
+app.use(bodyParser.json()); // parse application/json
+app.use(express.static(path.join(__dirname, 'public')));
+
 // Configuring Passport
 app.use(expressSession({
   secret: 'mySecretKey'
@@ -36,21 +51,6 @@ initPassport(passport);
 
 var routes = require('./routes/root/router.js')(passport);
 app.use('/', routes);
-
-// dustjs view engine setup
-app.engine('dust', dustjs.dust());
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'dust');
-
-//configure app
-app.use(logger('dev'));
-
-app.use(bodyParser.urlencoded({
-  extended: false
-})); // parse application/x-www-form-urlencoded
-
-app.use(bodyParser.json()); // parse application/json
-app.use(express.static(path.join(__dirname, 'public')));
 
 // Initialize routers here
 var routers = require('./routes/routers');
