@@ -50,7 +50,7 @@ router.post('/', function(req, res, next) {
 
 router.put('/player', function(req, res, next) {
   var data = req.body;
-  pubsub.emit('player.updated', {data})
+  pubsub.emit('player.updated', data)
   res.status(204).end();
 });
 

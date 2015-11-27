@@ -1433,13 +1433,13 @@ function findFirstAlbumInCollection(model, prop, array) {
 function updatePlayer(data) {
   syncCheck = document.getElementById("syncCheck").checked
   if (document.getElementsByTagName('audio').length !== 0 && data && syncCheck) {
-    if (data.data.currentTime) {
-      audio.currentTime = data.data.currentTime;
+    if (data.currentTime) {
+      audio.currentTime = data.currentTime;
     }
-    if (data.data.playButton && data.data.playButton == 'play') {
+    if (data.playButton && data.playButton == 'play') {
       play()
     }
-    if (data.data.playButton && data.data.playButton == 'pause') {
+    if (data.playButton && data.playButton == 'pause') {
       pause()
     }
   }
@@ -1541,6 +1541,12 @@ function setupPlayer(data) {
       playTrackById(currentTracks[randomInt(0, currentTracks.length - 1)]._id);
     }
 
+    var nextIdx = (++currentIdx < currentTracks.length) ? currentIdx : 0
+    playTrackById(currentTracks[nextIdx]._id);
+    currentData = {
+      'nextPreButton': 'next',
+    }
+    doJSONRequest('PUT', "/tracks/player", null, currentData, null);
   });
 
   previousButton.addEventListener("click", function() {
@@ -1557,13 +1563,15 @@ function setupPlayer(data) {
         return console.log("invalid currentTrack");
       }
 
-      var prevIdx = (--currentIdx >= 0) ? currentIdx : (currentTracks.length - 1)
-      playTrackById(currentTracks[prevIdx]._id);
-
-    } else {
-      playTrackById(currentTracks[randomInt(0, currentTracks.length - 1)]._id);
+    var prevIdx = (--currentIdx >= 0) ? currentIdx : (currentTracks.length - 1)
+    playTrackById(currentTracks[prevIdx]._id);
+    currentData = {
+      'nextPreButton': 'prev',
     }
-  });
+    doJSONRequest('PUT', "/tracks/player", null, currentData, null);
+
+  }
+});
 
   // Event listener for the seek bar
   seekRail.addEventListener("click", function(evt) {

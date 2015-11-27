@@ -6,6 +6,25 @@ var bodyParser = require('body-parser');
 var dustjs = require('adaro');
 var app = express();
 
+// Configuring Passport
+var passport = require('passport');
+var expressSession = require('express-session');
+app.use(expressSession({secret: 'mySecretKey'}));
+app.use(passport.initialize());
+app.use(passport.session());
+
+ // Using the flash middleware provided by connect-flash to store messages in session
+ // and displaying in templates
+var flash = require('connect-flash');
+app.use(flash());
+
+// Initialize Passport
+var initPassport = require('./passport/init');
+initPassport(passport);
+
+var routes = require('./routes/root/router.js')(passport);
+app.use('/', routes);
+
 // Connect to MongoDB here
 var mongoose   = require('mongoose');
 mongoose.connect(config.mongoUrl + config.mongoDbName);
@@ -28,6 +47,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 var routers = require('./routes/routers');
 app.use('/', routers.root);
+app.use('/library', routers.library);
 app.use('/albums', routers.albums);
 app.use('/artists', routers.artists);
 app.use('/tracks', routers.tracks);
