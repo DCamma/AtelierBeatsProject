@@ -1,8 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var middleware = require('../routes/middleware');
 var mongoose = require('mongoose');
-var ObjectId = mongoose.Types.ObjectId;
 var LocalStrategy = require('passport-local').Strategy;
 var User = mongoose.model('User');
 var bCrypt = require('bcrypt-nodejs');
@@ -13,9 +11,10 @@ module.exports = function(passport) {
       passReqToCallback: true // allows us to pass back the entire request to the callback
     },
     function(req, username, password, done) {
-        console.log("LOL")
+      console.log("LOL")
 
       var findOrCreateUser = function() {
+
         // find a user in Mongo with provided username
         User.findOne({
           'userName': username
@@ -30,16 +29,15 @@ module.exports = function(passport) {
             console.log('User already exists with username: ' + username);
             return done(null, false, req.flash('message', 'User Already Exists'));
           } else {
-            // if there is no user with that email
-            // create the user
+            // if there is no user with that email create the user
             var newUser = new User();
 
             // set the user's local credentials
             newUser.userName = username;
             newUser.password = password;
-            newUser.email = req.param('email');
-            newUser.firstName = req.param('firstName');
-            newUser.lastName = req.param('lastName');
+            newUser.email = req.body.email;
+            newUser.firstName = req.body.firstname;
+            newUser.lastName = req.body.lastname;
 
             // save the user
             newUser.save(function(err) {
@@ -58,4 +56,8 @@ module.exports = function(passport) {
       process.nextTick(findOrCreateUser);
     }));
 
+  // Generates hash using bCrypt
+  var createHash = function(password) {
+    return bCrypt.hashSync(password, bCrypt.genSaltSync(10));
+  }
 }

@@ -1,7 +1,6 @@
 var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose');
-var ObjectId = mongoose.Types.ObjectId;
 var LocalStrategy = require('passport-local').Strategy;
 var User = mongoose.model('User');
 var bCrypt = require('bcrypt-nodejs');

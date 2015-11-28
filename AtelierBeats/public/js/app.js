@@ -1273,7 +1273,7 @@ function addTrackToPlaylist(playlistId, trackId) {
  */
 function addToHistory(state, url) {
   history.pushState(state, null, url);
-  //console.log("Added to history: " + url + ", state: " + state);
+  // console.log("Added to history: " + url + ", state: " + state);
 }
 
 /*
@@ -1285,12 +1285,18 @@ function addToHistory(state, url) {
  * @param {String} url The current url as long with the hash
  */
 function updatePage(event) {
+  
 
   //get reference to the hash and to the current state
   var hash = document.location.hash;
   var playlistId = hash.split('/')[1]
+
+  // console.log("hash: ", hash);
+  // console.log("playlistId: ", playlistId);
+
   if (event && event.state)
     var currentState = JSON.parse(event.state);
+
   if (currentState) {
 
     if (currentState.function == 'drawLibrary')

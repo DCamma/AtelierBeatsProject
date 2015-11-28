@@ -1,20 +1,8 @@
-/** @module users/router */
+  /** @module users/router */
 'use strict';
 
 var middleware = require('../middleware');
 var rootUrl = require("../../config").url;
-
-//supported methods
-
-// router.get('/', function(req, res, next) {
-
-//   res.render('login');
-
-// });
-
-// /** router for /users */
-// module.exports = router;
-
 var express = require('express');
 var router = express.Router();
 
@@ -27,7 +15,6 @@ var isAuthenticated = function(req, res, next) {
   if (req.isAuthenticated()) {    
     return next();
   }
-  // if the user is not authenticated then redirect him to the login page
   res.redirect('/');
 }
 
@@ -58,7 +45,6 @@ module.exports = function(passport) {
       message: req.flash('message')
     });
   });
-
   /* Handle Registration POST 
 
   password.authenticate is used to delegate the authentication 

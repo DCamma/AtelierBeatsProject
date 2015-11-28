@@ -30,9 +30,21 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json()); // parse application/json
 app.use(express.static(path.join(__dirname, 'public')));
 
+/**
+Why do we need to specify resave and saveUninitialized?
+
+- http://stackoverflow.com/questions/24477035/express-4-0-express-session-with-odd-warning-message
+- https://github.com/expressjs/session
+
+About secret:
+http://stackoverflow.com/questions/5343131/what-is-the-sessions-secret-option
+*/
+
 // Configuring Passport
 app.use(expressSession({
-  secret: 'mySecretKey'
+  secret: 'mySecretKey', // secret is used to hash the session with HMAC
+  resave: true, // TO REVISE
+  saveUninitialized: false // TO REVISE
 }));
 
 app.use(passport.initialize());
