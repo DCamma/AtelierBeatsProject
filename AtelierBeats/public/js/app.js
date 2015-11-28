@@ -1690,6 +1690,14 @@ function setupPlayer(data) {
       userData.playlists = user.playlists;
       randomPlayback = userData.randomPlayback = !(user.randomPlayback);
       userData.activities = user.activities;
+      var shuffle = document.getElementById("shuffle");
+      console.log(randomPlayback)
+      if(randomPlayback){
+        shuffle.style.color = '#249aff'
+      }
+      else{
+        shuffle.style.color = '#f7f7f7'
+      }
 
       doJSONRequest("PUT", "/users/" + userid, null, userData, function() {
         // console.log("shuffle clicked");
