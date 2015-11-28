@@ -59,7 +59,9 @@ module.exports = function(passport) {
   /* GET Home Page */
   router.get('/library', isAuthenticated, function(req, res) {
     res.render('library', {
-      user: req.user
+      // passing the id of and username the connecting user to the dust
+      userid: req.user._id, 
+      username: req.user.userName
     });
   });
 

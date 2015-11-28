@@ -11,7 +11,7 @@
 
 
 </head>
-<body class="body library">
+<body class="body library" data-user-id="{userid}">
   <div class="container main-wrapper">
     <nav id="main-nav" class="main-nav-float">
        <label id="main-menu-toggle-label" for="main-menu-toggle"><i class="fa fa-bars"></i></label>
@@ -31,7 +31,7 @@
           <!-- Adding a new menu item for ex 9 -->
           <li><a href="activities.html"><i class="nav-menu-icon glyphicon glyphicon-stats"></i>Activities</a></li>
 
-          <li class="mm-user-item"><a href="login.html"><i class="nav-menu-icon fa fa-user"></i>triglian</a></li>
+          <li class="mm-user-item"><a href="login.html"><i class="nav-menu-icon fa fa-user"></i>{username}</a></li>
           <li class="mm-user-item"><a href="login.html"><i class="nav-menu-icon fa fa-sign-out"></i>logout</a></li>
         </ul>
 
@@ -46,7 +46,7 @@
       <nav id="user-nav" class="clearfix">
         <ul class="nav-menu horizontal-menu float-right clearfix">
           <li><a href="#" id="clientNumber"></a></li>
-          <li><a href="#">triglian</a></li>
+          <li><a href="#">{username}</a></li>
           <li><a href="/signout">logout</a></li>
         </ul>
       </nav>

@@ -12,6 +12,9 @@ var userid = "564dcfa513dce9ec91e501d2";
 /* Setup on Page Load */
 window.onload = function() {
 
+  userid = document.getElementsByTagName("BODY")[0].getAttribute("data-user-id");
+  // console.log("User ID: " + userid)
+
   bindMenu();
 
   updatePage();
