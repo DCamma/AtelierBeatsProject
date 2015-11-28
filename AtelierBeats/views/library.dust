@@ -47,7 +47,7 @@
         <ul class="nav-menu horizontal-menu float-right clearfix">
           <li><a href="#" id="clientNumber"></a></li>
           <li><a href="#">triglian</a></li>
-          <li><a href="#">logout</a></li>
+          <li><a href="/signout">logout</a></li>
         </ul>
       </nav>
       <section class="player">
