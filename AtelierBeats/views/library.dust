@@ -34,8 +34,8 @@
           <!-- Adding a new menu item for ex 9 -->
           <li><a href="activities.html"><i class="nav-menu-icon glyphicon glyphicon-stats"></i>Activities</a></li>
 
-          <li class="mm-user-item"><a href="login.html"><i class="nav-menu-icon fa fa-user"></i>{username}</a></li>
-          <li class="mm-user-item"><a href="login.html"><i class="nav-menu-icon fa fa-sign-out"></i>logout</a></li>
+          <li class="mm-user-item"><a href="/user" class="userName"><i class="nav-menu-icon fa fa-user"></i>{username}</a></li>
+          <li class="mm-user-item"><a href="/signout"><i class="nav-menu-icon fa fa-sign-out"></i>logout</a></li>
         </ul>
 
        <a href="#" class="create-playlist" id="create-pl-btn"><i class="fa fa-plus-circle new-playlist-circle"></i><span>New Playlist</span></a>
@@ -49,7 +49,7 @@
       <nav id="user-nav" class="clearfix">
         <ul class="nav-menu horizontal-menu float-right clearfix">
           <li><a href="#" id="clientNumber"></a></li>
-          <li><a href="#" id="userName">{username}</a></li>
+          <li><a href="/user" class="userName">{username}</a></li>
           <li><a href="/signout">logout</a></li>
         </ul>
       </nav>

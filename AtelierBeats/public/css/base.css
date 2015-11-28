@@ -749,6 +749,14 @@ button {
     border-bottom: 1px solid #BEBEBE;
 }
 
+.user-name-surname {
+    font-weight: bold;
+    font-size: 2em;
+    color: #333;
+    padding-bottom: 2px;
+    border-bottom: 1px solid #713F40;
+}
+
 .fl-tl-row:hover .fl-tl-cell {
     background: #CECED1;
 }

@@ -1,17 +1,14 @@
 <section id="playlistHeader">
 
-	
     <div class="canvas-container">
       <canvas width='200' height='200' style="border: 1px dashed gray; background-color:transparent;" id="playlistArtworkCanvas"></canvas>   
     </div>
 
     <div class="playlist-info">
 
-    	<div class="fl-tl-thead fl-tl-row playlist-info-name">
+    	<div class="fl-tl-thead user-name-surname">
     	    <div class="fl-tl-cell fl-tl-name">{name} {surname}</div> 
     	</div>
-
-    	<br>
     
     	<div class="fl-tl-thead fl-tl-row">
 		    <div class="fl-tl-cell-info fl-tl-name">Username</div>
@@ -24,9 +21,5 @@
     	</div>
             
     </div> 
-
-    <hr/>
-
-  </section>
 
 </section>

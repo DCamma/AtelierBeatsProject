@@ -43,9 +43,10 @@ function incrementCounter(counter, trackId) {
   });
 }
 
-function bindUserNav(){
-   var username = document.getElementById("userName");
-   username.onclick = drawUser;
+function bindUserNav() {
+  var usernames = document.getElementsByClassName("userName");
+  for (var i = 0; i < usernames.length; i++)
+    usernames[i].onclick = drawUser;
 }
 
 function bindMenu() {
@@ -64,7 +65,7 @@ function bindMenu() {
       menu[elem].onclick = drawAlbums;
     } else if (menu[elem].getAttribute("href").indexOf("activities.html") > -1) {
       menu[elem].onclick = drawActivities;
-    } 
+    }
 
   }
 }
@@ -77,7 +78,7 @@ function drawUser(e, addHistory) {
 
   addUserToHistory(addHistory);
 
-  doJSONRequest("GET", "/users/" + userid, null, null, function(user){
+  doJSONRequest("GET", "/users/" + userid, null, null, function(user) {
 
     var data = {
       name: user.firstName,
