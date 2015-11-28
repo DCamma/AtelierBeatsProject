@@ -16,6 +16,9 @@
     <nav id="main-nav" class="main-nav-float">
        <label id="main-menu-toggle-label" for="main-menu-toggle"><i class="fa fa-bars"></i></label>
        <input type="checkbox" id="main-menu-toggle">
+
+<!--        <h2 class="fat logo">Atelier<span class="pulse" style="display:inline-block;">Beats.</span></h2>
+ -->
        <h2 class="fat logo">AtelierBeats.</h2>
 
        <div class="main-nav-content">
@@ -46,7 +49,7 @@
       <nav id="user-nav" class="clearfix">
         <ul class="nav-menu horizontal-menu float-right clearfix">
           <li><a href="#" id="clientNumber"></a></li>
-          <li><a href="#">{username}</a></li>
+          <li><a href="#" id="userName">{username}</a></li>
           <li><a href="/signout">logout</a></li>
         </ul>
       </nav>

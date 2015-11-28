@@ -7,15 +7,16 @@ var playlistLeftIcons = {}; // helpful for editing the playlist name
 var addPlaylistCreationActivity = false; // Used to update the default activity when a playlist is created
 var checkFirstTime = true;
 var randomPlayback = false;
-var userid = "564dcfa513dce9ec91e501d2";
+var userid = "";
 
 /* Setup on Page Load */
 window.onload = function() {
 
   userid = document.getElementsByTagName("BODY")[0].getAttribute("data-user-id");
-  // console.log("User ID: " + userid)
 
   bindMenu();
+
+  bindUserNav();
 
   updatePage();
 
@@ -42,6 +43,11 @@ function incrementCounter(counter, trackId) {
   });
 }
 
+function bindUserNav(){
+   var username = document.getElementById("userName");
+   username.onclick = drawUser;
+}
+
 function bindMenu() {
   var menu = document.querySelectorAll("#main-menu > li > a");
 
@@ -58,12 +64,51 @@ function bindMenu() {
       menu[elem].onclick = drawAlbums;
     } else if (menu[elem].getAttribute("href").indexOf("activities.html") > -1) {
       menu[elem].onclick = drawActivities;
-    }
+    } 
 
   }
 }
 
 /* UI */
+
+/* User */
+function drawUser(e, addHistory) {
+  if (e && e.target) e.preventDefault();
+
+  addUserToHistory(addHistory);
+
+  doJSONRequest("GET", "/users/" + userid, null, null, function(user){
+
+    var data = {
+      name: user.firstName,
+      surname: user.lastName,
+      username: user.userName,
+      email: user.email
+    }
+
+    dust.render("user", data, function(err, out) {
+
+      var content = document.getElementById("content");
+      content.innerHTML = out;
+
+    });
+
+  });
+
+}
+
+function addUserToHistory(addHistory) {
+  if ((("undefined" == typeof addHistory) || (addHistory === null)) || addHistory == true) {
+
+    var state = {
+      'function': 'drawUser'
+    };
+
+    addToHistory(JSON.stringify(state), "/#user");
+  }
+}
+
+/* User */
 
 /* Library */
 
@@ -766,7 +811,6 @@ function drawActivities(e, addHistory) {
 
   addActivitiesToHistory(addHistory);
 
-  // A user has a static id used for tests...
   doJSONRequest("GET", href, null, null, renderActivities);
 
   function renderActivities(activities) {
@@ -1288,7 +1332,6 @@ function addToHistory(state, url) {
  * @param {String} url The current url as long with the hash
  */
 function updatePage(event) {
-  
 
   //get reference to the hash and to the current state
   var hash = document.location.hash;
@@ -1335,6 +1378,9 @@ function updatePage(event) {
 
     } else if (hash.indexOf("#activities/") > -1 || hash.indexOf("activities")) {
       drawActivities(null, false)
+
+    } else if (hash.indexOf("#user/") > -1 || hash.indexOf("user")) {
+      drawUser(null, false);
     }
 
   } else {
@@ -1544,7 +1590,7 @@ function setupPlayer(data) {
       var nextIdx = (++currentIdx < currentTracks.length) ? currentIdx : 0
 
       playTrackById(currentTracks[nextIdx]._id);
-      
+
     } else {
       playTrackById(currentTracks[randomInt(0, currentTracks.length - 1)]._id);
     }
@@ -1568,15 +1614,15 @@ function setupPlayer(data) {
         return console.log("invalid currentTrack");
       }
 
-    var prevIdx = (--currentIdx >= 0) ? currentIdx : (currentTracks.length - 1)
-    playTrackById(currentTracks[prevIdx]._id);
-    currentData = {
-      'nextPreButton': 'prev',
-    }
-    doJSONRequest('PUT', "/tracks/player", null, currentData, null);
+      var prevIdx = (--currentIdx >= 0) ? currentIdx : (currentTracks.length - 1)
+      playTrackById(currentTracks[prevIdx]._id);
+      currentData = {
+        'nextPreButton': 'prev',
+      }
+      doJSONRequest('PUT', "/tracks/player", null, currentData, null);
 
-  }
-});
+    }
+  });
 
   // Event listener for the seek bar
   seekRail.addEventListener("click", function(evt) {

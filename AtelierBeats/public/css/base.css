@@ -89,8 +89,6 @@ body.signup {
 }
 
 
-
-
 /* ---------------- Typography ---------------- */
 
 h1,
@@ -287,12 +285,12 @@ a.text-muted {
     color: #FF9B9B;
 }
 
-
-.user-not-found{
-    font-size: 18px;   
+.user-not-found {
+    font-size: 18px;
     font-weight: bold;
     color: white;
 }
+
 
 /* Unprefixed pulse class. Prefixed is below */
 
@@ -744,7 +742,18 @@ button {
     border-bottom: 1px solid #BEBEBE;
 }
 
+.fl-tl-row-first {
+    display: flex;
+    width: 100%;
+    border-top: 1px solid #BEBEBE;
+    border-bottom: 1px solid #BEBEBE;
+}
+
 .fl-tl-row:hover .fl-tl-cell {
+    background: #CECED1;
+}
+
+.fl-tl-row:hover .fl-tl-cell-info {
     background: #CECED1;
 }
 
@@ -757,7 +766,8 @@ button {
 }
 
 .fl-tl-th,
-.fl-tl-cell {
+.fl-tl-cell,
+.fl-tl-cell-info {
     flex: 1;
     padding: 0 0 0 12px;
 }
@@ -767,8 +777,16 @@ button {
     line-height: 40px;
 }
 
+.fl-tl-cell-info {
+    height: 40px;
+    line-height: 40px;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
 .fl-tl-cell,
-.fl-tl-cell>div {
+.fl-tl-cell>div,
+.fl-tl-cell-info>div {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
@@ -827,6 +845,11 @@ button {
         padding-bottom: 5px;
     }
     .fl-tl-cell {
+        height: auto;
+        line-height: 1;
+        flex: 0 0 100%;
+    }
+    .fl-tl-cell-info {
         height: auto;
         line-height: 1;
         flex: 0 0 100%;
@@ -1718,7 +1741,7 @@ Based on: http://www.webdesignerdepot.com/2012/11/how-to-create-a-simple-css3-to
     border-bottom: 1px solid #713F40;
 }
 
-#shuffle{
+#shuffle {
     position: relative;
     left: 38px;
     bottom: 30px;
