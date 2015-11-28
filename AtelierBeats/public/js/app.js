@@ -1288,11 +1288,9 @@ function updatePage(event) {
 
   //get reference to the hash and to the current state
   var hash = document.location.hash;
-
   var playlistId = hash.split('/')[1]
   if (event && event.state)
     var currentState = JSON.parse(event.state);
-
   if (currentState) {
 
     if (currentState.function == 'drawLibrary')
@@ -1518,6 +1516,8 @@ function setupPlayer(data) {
 
   // Event listeners for the previous/next buttons
   nextButton.addEventListener("click", function() {
+
+    console.log(randomPlayback)
     if (!currentPlayingTrack) return;
 
     if (!randomPlayback) {
@@ -1535,14 +1535,10 @@ function setupPlayer(data) {
       var nextIdx = (++currentIdx < currentTracks.length) ? currentIdx : 0
 
       playTrackById(currentTracks[nextIdx]._id);
-
+      
     } else {
-
       playTrackById(currentTracks[randomInt(0, currentTracks.length - 1)]._id);
     }
-
-    var nextIdx = (++currentIdx < currentTracks.length) ? currentIdx : 0
-    playTrackById(currentTracks[nextIdx]._id);
     currentData = {
       'nextPreButton': 'next',
     }
