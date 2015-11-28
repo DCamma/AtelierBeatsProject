@@ -49,13 +49,13 @@ app.use(flash());
 var initPassport = require('./passport/init');
 initPassport(passport);
 
-var routes = require('./routes/root/router.js')(passport);
+var routes = require('./routes/root/router')(passport);
 app.use('/', routes);
 
 // Initialize routers here
 var routers = require('./routes/routers');
 
-app.use('/', routers.root);
+// app.use('/', routers.root);
 app.use('/library', routers.library);
 app.use('/albums', routers.albums);
 app.use('/artists', routers.artists);

@@ -50,7 +50,6 @@ module.exports = function(passport) {
   );
 
   var isValidPassword = function(user, password) {
-    console.log("DIOB", bCrypt.compareSync(password, user.password))
     return bCrypt.compareSync(password, user.password);
   }
 
