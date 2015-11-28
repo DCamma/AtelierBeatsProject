@@ -89,6 +89,8 @@ body.signup {
 }
 
 
+
+
 /* ---------------- Typography ---------------- */
 
 h1,
@@ -285,6 +287,12 @@ a.text-muted {
     color: #FF9B9B;
 }
 
+
+.user-not-found{
+    font-size: 18px;   
+    font-weight: bold;
+    color: white;
+}
 
 /* Unprefixed pulse class. Prefixed is below */
 

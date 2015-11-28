@@ -16,5 +16,5 @@ router.get('/', function(req, res, next) {
 
 });
 
-/** router for /users */
+/** router for library */
 module.exports = router;

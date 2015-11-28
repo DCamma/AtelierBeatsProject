@@ -5,6 +5,14 @@ var login = require('./login');
 var signup = require('./signup');
 var User = mongoose.model('User');
 
+/**
+Why do we need serializeUser and deserializeUser?
+- http://stackoverflow.com/questions/19268812/do-i-implement-serialize-and-deserialize-nodesjs-passport-redisstore
+
+Understanding serialize and deserialise:
+- http://stackoverflow.com/questions/27637609/understanding-passport-serialize-deserialize
+*/
+
 module.exports = function(passport) {
 
   // Passport needs to be able to serialize and deserialize users to support persistent login sessions
