@@ -375,7 +375,7 @@ function editTrackName(e) {
 
 /* Artists */
 
-function drawArtists(e, addHistory) {
+function drawArtists(e, addHistory, foundedArtist) {
   if (e && e.target) {
     e.preventDefault();
   }
@@ -387,6 +387,11 @@ function drawArtists(e, addHistory) {
 
   function renderArtists(artists) {
     //create the data object with the structure expected by the compiled view
+
+    if (foundedArtist) {
+      artists = foundedArtist;
+    }
+
     var data = {
       "artists": artists
     }
@@ -535,7 +540,7 @@ function deleteArtist(e) {
 
 /* Albums */
 
-function drawAlbums(e, addHistory, onlyFavourites, favDomColor) {
+function drawAlbums(e, addHistory, onlyFavourites, favDomColor, foundedAlbums) {
   if (e && e.target)
     e.preventDefault();
 
@@ -546,6 +551,10 @@ function drawAlbums(e, addHistory, onlyFavourites, favDomColor) {
 
   function renderAlbums(albums) {
     var albumData = [];
+
+    if(foundedAlbums){
+        albums = foundedAlbums;
+    }
 
     for (album in albums) {
 
@@ -1415,16 +1424,39 @@ function setupSearch() {
     var split = this.value.split(" ");
     var result = []
     var theValue = this.value
-    doJSONRequest("GET", "/tracks", null, null, function(tracks) {
-      result = fuzzyFind(tracks, "name", theValue);
+    if(window.location.hash === "#library" || window.location.pathname === "/library"){
+        doJSONRequest("GET", "/tracks", null, null, function(tracks) {
+            result = fuzzyFind(tracks, "name", theValue);
 
-      if (theValue.trim() === "") {
-        drawLibrary();
-        return;
-      }
+            if (theValue.trim() === "") {
+                drawLibrary();
+                return;
+            }
+            drawLibrary(null, null, true, result);
+        });
+    }
+    if(window.location.hash === "#artists"){
+        doJSONRequest("GET", "/artists", null, null, function(artists) {
+            result = fuzzyFind(artists, "name", theValue);
 
-      drawLibrary(null, null, true, result)
-    })
+            if (theValue.trim() === "") {
+                drawArtists();
+                return;
+            }
+            drawArtists(null, null, result);
+        });
+    }
+    if(window.location.hash === "#albums"){
+        doJSONRequest("GET", "/albums", null, null, function(albums) {
+            result = fuzzyFind(albums, "name", theValue);
+
+            if (theValue.trim() === "") {
+                drawAlbums();
+                return;
+            }
+            drawAlbums(null, null, null, null, result);
+        });
+    }  
   });
 }
 
@@ -1563,6 +1595,25 @@ function setupPlayer(data) {
 
   document.body.appendChild(audio);
 
+  doJSONRequest("GET", "/users/" + userid, null, null, function(user) {
+      var userData = {};
+
+      userData.artist = {};
+
+      userData.userName = user.userName;
+      userData.firstName = user.firstName;
+      userData.lastName = user.lastName;
+      userData.email = user.email
+      userData.playlists = user.playlists;
+      randomPlayback = userData.randomPlayback = user.randomPlayback;
+      userData.activities = user.activities;
+      var shuffle = document.getElementById("shuffle");
+      if (randomPlayback) {
+        shuffle.style.color = '#249aff'
+      } else {
+        shuffle.style.color = '#f7f7f7'
+      }
+  });
   playTrackById(currentTrackId);
 
   // Event listener for the play/pause button
