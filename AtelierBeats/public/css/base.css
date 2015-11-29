@@ -852,6 +852,12 @@ button {
 }
 
 @media (max-width: 641px) {
+    .user-name-surname {
+        font-size: 1.6em;
+        padding-bottom: 15px;
+        padding-top: 15px;
+        height: 60px;
+    }
     .fl-tl-thead {
         display: none;
     }
@@ -904,6 +910,9 @@ button {
         font-weight: 300;
     }
     .fl-tl-counter {
+        display: none;
+    }
+    .user-picture {
         display: none;
     }
 }

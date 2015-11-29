@@ -928,7 +928,7 @@ function setupPlaylists() {
 
     for (var elem = 0; elem < editables.length; ++elem) {
       editables[elem].onkeypress = function(e) {
-        if (e && e.keyCode == 13 && e.target.contentEditable) {
+        if (e && e.keyCode == 13 && e.target && e.target.contentEditable) {
           e.preventDefault();
         }
       }
@@ -1390,7 +1390,7 @@ function updatePage(event) {
       drawPlaylist(null, null, false, playlistId);
 
     } else if (hash.indexOf("#activities/") > -1 || hash.indexOf("activities")) {
-      drawActivities(null, false)
+      drawActivities(null, false);
 
     } else if (hash.indexOf("#user/") > -1 || hash.indexOf("user")) {
       drawUser(null, false);

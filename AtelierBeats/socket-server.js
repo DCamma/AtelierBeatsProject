@@ -24,6 +24,10 @@ module.exports = function(httpServer) {
     });
   })
 
+  eventBus.on("activity.added", function(event) {
+    io.emit("activity-added", event)
+  });
+
   eventBus.on('track.deleted', function(event) {
     io.emit('change-track', event)
   })
@@ -51,4 +55,5 @@ module.exports = function(httpServer) {
   eventBus.on('player.updated', function(event) {
     io.emit('change-player', event)
   })
+
 }

@@ -12,6 +12,7 @@ var Activity = mongoose.model("Activity");
 var Playlist = mongoose.model("Playlist");
 
 var config = require("../../config");
+var pubsub = require('../../pubsub');
 
 //fields we don't want to show to the client
 var fieldsFilter = {
@@ -255,6 +256,7 @@ router.put("/:userid/activities", function(req, res, next) {
     } else {
       var activity = new Activity(data);
       user.activities.push(activity);
+      pubsub.emit('activity.added', {});
       user.save(onModelSave(res));
     }
 
@@ -297,6 +299,7 @@ router.put("/:userid/activities/:targetid", function(req, res, next) {
         user.activities.push(activity);
       }
 
+      pubsub.emit('activity.added', {});
       user.save(onModelSave(res));
     }
 

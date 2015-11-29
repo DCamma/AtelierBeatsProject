@@ -38,3 +38,8 @@ socket.on('clientConnected', function(clientNumber) {
 socket.on('clientDisconnected', function(clientNumber) {
   document.getElementById('clientNumber').innerHTML = textHTML + clientNumber;
 })
+
+socket.on("activity-added", function(data) {
+  if (window.location.hash.indexOf('activities') != -1)
+    drawActivities(null, false)
+})
