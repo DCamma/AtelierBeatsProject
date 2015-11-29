@@ -2,7 +2,7 @@
 
 <li id="{_id}" ondrop="drop(event)" ondragover="allowDrop(event)">
 		
-	<a class="pl-name single-line" data-for={_id} href="{_id}" id="{_id}">
+	<a class="pl-name" data-for={_id} href="{_id}" id="{_id}">
 		<i class="nav-menu-icon fa fa-bars"></i>
 		<span id="{_id}">{name}</span>
 	</a>

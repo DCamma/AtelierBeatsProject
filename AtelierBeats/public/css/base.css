@@ -609,7 +609,8 @@ button {
 }
 
 #syncCheck {
-    margin-left: 10px;
+    margin-left: 12px;
+    margin-top: 2px;
 }
 
 .pl-timeline-wrapper,
@@ -730,6 +731,13 @@ button {
 
 
 /* ---------------- Library flex list ---------------- */
+
+.track-name-editable {
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    top: 0;
+}
 
 .flex-tracklist {
     width: 100%;
@@ -1752,6 +1760,6 @@ Based on: http://www.webdesignerdepot.com/2012/11/how-to-create-a-simple-css3-to
 #shuffle {
     position: relative;
     left: 38px;
-    bottom: 30px;
+    bottom: 28px;
     color: #f7f7f7;
 }

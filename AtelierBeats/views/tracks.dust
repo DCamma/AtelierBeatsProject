@@ -13,7 +13,7 @@
 	<div id="{_id}" class="fl-tl-row" draggable="true" ondragstart="drag(event)">
 		
 		<div class="fl-tl-cell fl-tl-name">
-			<span class="fl-tl-file-link" data-tid="{_id}" href="tracks/{_id}">
+			<span class="fl-tl-file-link track-name-editable" data-tid="{_id}" href="tracks/{_id}">
 				{name}
 			</span>
 			<a class="edit-btn" href="#"><i class="fa fa-pencil fl-tl-pencil"></i></a>

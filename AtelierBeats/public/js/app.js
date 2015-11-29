@@ -301,6 +301,16 @@ function bindEditTrackName() {
     tracksName[elem].onclick = editTrackName;
   }
 
+  var editables = document.querySelectorAll("#tracks-list > div > .fl-tl-name > span");
+
+  for (var elem = 0; elem < editables.length; ++elem) {
+    editables[elem].onkeypress = function(e) {
+      if (e && e.keyCode == 13 && e.target.contentEditable) {
+        e.preventDefault();
+      }
+    }
+  }
+
 }
 
 function editTrackName(e) {
@@ -315,7 +325,8 @@ function editTrackName(e) {
   if (editable.contentEditable == "false" || editable.contentEditable == "inherit") { //we have to enable the editing
 
     editable.contentEditable = "true";
-    editable.className = "pl-name-editing";
+    // editable.classList.remove("pl-name");
+    // editable.classList.add("pl-name-editing");
 
     removeClass(target.firstChild, "fa-pencil");
     removeClass(target.firstChild, "fl-tl-pencil");
@@ -347,7 +358,8 @@ function editTrackName(e) {
     function disableEditing() {
 
       editable.contentEditable = "false";
-      editable.className = "pl-name";
+      // editable.classList.remove("pl-name-editing");
+      // editable.classList.add("pl-name");
 
       removeClass(target.firstChild, "fa-check");
       removeClass(target.firstChild, "fl-tl-check");
@@ -1692,10 +1704,9 @@ function setupPlayer(data) {
       userData.activities = user.activities;
       var shuffle = document.getElementById("shuffle");
       console.log(randomPlayback)
-      if(randomPlayback){
+      if (randomPlayback) {
         shuffle.style.color = '#249aff'
-      }
-      else{
+      } else {
         shuffle.style.color = '#f7f7f7'
       }
 
@@ -1736,14 +1747,15 @@ function playTrackById(trackId) {
   currentPlayingTrack = track;
 
   var artist = findOne(currentArtists, "_id", track.artist._id);
+
   var album = findOne(currentAlbums, "_id", track.album._id);
 
   var plTrackArtist = document.querySelector('.pl-track-artist');
-  plTrackArtist.href = 'artists/' + artist.name;
+  plTrackArtist.href = '#artists/' + artist._id;
   plTrackArtist.innerHTML = artist.name
 
   var plTrackTitle = document.querySelector('.pl-track-title');
-  plTrackTitle.href = 'albums/' + album.name;
+  plTrackTitle.href = '#albums/' + album._id;
   plTrackTitle.innerHTML = currentPlayingTrack.name;
 
   var moImage = document.querySelector('.pl-artwork .mo-image');
