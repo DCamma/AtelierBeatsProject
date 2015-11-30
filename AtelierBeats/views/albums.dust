@@ -1,15 +1,13 @@
 <section class="album-section">
 
-	<div class="fav-albums">
-		<!-- <span class="fav-albums-text">Favorites</span> --> 
-		
+	<div class="fav-albums">		
 		<span class="like-filter">
 			<a title="Show only favourite albums" class="tooltip">
 				<span title="" >&#10084;</span>
 			</a>
 		</span>
-		
 	</div>
+
 	<br>
 	
 	<ul class="grid-list clearfix" id="albums-list">

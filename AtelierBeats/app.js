@@ -3,6 +3,9 @@ var express = require('express');
 var path = require('path');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
+
+// var formidable = require('express-formidable');
+
 var dustjs = require('adaro');
 var app = express();
 var mongoose = require('mongoose');
@@ -20,6 +23,8 @@ app.engine('dust', dustjs.dust());
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'dust');
 
+app.use(express.static(path.join(__dirname, 'public')));
+
 //configure app
 app.use(logger('dev'));
 
@@ -28,7 +33,11 @@ app.use(bodyParser.urlencoded({
 })); // parse application/x-www-form-urlencoded
 
 app.use(bodyParser.json()); // parse application/json
-app.use(express.static(path.join(__dirname, 'public')));
+
+// app.use(formidable.parse({
+// 	uploadDir: "tracks_folder",
+// 	keepExtensions: true
+// }));
 
 /**
 Why do we need to specify resave and saveUninitialized?

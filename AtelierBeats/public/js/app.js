@@ -157,6 +157,8 @@ function drawLibrary(e, addHistory, preventBind, foundedTracks) {
 
       bindEditTrackName();
 
+      bindTrackUploader();
+
       if (document.getElementsByTagName('audio').length === 0) {
         setupPlayer();
       }
@@ -194,6 +196,257 @@ function drawLibrary(e, addHistory, preventBind, foundedTracks) {
           }
 
         }
+
+      }
+
+    });
+
+  }
+}
+
+/* Uploader */
+
+function bindTrackUploader() {
+  var elem = document.getElementById("upload-btn");
+  elem.onclick = renderTrackUploader;
+
+  function renderTrackUploader(e, dataDust) {
+    if (!dataDust) dataDust = {}
+
+    dust.render("uploader", dataDust, function(err, out) {
+
+      var content = document.getElementById("content");
+      content.innerHTML = out;
+
+      var uploadZone = document.getElementById("track-uploader-btn");
+
+      uploadZone.onclick = function(e) {
+        document.getElementById('input-file-uploader').click();
+      }
+
+      uploadZone.addEventListener("dragover", FileDragHover, false);
+      uploadZone.addEventListener("dragleave", FileDragHover, false);
+      uploadZone.addEventListener("drop", function(e) {}, false);
+
+      function FileDragHover(e) {
+        e.stopPropagation();
+        e.preventDefault();
+        e.target.style.borderColor = "rgb(36, 154, 255)";
+      }
+
+      // Song input
+      var songNameInput = document.getElementById("song-name-input");
+
+      songNameInput.oninput = function(e) {
+
+        doJSONRequest("GET", "tracks", null, null, function(data) {
+
+          var songDataList = document.getElementById("dls-song-name");
+          removeAllChildren(songDataList);
+
+          data.forEach(function(track) {
+            // Create a new <option> element.
+            var option = document.createElement('option');
+
+            // Set the value using the item in the JSON array.
+            if (startsWith(track.name, songNameInput.value)) {
+              option.value = track.name;
+              // Add the <option> element to the <datalist>.
+              songDataList.appendChild(option);
+            }
+
+          });
+
+        });
+      }
+
+      // Artist input
+      var artistNameInput = document.getElementById("artist-name-input");
+
+      artistNameInput.oninput = function(e) {
+
+        doJSONRequest("GET", "artists", null, null, function(data) {
+
+          var artistDataList = document.getElementById("dls-artist-name");
+          removeAllChildren(artistDataList);
+
+          data.forEach(function(artist) {
+            var option = document.createElement('option');
+
+            if (startsWith(artist.name, artistNameInput.value)) {
+              option.value = artist.name;
+              artistDataList.appendChild(option);
+            }
+
+          });
+
+        });
+
+      }
+
+      // Album input
+      var albumNameInput = document.getElementById("album-name-input");
+
+      albumNameInput.oninput = function(e) {
+
+        doJSONRequest("GET", "albums", null, null, function(data) {
+
+          var albumDataList = document.getElementById("dls-album-name");
+          removeAllChildren(albumDataList);
+
+          data.forEach(function(album) {
+
+            var option = document.createElement('option');
+
+            if (startsWith(album.name, albumNameInput.value)) {
+              option.value = album.name;
+              albumDataList.appendChild(option);
+            }
+
+          });
+
+        });
+
+      }
+
+      var dateCreatedInput = document.getElementById("date-created-input");
+      dateCreatedInput.valueAsDate = new Date()
+
+      var dateReleasedInput = document.getElementById("date-released-input");
+      dateReleasedInput.valueAsDate = new Date()
+
+      document.getElementById("track-submit-btn").onclick = function(e) {
+        // document.getElementById('input-submit-uploader').click();
+
+        var songName = songNameInput.value;
+        var artistName = artistNameInput.value;
+        var albumName = albumNameInput.value;
+        var dateCreated = dateCreatedInput.value;
+        var dateReleased = dateReleasedInput.value;
+
+        var dustData = {}
+        if (!songName) dustData.nameNotProvided = "Track Name Required";
+        if (!artistName) dustData.artistNotProvided = "Track Artist Required";
+        if (!albumName) dustData.albumNotProvided = "Track Album Required";
+
+        if (Object.keys(dustData) != 0) {
+          return renderTrackUploader(e, dustData);
+        }
+
+        doJSONRequest("GET", "/tracks", null, null, function(tracks) {
+
+          var alreadyExists = false;
+
+          tracks.forEach(function(track) {
+            if (track.name == songName) {
+              alreadyExists = true;
+            }
+          });
+
+          if (alreadyExists) {
+            var dustData = {
+              nameNotProvided: "Track with name '" + songName + "' already exists."
+            }
+            return renderTrackUploader(e, dustData);
+          }
+          // For now I will use a dummy duration and a random file
+          // then I will change this when I implement the file upload
+          var newTrack = {
+            name: songName,
+            file: "tracks_folder/1.mp3",
+            duration: "0"
+          }
+
+          // Triggers redirection to the library because track.updated is emitted
+          function createNewTrack(track) {
+            doJSONRequest("POST", "/tracks", null, track, function(data) {
+              console.log("Track Created: ", data);
+            });
+          }
+
+          // Creating a function to handle album requests
+          function handleAlbumRequests() {
+            doJSONRequest("GET", "/albums", null, null, function(albums) {
+
+              var albumId;
+
+              albums.forEach(function(album) {
+                if (album.name == albumName) {
+                  albumId = album._id;
+                }
+              });
+
+              if (!albumId) {
+
+                var albumData = {
+                  name: albumName,
+                  artist: newTrack.artist
+                }
+                doJSONRequest("POST", "/albums", null, albumData, function(d2) {
+
+                  doJSONRequest("GET", "/albums", null, null, function(albums) {
+
+                    albums.forEach(function(album) {
+                      if (album.name == albumName) {
+                        newTrack.album = album._id;
+                      }
+                    });
+
+                    createNewTrack(newTrack);
+
+                  });
+
+                });
+
+              } else {
+                newTrack.album = albumId;
+                createNewTrack(newTrack);
+              }
+
+            });
+          } // end of handleAlbumRequests
+
+          // Data to sent if an artist with artistName does not exist already
+          var artistId;
+
+          doJSONRequest("GET", "/artists", null, null, function(artists) {
+
+            artists.forEach(function(artist) {
+              if (artist.name == artistName) {
+                artistId = artist._id
+              }
+            });
+
+            if (!artistId) {
+              var artistData = {
+                name: artistName
+              }
+
+              doJSONRequest("POST", "/artists", null, artistData, function(d) {
+
+                // Fetching the id of the artist just created
+                doJSONRequest("GET", "/artists", null, null, function(artists) {
+                  artists.forEach(function(artist) {
+                    if (artist.name == artistName) {
+                      newTrack.artist = artist._id;
+                    }
+                  });
+
+                  handleAlbumRequests();
+
+                });
+
+              });
+
+            } else { // artist exists!
+
+              newTrack.artist = artistId;
+              handleAlbumRequests();
+            }
+
+          });
+
+        });
 
       }
 
@@ -552,8 +805,8 @@ function drawAlbums(e, addHistory, onlyFavourites, favDomColor, foundedAlbums) {
   function renderAlbums(albums) {
     var albumData = [];
 
-    if(foundedAlbums){
-        albums = foundedAlbums;
+    if (foundedAlbums) {
+      albums = foundedAlbums;
     }
 
     for (album in albums) {
@@ -939,6 +1192,7 @@ function setupPlaylists() {
       editables[elem].onkeypress = function(e) {
         if (e && e.keyCode == 13 && e.target && e.target.contentEditable) {
           e.preventDefault();
+
         }
       }
     }
@@ -1424,39 +1678,39 @@ function setupSearch() {
     var split = this.value.split(" ");
     var result = []
     var theValue = this.value
-    if(window.location.hash === "#library" || window.location.pathname === "/library"){
-        doJSONRequest("GET", "/tracks", null, null, function(tracks) {
-            result = fuzzyFind(tracks, "name", theValue);
+    if (window.location.hash === "#library" || window.location.pathname === "/library") {
+      doJSONRequest("GET", "/tracks", null, null, function(tracks) {
+        result = fuzzyFind(tracks, "name", theValue);
 
-            if (theValue.trim() === "") {
-                drawLibrary();
-                return;
-            }
-            drawLibrary(null, null, true, result);
-        });
+        if (theValue.trim() === "") {
+          drawLibrary();
+          return;
+        }
+        drawLibrary(null, null, true, result);
+      });
     }
-    if(window.location.hash === "#artists"){
-        doJSONRequest("GET", "/artists", null, null, function(artists) {
-            result = fuzzyFind(artists, "name", theValue);
+    if (window.location.hash === "#artists") {
+      doJSONRequest("GET", "/artists", null, null, function(artists) {
+        result = fuzzyFind(artists, "name", theValue);
 
-            if (theValue.trim() === "") {
-                drawArtists();
-                return;
-            }
-            drawArtists(null, null, result);
-        });
+        if (theValue.trim() === "") {
+          drawArtists();
+          return;
+        }
+        drawArtists(null, null, result);
+      });
     }
-    if(window.location.hash === "#albums"){
-        doJSONRequest("GET", "/albums", null, null, function(albums) {
-            result = fuzzyFind(albums, "name", theValue);
+    if (window.location.hash === "#albums") {
+      doJSONRequest("GET", "/albums", null, null, function(albums) {
+        result = fuzzyFind(albums, "name", theValue);
 
-            if (theValue.trim() === "") {
-                drawAlbums();
-                return;
-            }
-            drawAlbums(null, null, null, null, result);
-        });
-    }  
+        if (theValue.trim() === "") {
+          drawAlbums();
+          return;
+        }
+        drawAlbums(null, null, null, null, result);
+      });
+    }
   });
 }
 
@@ -1596,23 +1850,23 @@ function setupPlayer(data) {
   document.body.appendChild(audio);
 
   doJSONRequest("GET", "/users/" + userid, null, null, function(user) {
-      var userData = {};
+    var userData = {};
 
-      userData.artist = {};
+    userData.artist = {};
 
-      userData.userName = user.userName;
-      userData.firstName = user.firstName;
-      userData.lastName = user.lastName;
-      userData.email = user.email
-      userData.playlists = user.playlists;
-      randomPlayback = userData.randomPlayback = user.randomPlayback;
-      userData.activities = user.activities;
-      var shuffle = document.getElementById("shuffle");
-      if (randomPlayback) {
-        shuffle.style.color = '#249aff'
-      } else {
-        shuffle.style.color = '#f7f7f7'
-      }
+    userData.userName = user.userName;
+    userData.firstName = user.firstName;
+    userData.lastName = user.lastName;
+    userData.email = user.email
+    userData.playlists = user.playlists;
+    randomPlayback = userData.randomPlayback = user.randomPlayback;
+    userData.activities = user.activities;
+    var shuffle = document.getElementById("shuffle");
+    if (randomPlayback) {
+      shuffle.style.color = '#249aff'
+    } else {
+      shuffle.style.color = '#f7f7f7'
+    }
   });
   playTrackById(currentTrackId);
 

@@ -32,7 +32,6 @@ router.get('/', function(req, res, next) {
 
 //create new artist
 router.post('/', function(req, res, next) {
-
     var newArtist = new Artist(req.body);
     newArtist.save(onModelSave(res, 201, true));
 });

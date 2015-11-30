@@ -1,0 +1,73 @@
+<!-- <form class="track-uploader" id="track-upload-form" method="post" action="/tracks"> -->
+
+<div class="track-uploader" id="track-upload-form">
+	<!-- enctype="multipart/form-data"--> 
+
+	<div class="fl-tl-row-2 uploader-header">Track Uploader</div>
+
+	<div class="fl-tl-row-2">
+		<input id="song-name-input" class="track-uploader-input" name="name" placeholder="Name" type="text" list="dls-song-name" autocomplete="off" required />
+	      
+		{?nameNotProvided}
+		<p class="upload-option-not-provided">{nameNotProvided}</p>
+		{/nameNotProvided}
+
+		<datalist id="dls-song-name"></datalist>
+
+	</div>
+
+	<div class="fl-tl-row-2">
+		<input id="artist-name-input" class="track-uploader-input" name="artist" placeholder="Artist" type="text" list="dls-artist-name" autocomplete="off" required />
+		
+		{?artistNotProvided}
+		<p class="upload-option-not-provided">{artistNotProvided}</p>
+		{/artistNotProvided}
+
+		<datalist id="dls-artist-name">
+		</datalist>
+
+	</div>
+
+	<div class="fl-tl-row-2">
+		<input id="album-name-input" class="track-uploader-input" name="album" placeholder="Album" type="text" list="dls-album-name" autocomplete="off" required />
+
+		{?albumNotProvided}
+		<p class="upload-option-not-provided">{albumNotProvided}</p>
+		{/albumNotProvided}
+
+		<datalist id="dls-album-name"></datalist>
+	</div>
+
+	<div class="fl-tl-row-2">
+		<input id="date-created-input" class="track-uploader-input" name="date-created" type="date" list="dls-date-created" required />
+		
+		<datalist id="dls-date-created">
+
+		</datalist>
+	</div>
+
+	<div class="fl-tl-row-2">
+		<input id="date-released-input" class="track-uploader-input" name="date-released" type="date" list="dls-date-released" required />
+		
+		<datalist id="dls-date-released">
+
+		</datalist>
+
+	</div>
+
+	<div class="fl-tl-row-2 track-drop-zone" id="track-uploader-btn">
+		<span>Click to upload or drag and drop!</span>
+	</div>
+
+	<div class="fl-tl-row-2 uploader-button" id="track-submit-btn">
+		<span>Add Track</span>
+	</div>
+
+	<input type="file" id="input-file-uploader">
+	
+	<!-- <input type="submit" id="input-submit-uploader"> -->
+
+<!-- </form> -->
+
+</div>
+

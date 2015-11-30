@@ -7,6 +7,9 @@
   <link rel="stylesheet" href="css/standardize.css">
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/glyphicons.css">
+  <!--<link rel="stylesheet" href="css/dropzone.css"> -->
+  
+
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
 
@@ -115,5 +118,10 @@
   <script src="js/ajax.js"></script>
   <script src="js/app.js"></script>
   <script src="js/socket.js"></script>
+
+  <!-- http://www.dropzonejs.com/#server-side-implementation -->
+  <!-- Used to upload files by draging and droping them from the file system -->
+  <!-- <script src="js/dropzone.js"></script> -->
+
 </body>
 </html>

@@ -455,6 +455,28 @@ a.text-muted {
 
 /* ---------------- Buttons ---------------- */
 
+.upload-btn {
+    display: inline-block;
+    margin: 15px;
+    margin-left: 19px;
+    padding: 15px;
+    padding-top: 14px;
+    border: 1px solid #c2c2c2;
+    border-radius: 1px;
+    width: 52px;
+    cursor: pointer;
+}
+
+.upload-btn:hover {
+    background-color: #262626;
+    border: 1px solid #262626;
+}
+
+.upload-btn:hover .fa,
+.upload-btn:hover.fa-refresh {
+    color: white;
+}
+
 button {
     outline: none;
 }
@@ -1771,4 +1793,138 @@ Based on: http://www.webdesignerdepot.com/2012/11/how-to-create-a-simple-css3-to
     left: 38px;
     bottom: 28px;
     color: #f7f7f7;
+}
+
+
+/* ---------------- Track Uploader---------------- */
+
+.track-uploader {
+    margin-top: 30px;
+    text-align: center;
+    width: 100%;
+}
+
+.fl-tl-row-2,
+.uploader-button {
+    width: 40%;
+    margin: 0 auto;
+    padding-bottom: 20px;
+}
+
+.uploader-header {
+    font-weight: bold;
+    font-size: 2em;
+    color: #333;
+    padding-top: 10px;
+    margin-bottom: 30px;
+}
+
+.uploader-button {
+    text-align: center;
+    background-color: #d2d2d2;
+    border: 1px solid #a1a1a1;
+    border-radius: 5px;
+    padding: 10px 12px;
+    font-size: 20px;
+    line-height: 1.42857143;
+    height: auto;
+    cursor: pointer;
+    margin-bottom: 20px;
+}
+
+.uploader-button:hover {
+    background-color: #262626;
+    color: white;
+}
+
+.track-drop-zone {
+    cursor: pointer;
+    min-height: 120px;
+    background-color: white;
+    border: 1px dashed #515151;
+    border-radius: 5px;
+    padding: 10px 12px;
+    font-size: 18px;
+    line-height: 1.42857143;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.track-drop-zone:hover {
+    background-color: white;
+    color: #262626;
+}
+
+.track-drop-zone > span {
+    position: relative;
+    top: 50%;
+}
+
+@media (max-width: 641px) {
+    .fl-tl-row-2 {
+        width: 70%;
+        margin: 0 auto;
+    }
+    .uploader-header {
+        padding-top: 40px;
+        padding-bottom: 40px;
+    }
+    .uploader-button {
+        margin-bottom: 20px;
+    }
+    .track-drop-zone {
+        margin-bottom: 20px;
+    }
+}
+
+.track-uploader-input {
+    display: block;
+    width: 100%;
+    padding: 10px 12px;
+    font-size: 20px;
+    line-height: 1.42857143;
+    height: auto;
+    color: #555;
+    text-align: center;
+    font-weight: 300;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
+    -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+}
+
+#input-file-uploader {
+    display: none;
+}
+
+#input-submit-uploader {
+    display: none;
+}
+
+
+/*input::-webkit-calendar-picker-indicator {
+    display: none;
+}
+*/
+
+input[type=date]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    display: none;
+}
+
+input[type=date]::-webkit-datetime-edit {
+    padding-left: 50px;
+}
+
+.upload-option-not-provided {
+    color: #933a3c;
+    font-size: 15px;
+    font-weight: bold;
 }

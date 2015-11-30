@@ -1,3 +1,11 @@
+<div class="upload-btn" id="upload-btn">
+	<a title="Upload a new track" class="tooltip" id="upload-btn">
+		<li title="" class="fa fa-refresh fa-lg" id="upload-btn"></li>
+	</a>	
+</div>
+
+<hr>
+
 <section class="flex-tracklist" id="tracks-list">
 	<div class="fl-tl-thead fl-tl-row">
 		<div class="fl-tl-th fl-tl-name">Song</div>
