@@ -182,6 +182,13 @@ function drawLibrary(e, addHistory, preventBind, foundedTracks) {
 
             playTrackById(trackId)
 
+            if (document.getElementById("syncCheck").checked) {
+              currentData = {
+                'nextPreTrackId': trackId,
+              }
+              doJSONRequest('PUT', "/tracks/player", null, currentData, null);
+            }
+
             var userActivity = {
               "action": "Track Playback",
               "url": "/tracks/" + trackId,
