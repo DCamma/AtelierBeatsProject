@@ -1794,6 +1794,22 @@ function updatePlayer(data) {
     if (data.playButton && data.playButton == 'pause') {
       pause()
     }
+    if (data.nextPreTrackId) {
+      playTrackById(data.nextPreTrackId)
+    }
+    if (data.shuffle){
+      console.log("everythings works")
+      doJSONRequest("GET", "/users/" + userid, null, null, function(user) {
+        randomPlayback = user.randomPlayback;
+
+        var shuffle = document.getElementById("shuffle");
+        if (randomPlayback) {
+          shuffle.style.color = '#249aff'
+        } else {
+          shuffle.style.color = '#f7f7f7'
+        }
+      });
+    }
   }
 }
 
@@ -1890,7 +1906,6 @@ function setupPlayer(data) {
   // Event listeners for the previous/next buttons
   nextButton.addEventListener("click", function() {
 
-    console.log(randomPlayback)
     if (!currentPlayingTrack) return;
 
     if (!randomPlayback) {
@@ -1907,15 +1922,21 @@ function setupPlayer(data) {
 
       var nextIdx = (++currentIdx < currentTracks.length) ? currentIdx : 0
 
-      playTrackById(currentTracks[nextIdx]._id);
+      var nextTrack = currentTracks[nextIdx]._id;
+      playTrackById(nextTrack);
+      currentData = {
+        'nextPreTrackId': nextTrack,
+      }
+      doJSONRequest('PUT', "/tracks/player", null, currentData, null);
 
     } else {
-      playTrackById(currentTracks[randomInt(0, currentTracks.length - 1)]._id);
+      var nextTrack = currentTracks[randomInt(0, currentTracks.length - 1)]._id;
+      playTrackById(nextTrack);
+          currentData = {
+        'nextPreTrackId': nextTrack,
+      }
+      doJSONRequest('PUT', "/tracks/player", null, currentData, null);
     }
-    currentData = {
-      'nextPreButton': 'next',
-    }
-    doJSONRequest('PUT', "/tracks/player", null, currentData, null);
   });
 
   previousButton.addEventListener("click", function() {
@@ -1933,9 +1954,10 @@ function setupPlayer(data) {
       }
 
       var prevIdx = (--currentIdx >= 0) ? currentIdx : (currentTracks.length - 1)
-      playTrackById(currentTracks[prevIdx]._id);
+      var prevTrack = currentTracks[prevIdx]._id;
+      playTrackById(prevTrack);
       currentData = {
-        'nextPreButton': 'prev',
+        'nextPreTrackId': prevTrack,
       }
       doJSONRequest('PUT', "/tracks/player", null, currentData, null);
 
@@ -2008,16 +2030,13 @@ function setupPlayer(data) {
       randomPlayback = userData.randomPlayback = !(user.randomPlayback);
       userData.activities = user.activities;
       var shuffle = document.getElementById("shuffle");
-      console.log(randomPlayback)
       if (randomPlayback) {
         shuffle.style.color = '#249aff'
       } else {
         shuffle.style.color = '#f7f7f7'
       }
-
-      doJSONRequest("PUT", "/users/" + userid, null, userData, function() {
-        // console.log("shuffle clicked");
-      })
+      doJSONRequest('PUT', "/tracks/player", null, {"shuffle":"change"}, null);
+      doJSONRequest("PUT", "/users/" + userid, null, userData, null)
     })
   })
 }

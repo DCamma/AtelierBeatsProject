@@ -21,6 +21,7 @@ var PlaylistSchema = new mongoose.Schema(
     name : { type: String, required: true },
     tracks : { type: [ObjectId], ref: "Track" },
     dateCreated : { type: Date, default: Date.now },
+    publicPlaylyst : { type: Boolean, default: false },
   }
 
 );
