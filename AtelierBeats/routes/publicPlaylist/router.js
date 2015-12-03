@@ -29,13 +29,13 @@ router.all('/', middleware.supportedMethods('GET, POST, OPTIONS'));
 //list users
 router.get('/', function(req, res, next) {
 
-  PublicPlaylist.find({}, fieldsFilter).lean().exec(function(err, pubPl) {
+  PublicPlaylist.find({}, fieldsFilter).lean().exec(function(err, publicPlaylists) {
     if (err) return next(err);
-    pubPl.forEach(function(pubPl) {
-      addLinks(pubPl);
+    publicPlaylists.forEach(function(publicPlaylists) {
+      addLinks(publicPlaylists);
     });
 
-    res.json(pubPl);
+    res.json(publicPlaylists);
   });
 });
 
