@@ -12,6 +12,8 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var expressSession = require('express-session');
 
+var MongoStore = require('connect-mongo')(expressSession);
+
 // Connect to MongoDB here
 mongoose.connect(config.mongoUrl + config.mongoDbName);
 
@@ -53,7 +55,9 @@ http://stackoverflow.com/questions/5343131/what-is-the-sessions-secret-option
 app.use(expressSession({
   secret: 'mySecretKey', // secret is used to hash the session with HMAC
   resave: true, // TO REVISE
-  saveUninitialized: false // TO REVISE
+  saveUninitialized: false, // TO REVISE
+  cookie: { maxAge: 2 * 60 * 60 * 1000 },
+  store: new MongoStore({ mongooseConnection: mongoose.connection })
 }));
 
 app.use(passport.initialize());
@@ -76,7 +80,6 @@ app.use('/', routes);
 // Initialize routers here
 var routers = require('./routes/routers');
 
-// app.use('/', routers.root);
 app.use('/library', routers.library);
 app.use('/albums', routers.albums);
 app.use('/artists', routers.artists);

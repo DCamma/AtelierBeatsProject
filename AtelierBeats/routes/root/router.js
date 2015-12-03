@@ -14,14 +14,25 @@ var isAuthenticated = function(req, res, next) {
   // request and response objects
   if (req.isAuthenticated()) {
     return next();
+  } else {
+    res.redirect('/login');
   }
-  res.redirect('/');
+  
 }
 
 module.exports = function(passport) {
 
+  /* GET Home Page */
+  router.get('/', isAuthenticated, function(req, res) {
+    res.render('library', {
+      // passing the id of and username the connecting user to the dust
+      userid: req.user._id, 
+      username: req.user.userName
+    });
+  });
+
   /* GET login page. */
-  router.get('/', function(req, res) {
+  router.get('/login', function(req, res) {
     // Display the Login page with any flash message, if any
     res.render('login', {
       message: req.flash('message')
@@ -55,15 +66,6 @@ module.exports = function(passport) {
     failureRedirect: '/signup',
     failureFlash: true
   }));
-
-  /* GET Home Page */
-  router.get('/library', isAuthenticated, function(req, res) {
-    res.render('library', {
-      // passing the id of and username the connecting user to the dust
-      userid: req.user._id, 
-      username: req.user.userName
-    });
-  });
 
   /* Handle Logout */
   router.get('/signout', function(req, res) {
