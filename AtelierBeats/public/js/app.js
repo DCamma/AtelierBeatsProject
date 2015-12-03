@@ -8,6 +8,8 @@ var addPlaylistCreationActivity = false; // Used to update the default activity 
 var checkFirstTime = true;
 var randomPlayback = false;
 var userid = "";
+var playlistId = "";
+
 
 /* Setup on Page Load */
 window.onload = function() {
@@ -1129,7 +1131,7 @@ function drawActivities(e, addHistory) {
           if (e) e.preventDefault();
 
           var dataURL = e.target.getAttribute("data-url");
-          var playlistId = dataURL.substr(dataURL.lastIndexOf("/")).replace("/", "");
+          playlistId = dataURL.substr(dataURL.lastIndexOf("/")).replace("/", "");
 
           if (dataURL) {
 
@@ -1407,8 +1409,7 @@ function managePlaylistNameEdit(editButton) {
  * since e and e.target are different from those 
  * when you click directly on the playlist name from the menu.
  */
-function drawPlaylist(e, addHistory, preventBind, pId) {
-  var playlistId;
+function drawPlaylist(e, addHistory, preventBind, pId, foundedTracks) {
   var target;
 
   if (!pId) { // if the pId is not already provided
@@ -1495,8 +1496,11 @@ function drawPlaylist(e, addHistory, preventBind, pId) {
 
     function getTracks(track) {
       tracks.push(track);
-      // console.log(track)
-      var formTracks = buildTracksData(tracks);
+      if(foundedTracks)
+        var formTracks = buildTracksData(foundedTracks)
+      
+      else
+        var formTracks = buildTracksData(tracks);
 
       for (var i = 0; i < formTracks.length; i++) {
         playlist.trackMsg = (formTracks && formTracks.length) ? formTracks.length + ' tracks' : '0 tracks';
@@ -1583,7 +1587,7 @@ function drag(evt) {
 function drop(evt) {
   evt.preventDefault();
   var trackId = evt.dataTransfer.getData("text/plain");
-  var playlistId = evt.currentTarget.id
+  playlistId = evt.currentTarget.id
   addTrackToPlaylist(playlistId, trackId)
 }
 
@@ -1622,8 +1626,7 @@ function updatePage(event) {
 
   //get reference to the hash and to the current state
   var hash = document.location.hash;
-  var playlistId = hash.split('/')[1]
-  console.log(hash.indexOf("#user"))
+  playlistId = hash.split('/')[1]
   // console.log("hash: ", hash);
   // console.log("playlistId: ", playlistId);
 
@@ -1722,6 +1725,32 @@ function setupSearch() {
         }
         drawAlbums(null, null, null, null, result);
       });
+    }
+    if(window.location.hash === "#playlist/" + playlistId){
+        doJSONRequest("GET", "/users/" + userid + "/playlists/" + playlistId, null, null, function(playlist){
+
+            var tracks = []
+
+            if (playlist.tracks.length == 0) {
+              renderPlaylist({
+                "playlist": playlist
+              })
+            } 
+            else {
+              for (var i = 0; i < playlist.tracks.length; i++) {
+                doJSONRequest("GET", "tracks/" + playlist.tracks[i], null, null, function(track){
+                    tracks.push(track)
+                    result = fuzzyFind(tracks, "name", theValue);
+                
+                    if (theValue.trim() === "") {
+                        drawPlaylist(null, null, null, playlistId);
+                        return;
+                    }
+                    drawPlaylist(null, null, null, playlistId, result);
+                })
+              }
+            }
+        })
     }
   });
 }
