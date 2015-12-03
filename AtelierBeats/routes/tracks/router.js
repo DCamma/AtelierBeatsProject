@@ -1,12 +1,19 @@
 /** @module tracks/router */
 'use strict';
 
-var express = require('express');
-var router = express.Router();
-var middleware = require('../middleware');
 var mongoose = require('mongoose');
+var express = require('express');
+var formidable = require("formidable");
+var middleware = require('../middleware');
+
+var multer  = require('multer')
+var uploadFolder = __dirname + "/public/tracks_folder/";
+var upload = multer({ dest: uploadFolder })
+
+var router = express.Router();
 var ObjectId = mongoose.Types.ObjectId;
 var Track = mongoose.model('Track');
+
 var config = require("../../config");
 var pubsub = require('../../pubsub');
 
@@ -16,7 +23,7 @@ var fieldsFilter = {
 };
 
 //supported methods
-router.all('/:trackid', middleware.supportedMethods('GET, PUT, DELETE, OPTIONS'));
+router.all('/:trackid', middleware.supportedMethods('GET, PUT, DELETE, POST, OPTIONS'));
 router.all('/', middleware.supportedMethods('GET, POST, OPTIONS'));
 
 //list tracks
@@ -51,11 +58,13 @@ router.post('/', function(req, res, next) {
 
 router.post('/upload', function(req, res) {
   var form = new formidable.IncomingForm();
-  
+
   form.parse(req, function(err, fields, files) {
     // `file` is the name of the <input> field of type `file`
-    var old_path = files.file.path
-    console.log(old_path);
+    console.log(fields)
+    console.log(files)
+    // var old_path = files.file.path
+    // console.log(old_path);
   });
 
 

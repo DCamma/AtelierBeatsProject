@@ -325,7 +325,9 @@ function bindTrackUploader() {
       dateReleasedInput.valueAsDate = new Date()
 
       document.getElementById("track-submit-btn").onclick = function(e) {
-
+          var submitBtn = document.getElementById("input-submit-uploader")
+          submitBtn.click();
+          
           var fullName = document.getElementById('input-file-uploader').value
 
           if (!goodFileName(fullName)) {

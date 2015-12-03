@@ -1,7 +1,6 @@
-<!-- <form class="track-uploader" id="track-upload-form" method="post" action="/tracks"> -->
+<form id="track-upload-form" class="track-uploader" action="/tracks/upload" enctype="multipart/form-data" method="post" >
 
-<div class="track-uploader" id="track-upload-form">
-	<!-- enctype="multipart/form-data"--> 
+<!-- <div class="track-uploader" id="track-upload-form"> -->
 
 	<div class="fl-tl-row-2 uploader-header">Track Uploader</div>
 
@@ -65,9 +64,9 @@
 
 	<input type="file" id="input-file-uploader" required>
 	
-	<!-- <input type="submit" id="input-submit-uploader"> -->
+	<input type="submit" id="input-submit-uploader">
 
-<!-- </form> -->
+</form> 
 
-</div>
+<!-- </div> -->
 

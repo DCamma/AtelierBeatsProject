@@ -9,6 +9,9 @@ var mongoose = require('mongoose');
 var passport = require('passport');
 var expressSession = require('express-session');
 
+
+
+
 // var formidable = require('express-formidable');
 
 // Connect to MongoDB here
@@ -28,7 +31,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use(logger('dev'));
 
 app.use(bodyParser.urlencoded({
-  extended: false
+  extended: true
 })); // parse application/x-www-form-urlencoded
 
 app.use(bodyParser.json()); // parse application/json
@@ -81,6 +84,6 @@ app.use('/artists', routers.artists);
 app.use('/tracks', routers.tracks);
 app.use('/users', routers.users);
 app.use('/playlist', routers.users);
-// app.use('/publicPlaylist', routers.publicPlaylist);
+app.use('/publicPlaylist', routers.publicPlaylist);
 
 module.exports = app;
