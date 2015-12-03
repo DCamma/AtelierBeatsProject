@@ -1848,8 +1848,8 @@ Based on: http://www.webdesignerdepot.com/2012/11/how-to-create-a-simple-css3-to
     line-height: 1.42857143;
     margin-bottom: 20px;
     display: flex;
-    justify-content:center;
-    align-items:center;
+    justify-content: center;
+    align-items: center;
 }
 
 .track-drop-zone:hover {

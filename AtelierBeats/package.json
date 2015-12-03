@@ -1,7 +1,7 @@
-{
-  "name": "wa-exercise-6-2014-2015",
+ {
+  "name": "AtelierBeatsProject",
   "version": "0.0.0",
-  "description": "Exercise 6 of Web Atelier@inf.usi.ch. Ajax and Dust.js",
+  "description": "AtelierBeats project",
   "main": "app.js",
   "scripts": {
     "start": "DEBUG='atelierbeats-server' node ./bin/www"
@@ -11,7 +11,7 @@
     "AJAX",
     "Dust.js"
   ],
-  "author": "Masiar Babazadeh, Vincenzo Ferme, Vasileios Triglianos",
+  "author": "Masiar Babazadeh, Vincenzo Ferme, Vasileios Triglianos, Davide Cammarata, Leonardo Iandiorio, Nelson Brochado",
   "license": "MIT",
   "dependencies": {
     "adaro": "^1.0.0",

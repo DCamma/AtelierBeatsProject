@@ -734,6 +734,8 @@ function drawArtist(e, addHistory) {
 
         bindEditTrackName();
 
+        bindTrackUploader();
+
       });
     }
 
@@ -960,6 +962,8 @@ function drawAlbum(e, addHistory) {
         bindTracksDelete();
 
         bindEditTrackName();
+
+        bindTrackUploader();
 
       });
 
