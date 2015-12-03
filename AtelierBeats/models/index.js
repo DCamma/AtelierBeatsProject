@@ -10,12 +10,14 @@ require('./Artist');
 require('./Playlist');
 require('./Track');
 require('./User');
+require("./PublicPlaylist");
 
 module.exports = {
   'Album' : mongoose.model('Album'),
   'Artist' : mongoose.model('Artist'),
   'Playlist' : mongoose.model('Playlist'),
   'Track' : mongoose.model('Track'),
-  'User' : mongoose.model('User')
+  'User' : mongoose.model('User'),
+  "PublicPlaylist": mongoose.model("PublicPlaylist")
 }
 

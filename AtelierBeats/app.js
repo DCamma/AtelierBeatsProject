@@ -3,14 +3,13 @@ var express = require('express');
 var path = require('path');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
-
-// var formidable = require('express-formidable');
-
 var dustjs = require('adaro');
 var app = express();
 var mongoose = require('mongoose');
 var passport = require('passport');
 var expressSession = require('express-session');
+
+// var formidable = require('express-formidable');
 
 // Connect to MongoDB here
 mongoose.connect(config.mongoUrl + config.mongoDbName);

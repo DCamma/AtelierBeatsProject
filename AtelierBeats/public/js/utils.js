@@ -50,5 +50,21 @@ function startsWith(string, prefix, ignore) {
     return string.toLowerCase().slice(0, prefix.length) == prefix.toLowerCase();
   else
     return string.slice(0, prefix.length) == prefix;
+}
 
+function isString(s) {
+  return typeof(s) === 'string' || s instanceof String;
+}
+
+function goodFileName(fileName) {
+  return fileName && isString(fileName);
+}
+
+/* Source: http://stackoverflow.com/a/1051303/3924118 */
+function getFileName(fullName) {
+  if (goodFileName(fullName)) {
+    return fullName.replace(/^.*[\\\/]/, '')
+  } else {
+    throw new Error("fullName is not a valid string");
+  }
 }

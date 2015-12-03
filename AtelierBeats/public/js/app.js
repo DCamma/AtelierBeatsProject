@@ -325,139 +325,151 @@ function bindTrackUploader() {
       dateReleasedInput.valueAsDate = new Date()
 
       document.getElementById("track-submit-btn").onclick = function(e) {
-        // document.getElementById('input-submit-uploader').click();
 
-        var songName = songNameInput.value;
-        var artistName = artistNameInput.value;
-        var albumName = albumNameInput.value;
-        var dateCreated = dateCreatedInput.value;
-        var dateReleased = dateReleasedInput.value;
+          var fullName = document.getElementById('input-file-uploader').value
 
-        var dustData = {}
-        if (!songName) dustData.nameNotProvided = "Track Name Required";
-        if (!artistName) dustData.artistNotProvided = "Track Artist Required";
-        if (!albumName) dustData.albumNotProvided = "Track Album Required";
+          if (!goodFileName(fullName)) {
 
-        if (Object.keys(dustData) != 0) {
-          return renderTrackUploader(e, dustData);
-        }
+            doJSONRequest("POST", "/tracks/upload", null, null, function(a, b) {
+              console.log(a, b)
+            })
 
-        doJSONRequest("GET", "/tracks", null, null, function(tracks) {
+          }
 
-          var alreadyExists = false;
+          console.log(fullName)
+          console.log(getFileName(fullName));
 
-          tracks.forEach(function(track) {
-            if (track.name == songName) {
-              alreadyExists = true;
-            }
-          });
+          var songName = songNameInput.value;
+          var artistName = artistNameInput.value;
+          var albumName = albumNameInput.value;
+          var dateCreated = dateCreatedInput.value;
+          var dateReleased = dateReleasedInput.value;
 
-          if (alreadyExists) {
-            var dustData = {
-              nameNotProvided: "Track with name '" + songName + "' already exists."
-            }
+          var dustData = {}
+          if (!songName) dustData.nameNotProvided = "Track Name Required";
+          if (!artistName) dustData.artistNotProvided = "Track Artist Required";
+          if (!albumName) dustData.albumNotProvided = "Track Album Required";
+
+          if (Object.keys(dustData) != 0) {
             return renderTrackUploader(e, dustData);
           }
-          // For now I will use a dummy duration and a random file
-          // then I will change this when I implement the file upload
-          var newTrack = {
-            name: songName,
-            file: "tracks_folder/1.mp3",
-            duration: "0"
-          }
 
-          // Triggers redirection to the library because track.updated is emitted
-          function createNewTrack(track) {
-            doJSONRequest("POST", "/tracks", null, track, function(data) {
-              console.log("Track Created: ", data);
+          doJSONRequest("GET", "/tracks", null, null, function(tracks) {
+
+            var alreadyExists = false;
+
+            tracks.forEach(function(track) {
+              if (track.name == songName) {
+                alreadyExists = true;
+              }
             });
-          }
 
-          // Creating a function to handle album requests
-          function handleAlbumRequests() {
-            doJSONRequest("GET", "/albums", null, null, function(albums) {
+            if (alreadyExists) {
+              var dustData = {
+                nameNotProvided: "Track with name '" + songName + "' already exists."
+              }
+              return renderTrackUploader(e, dustData);
+            }
+            // For now I will use a dummy duration and a random file
+            // then I will change this when I implement the file upload
+            var newTrack = {
+              name: songName,
+              file: "tracks_folder/1.mp3",
+              duration: "0"
+            }
 
-              var albumId;
+            // Triggers redirection to the library because track.updated is emitted
+            function createNewTrack(track) {
+              doJSONRequest("POST", "/tracks", null, track, function(data) {
+                console.log("Track Created: ", data);
+              });
+            }
 
-              albums.forEach(function(album) {
-                if (album.name == albumName) {
-                  albumId = album._id;
+            // Creating a function to handle album requests
+            function handleAlbumRequests() {
+              doJSONRequest("GET", "/albums", null, null, function(albums) {
+
+                var albumId;
+
+                albums.forEach(function(album) {
+                  if (album.name == albumName) {
+                    albumId = album._id;
+                  }
+                });
+
+                if (!albumId) {
+
+                  var albumData = {
+                    name: albumName,
+                    artist: newTrack.artist
+                  }
+                  doJSONRequest("POST", "/albums", null, albumData, function(d2) {
+
+                    doJSONRequest("GET", "/albums", null, null, function(albums) {
+
+                      albums.forEach(function(album) {
+                        if (album.name == albumName) {
+                          newTrack.album = album._id;
+                        }
+                      });
+
+                      createNewTrack(newTrack);
+
+                    });
+
+                  });
+
+                } else {
+                  newTrack.album = albumId;
+                  createNewTrack(newTrack);
+                }
+
+              });
+            } // end of handleAlbumRequests
+
+            // Data to sent if an artist with artistName does not exist already
+            var artistId;
+
+            doJSONRequest("GET", "/artists", null, null, function(artists) {
+
+              artists.forEach(function(artist) {
+                if (artist.name == artistName) {
+                  artistId = artist._id
                 }
               });
 
-              if (!albumId) {
-
-                var albumData = {
-                  name: albumName,
-                  artist: newTrack.artist
+              if (!artistId) {
+                var artistData = {
+                  name: artistName
                 }
-                doJSONRequest("POST", "/albums", null, albumData, function(d2) {
 
-                  doJSONRequest("GET", "/albums", null, null, function(albums) {
+                doJSONRequest("POST", "/artists", null, artistData, function(d) {
 
-                    albums.forEach(function(album) {
-                      if (album.name == albumName) {
-                        newTrack.album = album._id;
+                  // Fetching the id of the artist just created
+                  doJSONRequest("GET", "/artists", null, null, function(artists) {
+                    artists.forEach(function(artist) {
+                      if (artist.name == artistName) {
+                        newTrack.artist = artist._id;
                       }
                     });
 
-                    createNewTrack(newTrack);
+                    handleAlbumRequests();
 
                   });
 
                 });
 
-              } else {
-                newTrack.album = albumId;
-                createNewTrack(newTrack);
+              } else { // artist exists!
+
+                newTrack.artist = artistId;
+                handleAlbumRequests();
               }
 
             });
-          } // end of handleAlbumRequests
-
-          // Data to sent if an artist with artistName does not exist already
-          var artistId;
-
-          doJSONRequest("GET", "/artists", null, null, function(artists) {
-
-            artists.forEach(function(artist) {
-              if (artist.name == artistName) {
-                artistId = artist._id
-              }
-            });
-
-            if (!artistId) {
-              var artistData = {
-                name: artistName
-              }
-
-              doJSONRequest("POST", "/artists", null, artistData, function(d) {
-
-                // Fetching the id of the artist just created
-                doJSONRequest("GET", "/artists", null, null, function(artists) {
-                  artists.forEach(function(artist) {
-                    if (artist.name == artistName) {
-                      newTrack.artist = artist._id;
-                    }
-                  });
-
-                  handleAlbumRequests();
-
-                });
-
-              });
-
-            } else { // artist exists!
-
-              newTrack.artist = artistId;
-              handleAlbumRequests();
-            }
 
           });
 
-        });
-
-      }
+        } // end of onclick handler
 
     });
 
@@ -1838,7 +1850,7 @@ function updatePlayer(data) {
     if (data.nextPreTrackId) {
       playTrackById(data.nextPreTrackId)
     }
-    if (data.shuffle){
+    if (data.shuffle) {
       console.log("everythings works")
       doJSONRequest("GET", "/users/" + userid, null, null, function(user) {
         randomPlayback = user.randomPlayback;
@@ -1973,7 +1985,7 @@ function setupPlayer(data) {
     } else {
       var nextTrack = currentTracks[randomInt(0, currentTracks.length - 1)]._id;
       playTrackById(nextTrack);
-          currentData = {
+      currentData = {
         'nextPreTrackId': nextTrack,
       }
       doJSONRequest('PUT', "/tracks/player", null, currentData, null);
@@ -2076,7 +2088,9 @@ function setupPlayer(data) {
       } else {
         shuffle.style.color = '#f7f7f7'
       }
-      doJSONRequest('PUT', "/tracks/player", null, {"shuffle":"change"}, null);
+      doJSONRequest('PUT', "/tracks/player", null, {
+        "shuffle": "change"
+      }, null);
       doJSONRequest("PUT", "/users/" + userid, null, userData, null)
     })
   })

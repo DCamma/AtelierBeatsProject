@@ -7,13 +7,8 @@ var middleware = require('../middleware');
 var mongoose = require('mongoose');
 var ObjectId = mongoose.Types.ObjectId;
 var Track = mongoose.model('Track');
-var Artist = mongoose.model('Artist');
-var Album = mongoose.model('Album');
-
 var config = require("../../config");
 var pubsub = require('../../pubsub');
-
-var artistRouter = require('../artists/router');
 
 //fields we don't want to show to the client
 var fieldsFilter = {
@@ -51,6 +46,18 @@ router.get('/', function(req, res, next) {
 router.post('/', function(req, res, next) {
   var newTrack = new Track(req.body);
   newTrack.save(onModelSave(res, 201, true));
+
+});
+
+router.post('/upload', function(req, res) {
+  var form = new formidable.IncomingForm();
+  
+  form.parse(req, function(err, fields, files) {
+    // `file` is the name of the <input> field of type `file`
+    var old_path = files.file.path
+    console.log(old_path);
+  });
+
 
 });
 

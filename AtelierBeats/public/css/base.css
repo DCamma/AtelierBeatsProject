@@ -318,6 +318,20 @@ a.text-muted {
     animation-timing-function: linear;
 }
 
+.pulse-finite {
+    -webkit-animation-name: pulse_animation;
+    animation-name: pulse_animation;
+    -webkit-animation-duration: 2000ms;
+    animation-duration: 2000ms;
+    -webkit-transform-origin: 70% 70%;
+    -ms-transform-origin: 70% 70%;
+    transform-origin: 70% 70%;
+    -webkit-animation-iteration-count: 1;
+    animation-iteration-count: 1;
+    -webkit-animation-timing-function: linear;
+    animation-timing-function: linear;
+}
+
 
 /* Unprefixed keyframes, prefixed version belows */
 

@@ -31,4 +31,3 @@ var PlaylistSchema = new mongoose.Schema(
 //register model
 
 mongoose.model('Playlist', PlaylistSchema);
-module.exports = PlaylistSchema;

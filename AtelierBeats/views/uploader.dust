@@ -63,7 +63,7 @@
 		<span>Add Track</span>
 	</div>
 
-	<input type="file" id="input-file-uploader">
+	<input type="file" id="input-file-uploader" required>
 	
 	<!-- <input type="submit" id="input-submit-uploader"> -->
 

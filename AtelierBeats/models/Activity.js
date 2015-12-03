@@ -42,5 +42,3 @@ var ActivitySchema = new mongoose.Schema({
 
 //register model
 mongoose.model('Activity', ActivitySchema);
-
-module.exports = ActivitySchema;
