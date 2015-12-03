@@ -1623,7 +1623,7 @@ function updatePage(event) {
   //get reference to the hash and to the current state
   var hash = document.location.hash;
   var playlistId = hash.split('/')[1]
-
+  console.log(hash.indexOf("#user"))
   // console.log("hash: ", hash);
   // console.log("playlistId: ", playlistId);
 
@@ -1660,19 +1660,20 @@ function updatePage(event) {
     else if (hash.indexOf("albums") > -1)
       drawAlbums(null, false);
 
-    else if (hash.indexOf("#playlist/" + playlistId) > -1) {
+    else if (hash.indexOf("#playlist/" + playlistId) > -1)
       drawPlaylist(null, null, false, playlistId);
 
-    } else if (hash.indexOf("#activities/") > -1 || hash.indexOf("activities")) {
+   else if (hash.indexOf("#user") > -1)
+      drawUser(null, false);
+
+    else if (hash.indexOf("#activities") > -1)
       drawActivities(null, false);
 
-    } else if (hash.indexOf("#user/") > -1 || hash.indexOf("user")) {
-      drawUser(null, false);
-    }
+    
 
-  } else {
+  } else 
     drawLibrary(null, false);
-  }
+  
 
 }
 
