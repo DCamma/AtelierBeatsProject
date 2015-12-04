@@ -1813,16 +1813,48 @@ Based on: http://www.webdesignerdepot.com/2012/11/how-to-create-a-simple-css3-to
 /* ---------------- Track Uploader---------------- */
 
 .track-uploader {
-    margin-top: 30px;
+    margin-top: 45px;
+    font-size: 25px;
     text-align: center;
     width: 100%;
 }
 
-.fl-tl-row-2,
+.fl-tu-row,
 .uploader-button {
     width: 40%;
     margin: 0 auto;
     padding-bottom: 20px;
+}
+
+.fl-tu-row-2-cols {
+    display: -ms-flex;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: space-between;
+    justify-content: space-between;
+    flex-flow: row wrap;
+    -webkit-flex-flow: row wrap;
+    width: 40%;
+    max-width: 40%;
+}
+
+.date-info {
+    display: -ms-flex;
+    display: -webkit-flex;
+    display: flex;
+    -webkit-justify-content: center;
+    justify-content: center;
+    align-items: center;
+    -webkit-align-items: center;
+    border: 1px solid #a1a1a1;
+    font-size: 20px;
+    -webkit-flex-basis: 27%;
+    flex-basis: 27%;
+}
+
+.actual-date {
+    -webkit-flex-basis: 70%;
+    flex-basis: 70%;
 }
 
 .uploader-header {
@@ -1866,6 +1898,10 @@ Based on: http://www.webdesignerdepot.com/2012/11/how-to-create-a-simple-css3-to
     align-items: center;
 }
 
+.track-drop-zone-selected {
+    border: 3px dashed rgb(36, 154, 255);
+}
+
 .track-drop-zone:hover {
     background-color: white;
     color: #262626;
@@ -1876,8 +1912,29 @@ Based on: http://www.webdesignerdepot.com/2012/11/how-to-create-a-simple-css3-to
     top: 50%;
 }
 
+@media (max-width: 800px) {
+    .fl-tu-row-2-cols {
+        flex-flow: column wrap;
+        -webkit-flex-flow: column wrap;
+    }
+    .date-info {
+        -webkit-flex-basis: 100%;
+        flex-basis: 100%;
+        margin-bottom: 10px;
+        padding: 10px;
+    }
+    .actual-date {
+        -webkit-flex-basis: 100%;
+        flex-basis: 100%;
+    }
+
+    .track-uploader-input{
+        margin: 0;
+    }
+}
+
 @media (max-width: 641px) {
-    .fl-tl-row-2 {
+    .fl-tu-row {
         width: 70%;
         margin: 0 auto;
     }
@@ -1891,6 +1948,7 @@ Based on: http://www.webdesignerdepot.com/2012/11/how-to-create-a-simple-css3-to
     .track-drop-zone {
         margin-bottom: 20px;
     }
+
 }
 
 .track-uploader-input {

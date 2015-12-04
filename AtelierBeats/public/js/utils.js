@@ -68,3 +68,9 @@ function getFileName(fullName) {
     throw new Error("fullName is not a valid string");
   }
 }
+
+
+/* Replaces spaces with dashes */
+function formatTrackName(originalName) {
+  return originalName.replace(/\s+/g, '-').toLowerCase();
+}

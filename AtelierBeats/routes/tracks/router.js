@@ -3,12 +3,8 @@
 
 var mongoose = require('mongoose');
 var express = require('express');
-var formidable = require("formidable");
 var middleware = require('../middleware');
-
-var multer  = require('multer')
-var uploadFolder = __dirname + "/public/tracks_folder/";
-var upload = multer({ dest: uploadFolder })
+var path = require("path");
 
 var router = express.Router();
 var ObjectId = mongoose.Types.ObjectId;
@@ -16,6 +12,38 @@ var Track = mongoose.model('Track');
 
 var config = require("../../config");
 var pubsub = require('../../pubsub');
+
+// Code to manage upload of tracks
+var multer = require('multer');
+var uploadFolder = path.resolve(__dirname, "../../public/tracks_folder");
+
+function validTrackFormat(trackMimeType) {
+  // we could possibly accept other mimetypes...
+  var mimetypes = ["audio/mp3"];
+  return mimetypes.indexOf(trackMimeType) > -1;
+}
+
+function trackFileFilter(req, file, cb) {
+  cb(null, validTrackFormat(file.mimetype));
+}
+
+var trackStorage = multer.diskStorage({
+  // used to determine within which folder the uploaded files should be stored.
+  destination: function(req, file, callback) {
+
+    callback(null, uploadFolder);
+  },
+
+  filename: function(req, file, callback) {
+    // req.body.name should contain the name of track
+    callback(null, file.originalname);
+  }
+});
+
+var upload = multer({
+  storage: trackStorage,
+  fileFilter: trackFileFilter
+});
 
 //fields we don't want to show to the client
 var fieldsFilter = {
@@ -53,21 +81,10 @@ router.get('/', function(req, res, next) {
 router.post('/', function(req, res, next) {
   var newTrack = new Track(req.body);
   newTrack.save(onModelSave(res, 201, true));
-
 });
 
-router.post('/upload', function(req, res) {
-  var form = new formidable.IncomingForm();
-
-  form.parse(req, function(err, fields, files) {
-    // `file` is the name of the <input> field of type `file`
-    console.log(fields)
-    console.log(files)
-    // var old_path = files.file.path
-    // console.log(old_path);
-  });
-
-
+router.post('/upload', upload.single("track"), function(req, res) {
+  console.log("Uploaded file: ", req.file);
 });
 
 router.put('/player', function(req, res, next) {

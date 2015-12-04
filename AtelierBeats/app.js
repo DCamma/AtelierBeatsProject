@@ -4,15 +4,11 @@ var path = require('path');
 var logger = require('morgan');
 var bodyParser = require('body-parser');
 var dustjs = require('adaro');
-var app = express();
 var mongoose = require('mongoose');
 var passport = require('passport');
 var expressSession = require('express-session');
 
-
-
-
-// var formidable = require('express-formidable');
+var app = express();
 
 // Connect to MongoDB here
 mongoose.connect(config.mongoUrl + config.mongoDbName);
@@ -25,6 +21,7 @@ app.engine('dust', dustjs.dust());
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'dust');
 
+// public static assets
 app.use(express.static(path.join(__dirname, 'public')));
 
 //configure app
@@ -35,11 +32,6 @@ app.use(bodyParser.urlencoded({
 })); // parse application/x-www-form-urlencoded
 
 app.use(bodyParser.json()); // parse application/json
-
-// app.use(formidable.parse({
-// 	uploadDir: "tracks_folder",
-// 	keepExtensions: true
-// }));
 
 /**
 Why do we need to specify resave and saveUninitialized?
@@ -78,7 +70,6 @@ app.use('/', routes);
 // Initialize routers here
 var routers = require('./routes/routers');
 
-app.use('/library', routers.library);
 app.use('/albums', routers.albums);
 app.use('/artists', routers.artists);
 app.use('/tracks', routers.tracks);
