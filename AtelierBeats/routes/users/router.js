@@ -177,6 +177,7 @@ router.put('/:userid/playlists', function(req, res, next) {
     var newPlaylist = new Playlist(data);
     user.playlists.push(newPlaylist);
     user.save(onModelSave(res));
+
   });
 
 });
@@ -196,6 +197,9 @@ router.put('/:userid/playlists/:playlistsid', function(req, res, next) {
       return;
     }
 
+  console.log(user.playlists)
+
+
     for (var i = 0; i < user.playlists.length; i++) {
       if (user.playlists[i]._id == req.params.playlistsid) {
         if (data._id) {
@@ -203,6 +207,7 @@ router.put('/:userid/playlists/:playlistsid', function(req, res, next) {
             user.playlists[i].tracks.push(data._id)
             user.save(onModelSave(res));
             console.log(user.playlists[i].tracks)
+
             return;
           }
         } else {
