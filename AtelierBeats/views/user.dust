@@ -1,8 +1,9 @@
 <section id="playlistHeader">
-
-    <div class="canvas-container user-picture">
-      <canvas width='200' height='200' style="border: 1px dashed gray; background-color:transparent;" id="playlistArtworkCanvas"></canvas>   
+    
+    <div class="user-picture">
+      <img src=""></src>
     </div>
+    <!-- <button type="button">Change Picture</button> -->
 
     <div class="playlist-info">
 
@@ -10,16 +11,59 @@
     	    <div class="fl-tl-cell fl-tl-name">{name} {surname}</div> 
     	</div>
     
-    	<div class="fl-tl-row">
-		    <div class="fl-tl-cell-info fl-tl-name">Username</div>
-    	    <div class="fl-tl-cell fl-tl-name">{username}</div> 
-    	</div>
+        <div id="user-options">
 
-    	<div class="fl-tl-row">
-		    <div class="fl-tl-cell-info fl-tl-name">Email</div>
-    	    <div class="fl-tl-cell fl-tl-name">{email}</div> 
-    	</div>
-            
+        	<div class="fl-tl-row fl-tl-row-pad">
+
+    		    <div class="fl-tl-cell-info fl-tl-name">Username</div>
+
+                <div class="fl-tl-cell fl-tl-name">{username}</div> 
+
+                <button type="button" class="user-info-edit-btn">
+                    <i class="fa fa-pencil fl-tl-pencil"></i>
+                </button>
+
+        	</div>
+    
+            {?userNameError}
+                <div class="fl-tl-row fl-tl-row-pad" id="error-temp-div">
+                    <div class="fl-tl-cell fl-tl-name user-info-invalid">{userNameError}</div>
+                </div>
+            {/userNameError}
+
+        	<div class="fl-tl-row fl-tl-row-pad">
+
+    		    <div class="fl-tl-cell-info fl-tl-name">Email</div>
+
+        	    <div class="fl-tl-cell fl-tl-name">{email}</div> 
+
+                <button type="button" class="user-info-edit-btn">
+                    <i class="fa fa-pencil fl-tl-pencil"></i>
+                </button>
+
+        	</div>     
+
+            {?userEmailError}
+                <div class="fl-tl-row fl-tl-row-pad" id="error-temp-div">
+                    <div class="fl-tl-cell fl-tl-name user-info-invalid">{userEmailError}</div>
+                </div>
+            {/userEmailError}
+
+            <!--
+            <div class="fl-tl-row fl-tl-row-pad">
+
+                <div class="fl-tl-cell-info fl-tl-name">Password</div>
+
+                <div class="fl-tl-cell fl-tl-name">*************</div> 
+
+                <button type="button" class="user-info-edit-btn">
+                    <i class="fa fa-pencil fl-tl-pencil"></i>
+                </button>
+
+            </div>  -->  
+
+
+        </div>      
     </div> 
 
 </section>

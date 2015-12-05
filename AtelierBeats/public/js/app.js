@@ -74,7 +74,7 @@ function bindMenu() {
 /* UI */
 
 /* User */
-function drawUser(e, addHistory) {
+function drawUser(e, addHistory, errors) {
   if (e && e.target) e.preventDefault();
 
   addUserToHistory(addHistory);
@@ -88,14 +88,224 @@ function drawUser(e, addHistory) {
       email: user.email
     }
 
+    if (errors) {
+      if (errors.userNameError) data.userNameError = errors.userNameError;
+      if (errors.userEmailError) data.userEmailError = errors.userEmailError;
+    }
+
     dust.render("user", data, function(err, out) {
 
       var content = document.getElementById("content");
       content.innerHTML = out;
 
+      bindUserInfoBtn();
+
+      if (errors && (errors.userNameError || errors.userEmailError)) {
+        setTimeout(function() {
+          document.getElementById("error-temp-div").remove();
+        }, 2000);
+      }
+
     });
 
   });
+
+}
+
+function bindUserInfoBtn() {
+  var userInfoEditBtns = document.querySelectorAll("#user-options > div > button.user-info-edit-btn");
+
+  for (var elem = 0; elem < userInfoEditBtns.length; ++elem) {
+    userInfoEditBtns[elem].onclick = editUserInfo;
+  }
+
+  // CSS helper functions
+  function stopEditing(editable, editBtnLi, editBtn) {
+    removeClass(editBtn, "user-info-edit-btn-editing");
+    addClass(editBtn, "user-info-edit-btn");
+
+    editable.contentEditable = "false";
+    editable.classList.remove("user-info-editable");
+
+    removeClass(editBtnLi, "fa-check");
+    removeClass(editBtnLi, "fl-tl-check");
+
+    addClass(editBtnLi, "fa-pencil");
+    addClass(editBtnLi, "fl-tl-pencil");
+  }
+
+  function startEditing(editable, editBtnLi, editBtn) {
+    removeClass(editBtn, "user-info-edit-btn");
+    addClass(editBtn, "user-info-edit-btn-editing");
+
+    editable.contentEditable = "true";
+    editable.classList.add("user-info-editable");
+
+    removeClass(editBtnLi, "fa-pencil");
+    removeClass(editBtnLi, "fl-tl-pencil");
+
+    addClass(editBtnLi, "fa-check");
+    addClass(editBtnLi, "fl-tl-check");
+
+  }
+
+  // Returns true if there's a user's info being edited based on the CSS classes.
+  function editInCourse() {
+    for (var i = 0; i < userInfoEditBtns.length; i++) {
+      if (userInfoEditBtns[i].firstChild.classList.contains("fa-check") || userInfoEditBtns[i].classList.contains("fl-tl-check")) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  function editUserInfo(e) {
+    console.log("editUserInfo")
+    if (e && e.target) {
+      e.preventDefault();
+    }
+
+    var target = e.target;
+    var editable;
+    var userAttribute;
+    var editBtn;
+
+    if (target.tagName == "BUTTON") {
+      editable = target.previousElementSibling;
+      editBtnLi = target.firstChild;
+      editBtn = target;
+    } else {
+      editable = target.parentNode.previousElementSibling;
+      editBtnLi = target;
+      editBtn = target.parentNode;
+    }
+
+    userAttribute = editable.previousElementSibling.innerHTML;
+    // console.log(userAttribute)
+
+    if (editable.contentEditable == "false" || editable.contentEditable == "inherit") { //we have to enable the editing
+
+      if (editInCourse()) return;
+
+      editable.onkeypress = function(e) {
+        if (e && e.keyCode == 13 && e.target && e.target.contentEditable) {
+          e.preventDefault();
+        }
+      }
+
+      startEditing(editable, editBtnLi, editBtn);
+
+      //set the cursor on the editable element
+      var s = window.getSelection(),
+        r = document.createRange();
+      r.setStart(editable, 0);
+      r.setEnd(editable, 0);
+      s.removeAllRanges();
+      s.addRange(r);
+
+    } else {
+
+      stopEditing(editable, editBtnLi, editBtn);
+
+      var updatedOpt = editable.innerText;
+      console.log("Updated Option: ", updatedOpt)
+
+      if (userAttribute.toLowerCase() == "username") {
+        // Check if the username is emtpy
+        if (!updatedOpt) {
+          console.log("EMPTY!")
+          var errors = {
+            userNameError: "Empty username."
+          }
+
+          drawUser(null, null, errors);
+        }
+
+        // Check the if username already exist
+        doJSONRequest("GET", "/users", null, null, function(users) {
+
+          for (var i = 0; i < users.length; i++) {
+            if (users[i].userName == updatedOpt && users[i]._id != userid) { // User exists already!
+              var errors = {
+                userNameError: "Username '" + updatedOpt + "' already in use."
+              }
+
+              return drawUser(null, false, errors);
+            }
+          }
+
+          // Updated username does not exist!
+          doJSONRequest("GET", "/users/" + userid, null, null, function(user) {
+
+            var updatedUser = user;
+            updatedUser.userName = updatedOpt;
+
+            doJSONRequest("PUT", "/users/" + userid, null, updatedUser, function(d) {
+
+              var userNameSpans = document.getElementsByClassName("userNameSpan");
+              // console.log(userNameSpans)
+
+              // Updating view manually
+              for (var i = 0; i < userNameSpans.length; i++) {
+                userNameSpans[i].innerHTML = updatedOpt;
+              }
+
+              console.log("User updated!");
+              drawUser();
+            });
+
+          });
+
+        });
+
+      } else if (userAttribute.toLowerCase() == "email") {
+        if (!updatedOpt) {
+          var errors = {
+            userEmailError: "Email is empty."
+          }
+          return drawUser(null, false, errors);
+        }
+
+        if (!validateEmail(updatedOpt)) {
+          var errors = {
+            userEmailError: "Email is not valid."
+          }
+          return drawUser(null, false, errors);
+        }
+
+        // Updated username does not exist!
+        doJSONRequest("GET", "/users/" + userid, null, null, function(user) {
+
+          var updatedUser = user;
+          updatedUser.email = updatedOpt;
+
+          doJSONRequest("PUT", "/users/" + userid, null, updatedUser, function(d) {
+
+            console.log("User updated!");
+            drawUser();
+          });
+
+        });
+
+      } else { // In case there are other modifiable attributes for the user
+        console.log("ELSE!!!")
+      }
+
+    }
+
+  }
+
+  // preventing inserting DOM elements on ENTER press.
+  // var editables = document.querySelectorAll("#playlists > li > .pl-name");
+
+  // for (var elem = 0; elem < editables.length; ++elem) {
+  //   editables[elem].onkeypress = function(e) {
+  //     if (e && e.keyCode == 13 && e.target && e.target.contentEditable) {
+  //       e.preventDefault();
+
+  //     }
+  //   }
+  // }
 
 }
 

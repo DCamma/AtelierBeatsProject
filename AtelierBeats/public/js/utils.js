@@ -69,8 +69,16 @@ function getFileName(fullName) {
   }
 }
 
-
 /* Replaces spaces with dashes */
 function formatTrackName(originalName) {
   return originalName.replace(/\s+/g, '-').toLowerCase();
+}
+
+/* Validation of email should be done server-side because JS could be disabled,
+but for now I am going to do it client-side for simplicity. 
+Source: http://stackoverflow.com/a/46181/3924118
+*/
+function validateEmail(email) {
+  var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+  return re.test(email);
 }

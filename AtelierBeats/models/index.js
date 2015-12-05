@@ -1,6 +1,6 @@
 /** @module models/index.js
-* Loads all models
-*/
+ * Loads all models
+ */
 'use strict';
 
 var mongoose = require('mongoose');
@@ -13,11 +13,10 @@ require('./User');
 require("./PublicPlaylist");
 
 module.exports = {
-  'Album' : mongoose.model('Album'),
-  'Artist' : mongoose.model('Artist'),
-  'Playlist' : mongoose.model('Playlist'),
-  'Track' : mongoose.model('Track'),
-  'User' : mongoose.model('User'),
+  'Album': mongoose.model('Album'),
+  'Artist': mongoose.model('Artist'),
+  'Playlist': mongoose.model('Playlist'),
+  'Track': mongoose.model('Track'),
+  'User': mongoose.model('User'),
   "PublicPlaylist": mongoose.model("PublicPlaylist")
 }
-

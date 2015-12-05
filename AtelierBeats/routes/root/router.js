@@ -17,7 +17,7 @@ var isAuthenticated = function(req, res, next) {
   } else {
     res.redirect('/login');
   }
-  
+
 }
 
 module.exports = function(passport) {
@@ -26,7 +26,7 @@ module.exports = function(passport) {
   router.get('/', isAuthenticated, function(req, res) {
     res.render('library', {
       // passing the id of and username the connecting user to the dust
-      userid: req.user._id, 
+      userid: req.user._id,
       username: req.user.userName
     });
   });
@@ -34,7 +34,7 @@ module.exports = function(passport) {
   router.get('/library', isAuthenticated, function(req, res) {
     res.render('library', {
       // passing the id of and username the connecting user to the dust
-      userid: req.user._id, 
+      userid: req.user._id,
       username: req.user.userName
     });
   });

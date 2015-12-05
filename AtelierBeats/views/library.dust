@@ -37,7 +37,7 @@
           <!-- Adding a new menu item for ex 9 -->
           <li><a href="activities.html"><i class="nav-menu-icon glyphicon glyphicon-stats"></i>Activities</a></li>
 
-          <li class="mm-user-item"><a href="/user" class="userName"><i class="nav-menu-icon fa fa-user"></i>{username}</a></li>
+          <li class="mm-user-item"><a href="/user" class="userName"><i class="nav-menu-icon fa fa-user"></i><span class="userNameSpan">{username}</span></a></li>
           <li class="mm-user-item"><a href="/signout"><i class="nav-menu-icon fa fa-sign-out"></i>logout</a></li>
         </ul>
 
@@ -52,7 +52,7 @@
       <nav id="user-nav" class="clearfix">
         <ul class="nav-menu horizontal-menu float-right clearfix">
           <li><a href="#" id="clientNumber"></a></li>
-          <li><a href="/user" class="userName">{username}</a></li>
+          <li><a href="/user" class="userName"><span class="userNameSpan">{username}</span></a></li>
           <li><a href="/signout">logout</a></li>
         </ul>
       </nav>

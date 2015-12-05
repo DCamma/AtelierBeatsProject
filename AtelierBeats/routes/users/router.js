@@ -197,8 +197,7 @@ router.put('/:userid/playlists/:playlistsid', function(req, res, next) {
       return;
     }
 
-  console.log(user.playlists)
-
+    console.log(user.playlists)
 
     for (var i = 0; i < user.playlists.length; i++) {
       if (user.playlists[i]._id == req.params.playlistsid) {

@@ -948,9 +948,6 @@ button {
     .fl-tl-counter {
         display: none;
     }
-    .user-picture {
-        display: none;
-    }
 }
 
 
@@ -1927,8 +1924,7 @@ Based on: http://www.webdesignerdepot.com/2012/11/how-to-create-a-simple-css3-to
         -webkit-flex-basis: 100%;
         flex-basis: 100%;
     }
-
-    .track-uploader-input{
+    .track-uploader-input {
         margin: 0;
     }
 }
@@ -1948,7 +1944,6 @@ Based on: http://www.webdesignerdepot.com/2012/11/how-to-create-a-simple-css3-to
     .track-drop-zone {
         margin-bottom: 20px;
     }
-
 }
 
 .track-uploader-input {
@@ -1999,4 +1994,61 @@ input[type=date]::-webkit-datetime-edit {
     color: #933a3c;
     font-size: 15px;
     font-weight: bold;
+}
+
+.user-info-edit-btn {
+    display: inline-block;
+    width: 52px;
+    padding: 5px 5px 5px 0;
+    cursor: pointer;
+    border: 1px solid #c2c2c2;
+}
+
+.user-info-edit-btn-editing {
+    display: inline-block;
+    width: 52px;
+    padding: 5px 5px 5px 0;
+    cursor: pointer;
+    border: 1px solid #262626;
+    background-color: #262626;
+    color: white;
+}
+
+.user-info-edit-btn:hover {
+    background-color: #262626;
+    border: 1px solid #262626;
+}
+
+.user-info-edit-btn:hover .fa,
+.user-info-edit-btn:hover.fa-refresh {
+    color: white;
+}
+
+.user-info-invalid {
+    color: #933a3c;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.fl-tl-row-pad {
+    padding: 5px 0 5px 0;
+}
+
+.user-info-editable {
+    color: #262626;
+    font-size: 15px;
+}
+
+.user-picture {
+    border: 1px dashed #c2c2c2;
+    margin: 10px;
+    width: 200px;
+    height: 200px;
+}
+
+
+@media (max-width: 900px){
+  .user-picture{
+    display: none;
+  }  
 }

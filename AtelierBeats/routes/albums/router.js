@@ -3,7 +3,7 @@
 
 var express = require('express');
 var router = express.Router();
-var middleware =  require('../middleware');
+var middleware = require('../middleware');
 var mongoose = require('mongoose');
 var ObjectId = mongoose.Types.ObjectId;
 var Album = mongoose.model('Album');
@@ -11,7 +11,9 @@ var config = require("../../config");
 var pubsub = require('../../pubsub');
 
 //fields we don't want to show to the client
-var fieldsFilter = { '__v': 0 };
+var fieldsFilter = {
+  '__v': 0
+};
 
 //supported methods
 router.all('/:albumid', middleware.supportedMethods('GET, PUT, DELETE, OPTIONS'));
@@ -20,9 +22,9 @@ router.all('/', middleware.supportedMethods('GET, POST, OPTIONS'));
 //list albums
 router.get('/', function(req, res, next) {
 
-  Album.find({}, fieldsFilter).lean().populate('artist').exec(function(err, albums){
-    if (err) return next (err);
-    albums.forEach(function(album){
+  Album.find({}, fieldsFilter).lean().populate('artist').exec(function(err, albums) {
+    if (err) return next(err);
+    albums.forEach(function(album) {
       addLinks(album);
     });
     res.json(albums);
@@ -31,14 +33,14 @@ router.get('/', function(req, res, next) {
 
 //create new album
 router.post('/', function(req, res, next) {
-    var newAlbum = new Album(req.body);
-    newAlbum.save(onModelSave(res, 201, true));
+  var newAlbum = new Album(req.body);
+  newAlbum.save(onModelSave(res, 201, true));
 });
 
 //get a album
 router.get('/:albumid', function(req, res, next) {
-  Album.findById(req.params.albumid, fieldsFilter).lean().populate('artist').exec(function(err, album){
-    if (err) return next (err);
+  Album.findById(req.params.albumid, fieldsFilter).lean().populate('artist').exec(function(err, album) {
+    if (err) return next(err);
     if (!album) {
       res.status(404);
       res.json({
@@ -56,18 +58,18 @@ router.get('/:albumid', function(req, res, next) {
 router.put('/:albumid', function(req, res, next) {
   var data = req.body;
 
-  Album.findById(req.params.albumid, fieldsFilter , function(err, album){
-    if (err) return next (err);
-    if (album){
-      album.name =  data.name; 
+  Album.findById(req.params.albumid, fieldsFilter, function(err, album) {
+    if (err) return next(err);
+    if (album) {
+      album.name = data.name;
       album.artist = data.artist;
       album.artwork = data.artwork;
       album.dateCreated = data.dateCreated;
       album.artwork = data.artwork;
       album.checked = data.checked;
-      
+
       album.save(onModelSave(res));
-    }else{
+    } else {
       //album does not exist create it
       var newAlbum = new Album(data);
       newAlbum._id = ObjectId(req.params.albumid);
@@ -78,8 +80,8 @@ router.put('/:albumid', function(req, res, next) {
 
 //remove a album
 router.delete('/:albumid', function(req, res, next) {
-  Album.findById(req.params.albumid, fieldsFilter , function(err, album){
-    if (err) return next (err);
+  Album.findById(req.params.albumid, fieldsFilter, function(err, album) {
+    if (err) return next(err);
     if (!album) {
       res.status(404);
       res.json({
@@ -88,56 +90,52 @@ router.delete('/:albumid', function(req, res, next) {
       });
       return;
     }
-    album.remove(function(err, removed){
-      if (err) return next (err);
+    album.remove(function(err, removed) {
+      if (err) return next(err);
       res.status(204).end();
       pubsub.emit('album.deleted', {})
     })
   });
 });
 
-function onModelSave(res, status, sendItAsResponse){
+function onModelSave(res, status, sendItAsResponse) {
   var statusCode = status || 204;
   var sendItAsResponse = sendItAsResponse || false;
-  return function(err, saved){
+  return function(err, saved) {
     if (err) {
-      if (err.name === 'ValidationError' 
-        || err.name === 'TypeError' ) {
+      if (err.name === 'ValidationError' || err.name === 'TypeError') {
         res.status(400)
         return res.json({
           statusCode: 400,
           message: "Bad Request"
         });
-      }else{
-        return next (err);
+      } else {
+        return next(err);
       }
     }
 
     pubsub.emit('album.updated', {})
-    
-    if( sendItAsResponse){
+
+    if (sendItAsResponse) {
       var obj = saved.toObject();
       delete obj.password;
       delete obj.__v;
       addLinks(obj);
       return res.status(statusCode).json(obj);
-    }else{
+    } else {
       return res.status(statusCode).end();
     }
   }
 }
 
-function addLinks(album){
-  album.links = [
-    { 
-      "rel" : "self",
-      "href" : config.url + "/albums/" + album._id
-    },
-    { 
-      "rel" : "artist",
-      "href" : config.url + "/artists/" + album.artist
-    }
-  ];
+function addLinks(album) {
+  album.links = [{
+    "rel": "self",
+    "href": config.url + "/albums/" + album._id
+  }, {
+    "rel": "artist",
+    "href": config.url + "/artists/" + album.artist
+  }];
 }
 
 /** router for /albums */
