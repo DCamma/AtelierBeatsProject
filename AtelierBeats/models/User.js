@@ -56,7 +56,12 @@ var userSchema = new mongoose.Schema({
   randomPlayback: {
     type: Boolean,
     default: false
+  },
+  picture: {
+    type: String,
+    default: ""
   }
+
 });
 
 userSchema.pre('save', function(next) {
