@@ -292,6 +292,7 @@ var users = {
       "email"        : "masiar.babazadeh@usi.ch",
       "password"     : "ciao",
       "dateCreated"  : "Sat Sep 27 2014 10:26:46 GMT+0200 (CEST)",
+      "picture": "https://media.licdn.com/media/p/8/000/2cd/3a1/2721b33.jpg",
       "playlists"    : [
          new Playlist ({
           "name" : 'Thrash Metal favs',

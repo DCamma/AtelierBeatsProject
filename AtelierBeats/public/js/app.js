@@ -88,6 +88,8 @@ function drawUser(e, addHistory, errors) {
       email: user.email
     }
 
+    if (user.picture) data.pictureURL = user.picture;
+
     if (errors) {
       if (errors.userNameError) data.userNameError = errors.userNameError;
       if (errors.userEmailError) data.userEmailError = errors.userEmailError;

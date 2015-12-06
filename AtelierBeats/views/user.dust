@@ -1,8 +1,9 @@
 <section id="playlistHeader">
     
-    <div class="user-picture">
-      <img src=""></src>
+    <div class="user-picture media-object">
+        <div class="mo-image" style="background-image: url({pictureURL})"></div>
     </div>
+    
     <!-- <button type="button">Change Picture</button> -->
 
     <div class="playlist-info">

@@ -2040,7 +2040,6 @@ input[type=date]::-webkit-datetime-edit {
 }
 
 .user-picture {
-    border: 1px dashed #c2c2c2;
     margin: 10px;
     width: 200px;
     height: 200px;
