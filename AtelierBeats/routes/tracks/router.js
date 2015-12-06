@@ -30,7 +30,6 @@ function trackFileFilter(req, file, cb) {
 var trackStorage = multer.diskStorage({
   // used to determine within which folder the uploaded files should be stored.
   destination: function(req, file, callback) {
-
     callback(null, uploadFolder);
   },
 
@@ -41,8 +40,7 @@ var trackStorage = multer.diskStorage({
 });
 
 var upload = multer({
-  storage: trackStorage,
-  fileFilter: trackFileFilter
+  storage: trackStorage
 });
 
 //fields we don't want to show to the client
@@ -84,8 +82,7 @@ router.post('/', function(req, res, next) {
 });
 
 router.post('/upload', upload.single("track"), function(req, res) {
-  console.log("Uploaded file: ", req.file);
-  res.redirect("/#trackuploader");
+  res.redirect("/"); // or /#trackuploader
 });
 
 router.put('/player', function(req, res, next) {

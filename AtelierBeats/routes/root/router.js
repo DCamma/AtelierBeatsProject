@@ -70,7 +70,7 @@ module.exports = function(passport) {
   to the signup strategy when a HTTP POST is made to /signup.
   */
   router.post('/signup', passport.authenticate('signup', {
-    successRedirect: '/',
+    successRedirect: '/login',
     failureRedirect: '/signup',
     failureFlash: true
   }));

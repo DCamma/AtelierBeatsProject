@@ -528,26 +528,6 @@ function drawTrackUploader(e, dataDust, addHistory) {
       }
     }
 
-    // Setup of drag-and-drop
-    trackUploaderBtn.addEventListener("dragover", onFileDrag, false);
-    trackUploaderBtn.addEventListener("dragleave", onFileDrag, false);
-    trackUploaderBtn.addEventListener("drop", onFileDrop, false);
-
-    function onFileDrop(e) {
-      if (e) e.preventDefault();
-      console.log(e)
-    }
-
-    function onFileDrag(e) {
-      if (e) {
-        e.stopPropagation();
-        e.preventDefault();
-      }
-
-      trackUploaderBtn.classList.add("track-drop-zone-selected");
-      trackUploaderBtn.firstChild.innerHTML = "Selected file: " + inputFileUploader.value;
-    }
-
     // Song input
     var songNameInput = document.getElementById("song-name-input");
 
@@ -623,6 +603,59 @@ function drawTrackUploader(e, dataDust, addHistory) {
 
     }
 
+    // Setup of drag-and-drop
+    trackUploaderBtn.addEventListener("dragover", onFileDrag, false);
+    trackUploaderBtn.addEventListener("dragleave", onFileDrag, false);
+    trackUploaderBtn.addEventListener("drop", onFileDrop, false);
+    var draggedFile;
+
+    // Based on: http://stackoverflow.com/a/8469533/3924118
+    function onFileDrop(e) {
+      if (e) e.preventDefault();
+
+      var dt = e.dataTransfer;
+
+      var fileList = dt.files;
+
+      draggedFile = fileList[0];
+
+      trackName = draggedFile.name;
+
+      if (draggedFile.name.match(/\.(mp3)$/i)) {
+        obUrl = URL.createObjectURL(draggedFile);
+        trackUploaderAudio.setAttribute('src', obUrl);
+      }
+
+      trackUploaderBtn.firstChild.innerHTML = "Selected file: " + trackName;
+      inputFileUploader.value = ""; // reseting the input file
+    }
+
+    function onFileDrag(e) {
+      if (e) {
+        e.stopPropagation();
+        e.preventDefault();
+      }
+
+      trackUploaderBtn.classList.add("track-drop-zone-selected");
+      trackUploaderBtn.firstChild.innerHTML = "Selected file: " + inputFileUploader.value;
+    }
+
+    // Uploads a fileToUpload to url using XMLHttpRequest and FormData
+    function uploadFile(fileToUpload, url) {
+
+      var form_data = new FormData();
+      form_data.append('file', fileToUpload, "track");
+
+      console.log("URL: ", url);
+
+      console.log(form_data)
+
+      doJSONRequest("POST", "/tracks/upload", null, form_data, function(d) {
+        console.log(d);
+      })
+
+    }
+
     // Setting default values to input dates
     var dateCreatedInput = document.getElementById("date-created-input");
     dateCreatedInput.valueAsDate = new Date()
@@ -647,7 +680,7 @@ function drawTrackUploader(e, dataDust, addHistory) {
         if (!songName) dustData.nameNotProvided = "Track Name Required";
         if (!artistName) dustData.artistNotProvided = "Artist Name Required";
         if (!albumName) dustData.albumNotProvided = "Album Name Required";
-        if (!uploadedTrackName) dustData.fileNotProvided = "No File Uploaded";
+        if (!uploadedTrackName && !draggedFile) dustData.fileNotProvided = "No File Uploaded";
 
         // Rendering the track uploader if some of the fields is not valid
         if (Object.keys(dustData) != 0) {
@@ -681,12 +714,18 @@ function drawTrackUploader(e, dataDust, addHistory) {
             dateReleased: dateReleasedInput.valueAsDate,
           }
 
+          // console.log("new track: ", newTrack)
+
           // Triggers redirection to the library because track.updated is emitted
           function createNewTrack(track) {
             doJSONRequest("POST", "/tracks", null, track, function(data) {
               // console.log("Track Created: ", data);
 
-              trackUploaderForm.submit();
+              if (uploadedTrackName) {
+                trackUploaderForm.submit();
+              } else {
+                uploadFile(draggedFile, "/tracks/upload");
+              }
               // console.log("Submitting form...");
             });
           }

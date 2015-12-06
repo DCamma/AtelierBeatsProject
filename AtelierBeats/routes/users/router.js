@@ -59,7 +59,6 @@ router.all('/:userid/playlists', middleware.supportedMethods('GET, PUT, OPTIONS'
 router.all('/:userid', middleware.supportedMethods('GET, PUT, POST, DELETE, OPTIONS'));
 router.all('/', middleware.supportedMethods('GET, POST, OPTIONS'));
 
-
 //list users
 router.get('/', function(req, res, next) {
 
