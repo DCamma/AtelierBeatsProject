@@ -89,6 +89,7 @@ function drawUser(e, addHistory, errors) {
     }
 
     if (user.picture) data.pictureURL = user.picture;
+    else data.dashed = true;
 
     if (errors) {
       if (errors.userNameError) data.userNameError = errors.userNameError;

@@ -1,7 +1,16 @@
 <section id="playlistHeader">
     
-    <div class="user-picture media-object">
+    <div class="user-picture media-object {?dashed}user-picture-dashed{/dashed}">
         <div class="mo-image" style="background-image: url({pictureURL})"></div>
+
+        <button type="button" class="user-pic-change-btn">
+            {?dashed}
+                Add Picture
+            {:else}
+                Change Picture
+            {/dashed}
+        </button>
+    
     </div>
     
     <!-- <button type="button">Change Picture</button> -->

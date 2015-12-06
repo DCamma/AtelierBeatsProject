@@ -2045,9 +2045,27 @@ input[type=date]::-webkit-datetime-edit {
     height: 200px;
 }
 
+.user-picture-dashed {
+    border: 1px dashed #c2c2c2;
+}
 
-@media (max-width: 900px){
-  .user-picture{
-    display: none;
-  }  
+.user-pic-change-btn {
+    display: inline-block;
+    width: 200px;
+    padding: 12px;
+    cursor: pointer;
+    border: 1px solid #c2c2c2;
+    margin-top: 10px;
+}
+
+.user-pic-change-btn:hover {
+    background-color: #262626;
+    border: 1px solid #262626;
+    color: white;
+}
+
+@media (max-width: 900px) {
+    .user-picture {
+        display: none;
+    }
 }
