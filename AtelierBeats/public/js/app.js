@@ -103,6 +103,8 @@ function drawUser(e, addHistory, errors) {
 
       bindUserInfoBtn();
 
+      bindUserPicBtn();
+
       if (errors && (errors.userNameError || errors.userEmailError)) {
         setTimeout(function() {
           document.getElementById("error-temp-div").remove();
@@ -112,6 +114,41 @@ function drawUser(e, addHistory, errors) {
     });
 
   });
+
+}
+
+function bindUserPicBtn() {
+  var userPicChangeBtn = document.getElementById("user-pic-change-btn");
+  var userPicInputFile = document.getElementById("user-pic-input-file");
+  var userPicFormUpload = document.getElementById("user-pic-form-upload");
+  console.log("FORM: ", userPicFormUpload);
+
+  userPicChangeBtn.onclick = onPicChangeBtn;
+  userPicInputFile.onchange = onPicInputFileChange;
+
+  function onPicInputFileChange(e) {
+    if (userPicInputFile.value != "") {
+
+      var file = e.currentTarget.files[0];
+      pictureName = file.name;
+
+      doJSONRequest("GET", "/users/" + userid, null, null, function(user) {
+
+        var newUser = user;
+        newUser.picture = "images/users/" + pictureName;
+
+        doJSONRequest("PUT", "/users/" + userid, null, newUser, function(d) {
+          userPicFormUpload.submit();
+          return drawUser();
+        });
+      });
+
+    }
+  }
+
+  function onPicChangeBtn(e) {
+    userPicInputFile.click();
+  }
 
 }
 
@@ -298,18 +335,6 @@ function bindUserInfoBtn() {
 
   }
 
-  // preventing inserting DOM elements on ENTER press.
-  // var editables = document.querySelectorAll("#playlists > li > .pl-name");
-
-  // for (var elem = 0; elem < editables.length; ++elem) {
-  //   editables[elem].onkeypress = function(e) {
-  //     if (e && e.keyCode == 13 && e.target && e.target.contentEditable) {
-  //       e.preventDefault();
-
-  //     }
-  //   }
-  // }
-
 }
 
 function addUserToHistory(addHistory) {
@@ -429,325 +454,341 @@ function drawLibrary(e, addHistory, preventBind, foundedTracks) {
 
 function bindTrackUploader() {
   var elem = document.getElementById("upload-btn");
-  elem.onclick = renderTrackUploader;
+  elem.onclick = drawTrackUploader;
 
-  function renderTrackUploader(e, dataDust) {
-    if (!dataDust) dataDust = {}
+}
 
-    dust.render("uploader", dataDust, function(err, out) {
+function drawTrackUploader(e, dataDust, addHistory) {
+  if (e && e.target) e.preventDefault();
 
-      var content = document.getElementById("content");
-      content.innerHTML = out;
+  if (!dataDust) dataDust = {}
 
-      var trackUploaderForm = document.getElementById("track-upload-form");
-      var trackUploaderAudio = document.getElementById('track-uploader-audio');
-      var trackUploaderBtn = document.getElementById("track-uploader-btn");
-      var inputFileUploader = document.getElementById('input-file-uploader');
+  addTrackUploaderToHistory(addHistory);
 
-      // http://stackoverflow.com/a/12102992/3924118
-      trackUploaderBtn.onclick = function(e) {
-        /* In the case the user selects the same file again and again, 
-        the event onchange will be fired again and again */
-        inputFileUploader.value = null;
-        inputFileUploader.click();
+  dust.render("uploader", dataDust, function(err, out) {
+
+    var content = document.getElementById("content");
+    content.innerHTML = out;
+
+    var trackUploaderForm = document.getElementById("track-upload-form");
+    var trackUploaderAudio = document.getElementById('track-uploader-audio');
+    var trackUploaderBtn = document.getElementById("track-uploader-btn");
+    var inputFileUploader = document.getElementById('input-file-uploader');
+
+    // http://stackoverflow.com/a/12102992/3924118
+    trackUploaderBtn.onclick = function(e) {
+      /* In the case the user selects the same file again and again, 
+      the event onchange will be fired again and again */
+      inputFileUploader.value = null;
+      inputFileUploader.click();
+      trackUploaderBtn.classList.remove("track-drop-zone-selected");
+      trackUploaderBtn.firstChild.innerHTML = "Click to upload or drag and drop!";
+    }
+
+    inputFileUploader.onclick = function(e) {
+      inputFileUploader.value = null;
+    }
+
+    // Code to get duration of audio before uploading it         
+    var trackDuration; // initial duration
+    var trackName = "";
+
+    //register canplaythrough event to #audio element to can get duration 
+    trackUploaderAudio.oncanplaythrough = function(e) {
+      // Calculate duration
+      trackDuration = Math.round(e.currentTarget.duration);
+      // console.log("Duration: ", trackDuration)
+      URL.revokeObjectURL(obUrl);
+    };
+
+    var obUrl; // Used to determine the duration of the file...
+
+    inputFileUploader.onchange = function(e) {
+      // console.log(inputFileUploader.value)
+
+      if (inputFileUploader.value != "") { // User selected a file
+        trackUploaderBtn.classList.add("track-drop-zone-selected");
+
+        /* When selecting a file, create an ObjectURL with the file and 
+        add it in the #track-uploader-audio element. */
+        var file = e.currentTarget.files[0];
+        trackName = file.name;
+
+        trackUploaderBtn.firstChild.innerHTML = "Selected file: " + trackName;
+
+        // Check file extension is .mp3
+        if (file.name.match(/\.(mp3)$/i)) {
+          obUrl = URL.createObjectURL(file);
+          trackUploaderAudio.setAttribute('src', obUrl);
+        }
+
+      } else {
         trackUploaderBtn.classList.remove("track-drop-zone-selected");
         trackUploaderBtn.firstChild.innerHTML = "Click to upload or drag and drop!";
       }
+    }
 
-      inputFileUploader.onclick = function(e) {
-        inputFileUploader.value = null;
+    // Setup of drag-and-drop
+    trackUploaderBtn.addEventListener("dragover", onFileDrag, false);
+    trackUploaderBtn.addEventListener("dragleave", onFileDrag, false);
+    trackUploaderBtn.addEventListener("drop", onFileDrop, false);
+
+    function onFileDrop(e) {
+      if (e) e.preventDefault();
+      console.log(e)
+    }
+
+    function onFileDrag(e) {
+      if (e) {
+        e.stopPropagation();
+        e.preventDefault();
       }
 
-      // Code to get duration of audio before uploading it         
-      var trackDuration; // initial duration
-      var trackName = "";
+      trackUploaderBtn.classList.add("track-drop-zone-selected");
+      trackUploaderBtn.firstChild.innerHTML = "Selected file: " + inputFileUploader.value;
+    }
 
-      //register canplaythrough event to #audio element to can get duration 
-      trackUploaderAudio.oncanplaythrough = function(e) {
-        // Calculate duration
-        trackDuration = Math.round(e.currentTarget.duration);
-        // console.log("Duration: ", trackDuration)
-        URL.revokeObjectURL(obUrl);
-      };
+    // Song input
+    var songNameInput = document.getElementById("song-name-input");
 
-      var obUrl; // Used to determine the duration of the file...
+    songNameInput.oninput = function(e) {
 
-      inputFileUploader.onchange = function(e) {
-        // console.log(inputFileUploader.value)
+      doJSONRequest("GET", "tracks", null, null, function(data) {
 
-        if (inputFileUploader.value != "") { // User selected a file
-          trackUploaderBtn.classList.add("track-drop-zone-selected");
+        var songDataList = document.getElementById("dls-song-name");
+        removeAllChildren(songDataList);
 
-          /* When selecting a file, create an ObjectURL with the file and 
-          add it in the #track-uploader-audio element. */
-          var file = e.currentTarget.files[0];
-          trackName = file.name;
+        data.forEach(function(track) {
+          // Create a new <option> element.
+          var option = document.createElement('option');
 
-          trackUploaderBtn.firstChild.innerHTML = "Selected file: " + trackName;
-
-          // Check file extension is .mp3
-          if (file.name.match(/\.(mp3)$/i)) {
-            obUrl = URL.createObjectURL(file);
-            trackUploaderAudio.setAttribute('src', obUrl);
+          // Set the value using the item in the JSON array.
+          if (startsWith(track.name, songNameInput.value)) {
+            option.value = track.name;
+            // Add the <option> element to the <datalist>.
+            songDataList.appendChild(option);
           }
 
-        } else {
-          trackUploaderBtn.classList.remove("track-drop-zone-selected");
-          trackUploaderBtn.firstChild.innerHTML = "Click to upload or drag and drop!";
-        }
-      }
-
-      // Setup of drag-and-drop
-      trackUploaderBtn.addEventListener("dragover", onFileDrag, false);
-      trackUploaderBtn.addEventListener("dragleave", onFileDrag, false);
-      trackUploaderBtn.addEventListener("drop", onFileDrop, false);
-
-      function onFileDrop(e) {
-        if (e) e.preventDefault();
-        console.log(e)
-      }
-
-      function onFileDrag(e) {
-        if (e) {
-          e.stopPropagation();
-          e.preventDefault();
-        }
-
-        trackUploaderBtn.classList.add("track-drop-zone-selected");
-        trackUploaderBtn.firstChild.innerHTML = "Selected file: " + inputFileUploader.value;
-      }
-
-      // Song input
-      var songNameInput = document.getElementById("song-name-input");
-
-      songNameInput.oninput = function(e) {
-
-        doJSONRequest("GET", "tracks", null, null, function(data) {
-
-          var songDataList = document.getElementById("dls-song-name");
-          removeAllChildren(songDataList);
-
-          data.forEach(function(track) {
-            // Create a new <option> element.
-            var option = document.createElement('option');
-
-            // Set the value using the item in the JSON array.
-            if (startsWith(track.name, songNameInput.value)) {
-              option.value = track.name;
-              // Add the <option> element to the <datalist>.
-              songDataList.appendChild(option);
-            }
-
-          });
-
-        });
-      }
-
-      // Artist input
-      var artistNameInput = document.getElementById("artist-name-input");
-
-      artistNameInput.oninput = function(e) {
-
-        doJSONRequest("GET", "artists", null, null, function(data) {
-
-          var artistDataList = document.getElementById("dls-artist-name");
-          removeAllChildren(artistDataList);
-
-          data.forEach(function(artist) {
-            var option = document.createElement('option');
-
-            if (startsWith(artist.name, artistNameInput.value)) {
-              option.value = artist.name;
-              artistDataList.appendChild(option);
-            }
-
-          });
-
         });
 
-      }
+      });
+    }
 
-      // Album input
-      var albumNameInput = document.getElementById("album-name-input");
+    // Artist input
+    var artistNameInput = document.getElementById("artist-name-input");
 
-      albumNameInput.oninput = function(e) {
+    artistNameInput.oninput = function(e) {
 
-        doJSONRequest("GET", "albums", null, null, function(data) {
+      doJSONRequest("GET", "artists", null, null, function(data) {
 
-          var albumDataList = document.getElementById("dls-album-name");
-          removeAllChildren(albumDataList);
+        var artistDataList = document.getElementById("dls-artist-name");
+        removeAllChildren(artistDataList);
 
-          data.forEach(function(album) {
+        data.forEach(function(artist) {
+          var option = document.createElement('option');
 
-            var option = document.createElement('option');
-
-            if (startsWith(album.name, albumNameInput.value)) {
-              option.value = album.name;
-              albumDataList.appendChild(option);
-            }
-
-          });
-
-        });
-
-      }
-
-      // Setting default values to input dates
-      var dateCreatedInput = document.getElementById("date-created-input");
-      dateCreatedInput.valueAsDate = new Date()
-
-      var dateReleasedInput = document.getElementById("date-released-input");
-      dateReleasedInput.valueAsDate = new Date()
-
-      // Handling when the "Add Track" button is clicked...
-      document.getElementById("track-submit-btn").onclick = function(e) {
-
-          // Validation of the (text and audio) fields 
-          var songName = songNameInput.value;
-          var artistName = artistNameInput.value;
-          var albumName = albumNameInput.value;
-          var dateCreated = dateCreatedInput.value;
-          var dateReleased = dateReleasedInput.value;
-          var uploadedTrackName = inputFileUploader.value; // inputFileUploader got above
-
-          // Creating error messages
-          var dustData = {}
-
-          if (!songName) dustData.nameNotProvided = "Track Name Required";
-          if (!artistName) dustData.artistNotProvided = "Artist Name Required";
-          if (!albumName) dustData.albumNotProvided = "Album Name Required";
-          if (!uploadedTrackName) dustData.fileNotProvided = "No File Uploaded";
-
-          // Rendering the track uploader if some of the fields is not valid
-          if (Object.keys(dustData) != 0) {
-            return renderTrackUploader(e, dustData);
+          if (startsWith(artist.name, artistNameInput.value)) {
+            option.value = artist.name;
+            artistDataList.appendChild(option);
           }
 
-          // Start doing requests
-          doJSONRequest("GET", "/tracks", null, null, function(tracks) {
+        });
 
-            var alreadyExists = false;
+      });
 
-            tracks.forEach(function(track) {
-              if (track.name == songName) {
-                alreadyExists = true;
-              }
+    }
+
+    // Album input
+    var albumNameInput = document.getElementById("album-name-input");
+
+    albumNameInput.oninput = function(e) {
+
+      doJSONRequest("GET", "albums", null, null, function(data) {
+
+        var albumDataList = document.getElementById("dls-album-name");
+        removeAllChildren(albumDataList);
+
+        data.forEach(function(album) {
+
+          var option = document.createElement('option');
+
+          if (startsWith(album.name, albumNameInput.value)) {
+            option.value = album.name;
+            albumDataList.appendChild(option);
+          }
+
+        });
+
+      });
+
+    }
+
+    // Setting default values to input dates
+    var dateCreatedInput = document.getElementById("date-created-input");
+    dateCreatedInput.valueAsDate = new Date()
+
+    var dateReleasedInput = document.getElementById("date-released-input");
+    dateReleasedInput.valueAsDate = new Date()
+
+    // Handling when the "Add Track" button is clicked...
+    document.getElementById("track-submit-btn").onclick = function(e) {
+
+        // Validation of the (text and audio) fields 
+        var songName = songNameInput.value;
+        var artistName = artistNameInput.value;
+        var albumName = albumNameInput.value;
+        var dateCreated = dateCreatedInput.value;
+        var dateReleased = dateReleasedInput.value;
+        var uploadedTrackName = inputFileUploader.value; // inputFileUploader got above
+
+        // Creating error messages
+        var dustData = {}
+
+        if (!songName) dustData.nameNotProvided = "Track Name Required";
+        if (!artistName) dustData.artistNotProvided = "Artist Name Required";
+        if (!albumName) dustData.albumNotProvided = "Album Name Required";
+        if (!uploadedTrackName) dustData.fileNotProvided = "No File Uploaded";
+
+        // Rendering the track uploader if some of the fields is not valid
+        if (Object.keys(dustData) != 0) {
+          return drawTrackUploader(e, dustData);
+        }
+
+        // Start doing requests
+        doJSONRequest("GET", "/tracks", null, null, function(tracks) {
+
+          var alreadyExists = false;
+
+          tracks.forEach(function(track) {
+            if (track.name == songName) {
+              alreadyExists = true;
+            }
+          });
+
+          if (alreadyExists) {
+            var dustData = {
+              nameNotProvided: "Track with name '" + songName + "' already exists."
+            }
+            return drawTrackUploader(e, dustData);
+          }
+
+          // Creating the track object
+          var newTrack = {
+            name: songName,
+            file: "tracks_folder/" + trackName,
+            duration: trackDuration,
+            dateCreated: dateCreatedInput.valueAsDate,
+            dateReleased: dateReleasedInput.valueAsDate,
+          }
+
+          // Triggers redirection to the library because track.updated is emitted
+          function createNewTrack(track) {
+            doJSONRequest("POST", "/tracks", null, track, function(data) {
+              // console.log("Track Created: ", data);
+
+              trackUploaderForm.submit();
+              // console.log("Submitting form...");
             });
+          }
 
-            if (alreadyExists) {
-              var dustData = {
-                nameNotProvided: "Track with name '" + songName + "' already exists."
-              }
-              return renderTrackUploader(e, dustData);
-            }
+          // Creating a function to handle album requests
+          function handleAlbumRequests() {
+            doJSONRequest("GET", "/albums", null, null, function(albums) {
 
-            // Creating the track object
-            var newTrack = {
-              name: songName,
-              file: "tracks_folder/" + trackName,
-              duration: trackDuration,
-              dateCreated: dateCreatedInput.valueAsDate,
-              dateReleased: dateReleasedInput.valueAsDate,
-            }
+              var albumId;
 
-            // Triggers redirection to the library because track.updated is emitted
-            function createNewTrack(track) {
-              doJSONRequest("POST", "/tracks", null, track, function(data) {
-                // console.log("Track Created: ", data);
-
-                trackUploaderForm.submit();
-                // console.log("Submitting form...");
-              });
-            }
-
-            // Creating a function to handle album requests
-            function handleAlbumRequests() {
-              doJSONRequest("GET", "/albums", null, null, function(albums) {
-
-                var albumId;
-
-                albums.forEach(function(album) {
-                  if (album.name == albumName) {
-                    albumId = album._id;
-                  }
-                });
-
-                if (!albumId) {
-
-                  var albumData = {
-                    name: albumName,
-                    artist: newTrack.artist
-                  }
-                  doJSONRequest("POST", "/albums", null, albumData, function(d2) {
-
-                    doJSONRequest("GET", "/albums", null, null, function(albums) {
-
-                      albums.forEach(function(album) {
-                        if (album.name == albumName) {
-                          newTrack.album = album._id;
-                        }
-                      });
-
-                      createNewTrack(newTrack);
-
-                    });
-
-                  });
-
-                } else {
-                  newTrack.album = albumId;
-                  createNewTrack(newTrack);
-                }
-
-              });
-            } // end of handleAlbumRequests
-
-            // Data to sent if an artist with artistName does not exist already
-            var artistId;
-
-            doJSONRequest("GET", "/artists", null, null, function(artists) {
-
-              artists.forEach(function(artist) {
-                if (artist.name == artistName) {
-                  artistId = artist._id
+              albums.forEach(function(album) {
+                if (album.name == albumName) {
+                  albumId = album._id;
                 }
               });
 
-              if (!artistId) {
-                var artistData = {
-                  name: artistName
+              if (!albumId) {
+
+                var albumData = {
+                  name: albumName,
+                  artist: newTrack.artist
                 }
+                doJSONRequest("POST", "/albums", null, albumData, function(d2) {
 
-                doJSONRequest("POST", "/artists", null, artistData, function(d) {
+                  doJSONRequest("GET", "/albums", null, null, function(albums) {
 
-                  // Fetching the id of the artist just created
-                  doJSONRequest("GET", "/artists", null, null, function(artists) {
-                    artists.forEach(function(artist) {
-                      if (artist.name == artistName) {
-                        newTrack.artist = artist._id;
+                    albums.forEach(function(album) {
+                      if (album.name == albumName) {
+                        newTrack.album = album._id;
                       }
                     });
 
-                    handleAlbumRequests();
+                    createNewTrack(newTrack);
 
                   });
 
                 });
 
-              } else { // artist exists!
-
-                newTrack.artist = artistId;
-                handleAlbumRequests();
+              } else {
+                newTrack.album = albumId;
+                createNewTrack(newTrack);
               }
 
             });
+          } // end of handleAlbumRequests
+
+          // Data to sent if an artist with artistName does not exist already
+          var artistId;
+
+          doJSONRequest("GET", "/artists", null, null, function(artists) {
+
+            artists.forEach(function(artist) {
+              if (artist.name == artistName) {
+                artistId = artist._id
+              }
+            });
+
+            if (!artistId) {
+              var artistData = {
+                name: artistName
+              }
+
+              doJSONRequest("POST", "/artists", null, artistData, function(d) {
+
+                // Fetching the id of the artist just created
+                doJSONRequest("GET", "/artists", null, null, function(artists) {
+                  artists.forEach(function(artist) {
+                    if (artist.name == artistName) {
+                      newTrack.artist = artist._id;
+                    }
+                  });
+
+                  handleAlbumRequests();
+
+                });
+
+              });
+
+            } else { // artist exists!
+
+              newTrack.artist = artistId;
+              handleAlbumRequests();
+            }
 
           });
 
-        } // end of onclick handler
+        });
 
-    });
+      } // end of onclick handler
 
+  });
+
+}
+
+function addTrackUploaderToHistory(addHistory) {
+  if ((("undefined" == typeof addHistory) || (addHistory === null)) || addHistory == true) {
+
+    var state = {
+      'function': 'drawTrackUploader'
+    };
+
+    addToHistory(JSON.stringify(state), "/#trackuploader");
   }
 }
 
@@ -1958,6 +1999,10 @@ function updatePage(event) {
 
     else if (hash.indexOf("#activities") > -1)
       drawActivities(null, false);
+
+    else if (hash.indexOf("#trackuploader") > -1) {
+      drawTrackUploader(null, null);
+    }
 
   } else
     drawLibrary(null, false);

@@ -35,6 +35,7 @@ var textHTML = 'Connected clients : ';
 socket.on('clientConnected', function(clientNumber) {
   document.getElementById('clientNumber').innerHTML = textHTML + clientNumber;
 })
+
 socket.on('clientDisconnected', function(clientNumber) {
   document.getElementById('clientNumber').innerHTML = textHTML + clientNumber;
 })

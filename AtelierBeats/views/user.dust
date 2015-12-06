@@ -3,13 +3,17 @@
     <div class="user-picture media-object {?dashed}user-picture-dashed{/dashed}">
         <div class="mo-image" style="background-image: url({pictureURL})"></div>
 
-        <button type="button" class="user-pic-change-btn">
+        <button type="button" class="user-pic-change-btn" id="user-pic-change-btn">
             {?dashed}
                 Add Picture
             {:else}
                 Change Picture
             {/dashed}
         </button>
+
+        <form action="/users/upload" enctype="multipart/form-data" method="post" style="display:none;" id="user-pic-form-upload">
+        <input type="file" name="userPic" id="user-pic-input-file" accept="image/x-png, image/gif, image/jpeg"/>
+        </form>
     
     </div>
     

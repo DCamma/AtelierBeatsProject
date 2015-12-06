@@ -14,6 +14,40 @@ var Playlist = mongoose.model("Playlist");
 var config = require("../../config");
 var pubsub = require('../../pubsub');
 
+var path = require("path");
+
+// Code to manage upload of tracks
+var multer = require('multer');
+var uploadFolder = path.resolve(__dirname, "../../public/images/users");
+
+function validPicFormat(trackMimeType) {
+  // we could possibly accept other mimetypes...
+  var mimetypes = ["image/gif", "image/png", "image/jpeg"];
+  return mimetypes.indexOf(trackMimeType) > -1;
+}
+
+function userPicFileFilter(req, file, cb) {
+  cb(null, validPicFormat(file.mimetype));
+}
+
+var userPicStorage = multer.diskStorage({
+  // used to determine within which folder the uploaded files should be stored.
+  destination: function(req, file, callback) {
+
+    callback(null, uploadFolder);
+  },
+
+  filename: function(req, file, callback) {
+    // req.body.name should contain the name of track
+    callback(null, file.originalname);
+  }
+});
+
+var upload = multer({
+  storage: userPicStorage,
+  fileFilter: userPicFileFilter
+});
+
 //fields we don't want to show to the client
 var fieldsFilter = {
   'password': 0,
@@ -22,8 +56,9 @@ var fieldsFilter = {
 
 //supported methods
 router.all('/:userid/playlists', middleware.supportedMethods('GET, PUT, OPTIONS'));
-router.all('/:userid', middleware.supportedMethods('GET, PUT, DELETE, OPTIONS'));
+router.all('/:userid', middleware.supportedMethods('GET, PUT, POST, DELETE, OPTIONS'));
 router.all('/', middleware.supportedMethods('GET, POST, OPTIONS'));
+
 
 //list users
 router.get('/', function(req, res, next) {
@@ -39,10 +74,11 @@ router.get('/', function(req, res, next) {
 });
 
 //create new user
-router.post('/', function(req, res, next) {
-
-  var newUser = new User(req.body);
-  newUser.save(onModelSave(res, 201, true));
+router.post('/upload', upload.single("userPic"), function(req, res, next) {
+  console.log("Uploaded file: ", req.file);
+  res.redirect("/#user");
+  // var newUser = new User(req.body);
+  // newUser.save(onModelSave(res, 201, true));
 });
 
 //get a user
@@ -76,6 +112,7 @@ router.put('/:userid', function(req, res, next) {
       user.playlists = data.playlists;
       user.randomPlayback = data.randomPlayback;
       user.activities = data.activities;
+      user.picture = data.picture || user.picture;
 
       user.save(onModelSave(res));
 
@@ -138,7 +175,7 @@ router.get('/:userid/playlists/:playlistsid', function(req, res, next) {
     for (var i = 0; i < user.playlists.length; i++) {
       if (user.playlists[i]._id == req.params.playlistsid) {
         res.json(user.playlists[i]);
-        console.log(user.playlists[i])
+        // console.log(user.playlists[i])
         return;
       }
     }
@@ -197,7 +234,7 @@ router.put('/:userid/playlists/:playlistsid', function(req, res, next) {
       return;
     }
 
-    console.log(user.playlists)
+    // console.log(user.playlists)
 
     for (var i = 0; i < user.playlists.length; i++) {
       if (user.playlists[i]._id == req.params.playlistsid) {
@@ -205,7 +242,7 @@ router.put('/:userid/playlists/:playlistsid', function(req, res, next) {
           if (user.playlists[i].tracks.indexOf(data._id) == -1) {
             user.playlists[i].tracks.push(data._id)
             user.save(onModelSave(res));
-            console.log(user.playlists[i].tracks)
+            // console.log(user.playlists[i].tracks)
 
             return;
           }

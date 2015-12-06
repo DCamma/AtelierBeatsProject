@@ -85,7 +85,7 @@ router.post('/', function(req, res, next) {
 
 router.post('/upload', upload.single("track"), function(req, res) {
   console.log("Uploaded file: ", req.file);
-  res.redirect("/library");
+  res.redirect("/#trackuploader");
 });
 
 router.put('/player', function(req, res, next) {
