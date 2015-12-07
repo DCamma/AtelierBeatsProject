@@ -1051,7 +1051,7 @@ function addArtistsToHistory(addHistory) {
     }
 }
 
-function drawArtist(e, addHistory, foundedArtist) {
+function drawArtist(e, addHistory) {
 
     var href;
 
@@ -2129,69 +2129,66 @@ function setupSearch() {
     if (window.location.hash === "#artists") {
         doJSONRequest("GET", "/artists", null, null, function(artists) {
             result = fuzzyFind(artists, "name", theValue);
-
-            if (theValue.trim() === "") {
-                drawArtists();
-                return;
-            }
-            drawArtists(null, null, result);
-        });
-    }
-    if (window.location.hash === "#albums") {
-        doJSONRequest("GET", "/albums", null, null, function(albums) {
-            result = fuzzyFind(albums, "name", theValue);
-
-            if (theValue.trim() === "") {
-                drawAlbums();
-                return;
-            }
-            drawAlbums(null, null, null, null, result);
-        });
-    }
-    if (window.location.hash === "#playlist/" + playlistId) {
-        doJSONRequest("GET", "/users/" + userid + "/playlists/" + playlistId, null, null, function(playlist) {
-
-            var tracks = []
-
-            if (playlist.tracks.length == 0) {
-                renderPlaylist({
-                    "playlist": playlist
-                })
-            } 
-            else {
-                for (var i = 0; i < playlist.tracks.length; i++) {
-                    doJSONRequest("GET", "tracks/" + playlist.tracks[i], null, null, function(track) {
-                        console.log(track)
-                        tracks.push(track)
-                        console.log(tracks)
-
-                        result = fuzzyFind(tracks, "name", theValue);
-
-                        if (theValue.trim() === "") {
-                            drawPlaylist(null, null, null, playlistId);
-                            return;
-                        }
-                        drawPlaylist(null, null, null, playlistId, result);
-                    })
+                if (theValue.trim() === "") {
+                    drawArtists();
+                    return;
                 }
-            }
-        })
-    }
-    if(window.location.hash === "#artists/" +  ids){
-        doJSONRequest("GET", "/artists/" + ids, null, null, function(artist) {
-            doJSONRequest("GET", "/tracks?filter=" + encodeURIComponent(JSON.stringify({'artist': artist._id})), null, null, function(tracks){
-                result = fuzzyFind(tracks, "name", theValue);
+                drawArtists(null, null, result);
+            });
+        }
+        if (window.location.hash === "#albums") {
+            doJSONRequest("GET", "/albums", null, null, function(albums) {
+                result = fuzzyFind(albums, "name", theValue);
 
                 if (theValue.trim() === "") {
-                  drawArtist("artists/" + ids);
-                  return;
+                    drawAlbums();
+                    return;
                 }
-
-                drawArtist("artists/" + ids, null, result);
+                drawAlbums(null, null, null, null, result);
             });
-        });
-    }
+        }
+        if (window.location.hash === "#playlist/" + playlistId) {
+            doJSONRequest("GET", "/users/" + userid + "/playlists/" + playlistId, null, null, function(playlist) {
+
+                var tracks = []
+
+                if (playlist.tracks.length == 0) {
+                    renderPlaylist({
+                        "playlist": playlist
+                    })
+                } 
+                else {
+                    for (var i = 0; i < playlist.tracks.length; i++) {
+                        doJSONRequest("GET", "tracks/" + playlist.tracks[i], null, null, function(track) {
+                            tracks.push(track)
+                            result = fuzzyFind(tracks, "name", theValue);
+
+                            if (theValue.trim() === "") {
+                                drawPlaylist(null, null, null, playlistId);
+                                return;
+                            }
+                            drawPlaylist(null, null, null, playlistId, result);
+                        })
+                    }
+                }
+            })
+        }
+        if(window.location.hash === "#artists/" +  ids){
+            doJSONRequest("GET", "/artists/" + ids, null, null, function(artist) {
+                doJSONRequest("GET", "/tracks?filter=" + encodeURIComponent(JSON.stringify({'artist': artist._id})), null, null, function(tracks){
+                    result = fuzzyFind(tracks, "name", theValue);
+
+                    if (theValue.trim() === "") {
+                      drawArtist("artists/" + ids);
+                      return;
+                    }
+
+                    drawArtist("artists/" + ids, null, result);
+                });
+            });
+        }
   });
+
 }
 
 function find(arr, prop, val) {
