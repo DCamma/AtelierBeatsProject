@@ -1796,6 +1796,14 @@ function managePlaylistNameEdit(editButton) {
                     addPlaylistCreationActivity = false;
                 });
             }
+            // doJSONRequest("GET", "users/publicPlaylists", null, null, function(playlists){
+            //     var data = {
+            //         "playlists": playlists
+            //     };
+            //     dust.render("pubbPlaylists", data, function(err, out) {
+            //         document.getElementById('playlists').innerHTML = document.getElementById('playlists').innerHTML + out;
+            //     });
+            // });
 
         }
 
@@ -1826,8 +1834,11 @@ function drawPlaylist(e, addHistory, preventBind, pId, foundedTracks) {
     }
 
     addPlaylistToHistory(addHistory, playlistId)
-
-    doJSONRequest("GET", "/users/" + userid + "/playlists/" + playlistId, null, null, renderPlayTracks);
+    if(target !== null && target !== undefined && target.getAttribute("owner-user-id") !== null){
+      doJSONRequest("GET", "/users/" + target.getAttribute("owner-user-id") + "/playlists/" + playlistId, null, null, renderPlayTracks);
+    } else {
+      doJSONRequest("GET", "/users/" + userid + "/playlists/" + playlistId, null, null, renderPlayTracks);
+    }
 
     function renderPlayTracks(playlist) {
 
