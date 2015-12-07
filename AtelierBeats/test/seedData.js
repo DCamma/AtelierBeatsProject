@@ -348,6 +348,21 @@ var users = {
           "tracks": [tracks.data[5]._id, tracks.data[6]._id]
         })
       ]
+    },
+    { 
+      "_id"          : ObjectId(),
+      "firstName"    : "a",
+      "lastName"     : "a",
+      "userName"     : "a",
+      "email"        : "a@usi.ch",
+      "password"     : "a",
+      "dateCreated"  : "Sat Sep 27 2014 10:28:21 GMT+0200 (CEST)",
+      "playlists"    : [
+         new Playlist ({
+          "name" : 'p1',
+          "tracks": [tracks.data[0]._id, tracks.data[1]._id]
+        })
+      ]
     }
   ]
 }

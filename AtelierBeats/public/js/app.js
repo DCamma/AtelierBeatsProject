@@ -1539,22 +1539,24 @@ function addActivitiesToHistory(addHistory) {
 function setupPlaylists() {
 
   doJSONRequest("GET", "users/" + userid + "/playlists", null, null, renderPlaylists);
-
   function renderPlaylists(playlists) {
-    var data = {
-      "playlists": playlists
-    };
+    // do json request for the public playlists
+    doJSONRequest("GET", "users/publicPlaylists", null, null, function(publicPlaylists){
+      playlists = playlists.concat(publicPlaylists);
+      var data = {
+        "playlists": playlists
+      };
 
-    dust.render("playlists", data, function(err, out) {
-      document.getElementById('playlists').innerHTML = out;
+      dust.render("playlists", data, function(err, out) {
+        document.getElementById('playlists').innerHTML = out;
 
-      bindPlaylistNameClick();
+        bindPlaylistNameClick();
 
-      bindNewPlaylist(); // Exercise 9
+        bindNewPlaylist(); // Exercise 9
 
-      bindEditPlaylistName();
+        bindEditPlaylistName();
+      });
     });
-
   }
 
   function bindEditPlaylistName() {
