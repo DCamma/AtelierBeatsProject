@@ -1280,7 +1280,7 @@ a.create-playlist:active, a.create-public-playlist:active {
 }
 
 .publicPlaylist{
-    background: rgba(250,50,10,0.4);
+    background: rgba(250,20,10,0.4);
 }
 
 #playlists > li {
