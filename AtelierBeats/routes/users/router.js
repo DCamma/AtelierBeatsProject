@@ -222,9 +222,7 @@ router.put('/:userid/playlists', function(req, res, next) {
 
         // Exercise 9
         if (!data || !data.name) {
-            data = {
-                name: "Playlist " + (user.playlists.length + 1)
-            }
+            data["name"] = "Playlist " + (user.playlists.length + 1)
         }
 
         var newPlaylist = new Playlist(data);

@@ -302,11 +302,11 @@ var users = {
           "name" : 'Thrash Metal favs 2',
           "tracks": [tracks.data[3]._id, tracks.data[4]._id]
         }),
-          new Playlist ({
-          "name" : 'masiar Pubb Playlist',
-          "tracks": [tracks.data[0]._id, tracks.data[4]._id],
-          "publicPlaylist" : true,
-        })
+        //   new Playlist ({
+        //   "name" : 'masiar Pubb Playlist',
+        //   "tracks": [tracks.data[0]._id, tracks.data[4]._id],
+        //   "publicPlaylist" : true,
+        // })
       ]
     },
 

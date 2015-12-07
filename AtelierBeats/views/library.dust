@@ -42,6 +42,7 @@
         </ul>
 
        <a href="#" class="create-playlist" id="create-pl-btn"><i class="fa fa-plus-circle new-playlist-circle"></i><span>New Playlist</span></a>
+       <a href="#" class="create-public-playlist" id="create-pubb-pl-btn"><i class="fa fa-plus-circle new-playlist-circle"></i><span>New Public Playlist</span></a>
 
         <ul class="nav-menu" id="playlists">
         <!-- Playlists will be rendered here -->

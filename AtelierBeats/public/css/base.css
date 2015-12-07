@@ -1259,7 +1259,7 @@ ul.nav-menu.horizontal-menu li > a:hover {
     cursor: pointer;
 }
 
-a.create-playlist {
+a.create-playlist, a.create-public-playlist{
     color: rgba(0, 0, 0, 0.4);
     background: rgba(0, 0, 0, 0.1);
     display: inline-block;
@@ -1272,11 +1272,15 @@ a.create-playlist {
     overflow: hidden;
 }
 
-a.create-playlist:hover,
-a.create-playlist:active {
+a.create-playlist:hover, a.create-public-playlist:hover,
+a.create-playlist:active, a.create-public-playlist:active {
     background: rgba(0, 0, 0, 0.2);
     color: #f7f7f7;
     text-decoration: none;
+}
+
+.publicPlaylist{
+    background: rgba(250,50,10,0.4);
 }
 
 #playlists > li {
