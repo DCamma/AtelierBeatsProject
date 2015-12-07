@@ -1,346 +1,346 @@
-/** @module users/router */
-'use strict';
+// /** @module users/router */
+// 'use strict';
 
-var express = require('express');
-var router = express.Router();
-var middleware = require('../middleware');
-var mongoose = require('mongoose');
-var ObjectId = mongoose.Types.ObjectId;
+// var express = require('express');
+// var router = express.Router();
+// var middleware = require('../middleware');
+// var mongoose = require('mongoose');
+// var ObjectId = mongoose.Types.ObjectId;
 
-// var User = mongoose.model('User');
-// var Activity = mongoose.model("Activity");
-// var Playlist = mongoose.model("Playlist");
+// // var User = mongoose.model('User');
+// // var Activity = mongoose.model("Activity");
+// // var Playlist = mongoose.model("Playlist");
 
-var PublicPlaylist = mongoose.model("PublicPlaylist");
+// var PublicPlaylist = mongoose.model("PublicPlaylist");
 
-var config = require("../../config");
-var pubsub = require('../../pubsub');
+// var config = require("../../config");
+// var pubsub = require('../../pubsub');
 
-//fields we don't want to show to the client
-// var fieldsFilter = {
-//   'password': 0,
-//   '__v': 0
-// };
+// //fields we don't want to show to the client
+// // var fieldsFilter = {
+// //   'password': 0,
+// //   '__v': 0
+// // };
 
-//supported methods
-// router.all('/:userid', middleware.supportedMethods('GET, PUT, DELETE, OPTIONS'));
-router.all('/', middleware.supportedMethods('GET, POST, OPTIONS'));
+// //supported methods
+// // router.all('/:userid', middleware.supportedMethods('GET, PUT, DELETE, OPTIONS'));
+// router.all('/', middleware.supportedMethods('GET, POST, OPTIONS'));
 
-//list users
-router.get('/', function(req, res, next) {
+// //list users
+// router.get('/', function(req, res, next) {
 
-  PublicPlaylist.find({}, fieldsFilter).lean().exec(function(err, publicPlaylists) {
-    if (err) return next(err);
-    publicPlaylists.forEach(function(publicPlaylists) {
-      addLinks(publicPlaylists);
-    });
-
-    res.json(publicPlaylists);
-  });
-});
-
-//create new public playlist
-router.post('/', function(req, res, next) {
-  var newPubbPl = new PublicPlaylist(req.body);
-  newPubbPl.save(onModelSave(res, 201, true));
-});
-
-// //get a user
-// router.get('/:userid', function(req, res, next) {
-//   User.findById(req.params.userid, fieldsFilter).lean().exec(function(err, user) {
+//   PublicPlaylist.find({}, fieldsFilter).lean().exec(function(err, publicPlaylists) {
 //     if (err) return next(err);
-//     if (!user) {
-//       res.status(404);
-//       res.json({
-//         statusCode: 404,
-//         message: "Not Found"
-//       });
-//       return;
-//     }
-//     addLinks(user);
-//     res.json(user);
-//   });
-// });
-
-//update a user
-router.put('/:userid', function(req, res, next) {
-  var data = req.body;
-  PublicPlaylist.findById(req.params.userid, fieldsFilter, function(err, publicPlaylist) {
-    if (err) return next(err);
-
-    if (publicPlaylist) {
-      publicPlaylist.name = data.name;
-      publicPlaylist.tracks = data.tracks;
-      publicPlaylist.dateCreated = data.dateCreated;
-      publicPlaylist.userId = data.userId;
-
-      publicPlaylist.save(onModelSave(res));
-
-    } else {
-      //publicPlaylist does not exist create it
-      var newPubbPl = new PublicPlaylist(data);
-      newPubbPl._id = ObjectId(req.params.userid);
-      // newPubbPl.save(onModelSave(res, 201, true));
-    }
-  });
-});
-
-// //remove a user
-// router.delete('/:userid', function(req, res, next) {
-//   User.findById(req.params.userid, fieldsFilter, function(err, user) {
-//     if (err) return next(err);
-//     if (!user) {
-//       res.status(404);
-//       res.json({
-//         statusCode: 404,
-//         message: "Not Found"
-//       });
-//       return;
-//     }
-//     user.remove(function(err, removed) {
-//       if (err) return next(err);
-//       res.status(204).end();
-//     })
-//   });
-// });
-
-// //get a user's playlists
-// router.get('/:userid/playlists', function(req, res, next) {
-//   User.findById(req.params.userid, fieldsFilter, function(err, user) {
-//     if (err) return next(err);
-//     if (!user) {
-//       res.status(404);
-//       res.json({
-//         statusCode: 404,
-//         message: "Not Found"
-//       });
-//       return;
-//     }
-//     res.json(user.playlists);
-//   });
-// });
-
-// //get a user's playlists' tracks
-// router.get('/:userid/playlists/:playlistsid', function(req, res, next) {
-//   User.findById(req.params.userid, fieldsFilter, function(err, user) {
-//     if (err) return next(err);
-//     if (!user) {
-//       res.status(404);
-//       res.json({
-//         statusCode: 404,
-//         message: "Not Found"
-//       });
-//       return;
-//     }
-//     for (var i = 0; i < user.playlists.length; i++) {
-//       if (user.playlists[i]._id == req.params.playlistsid) {
-//         res.json(user.playlists[i]);
-//         console.log(user.playlists[i])
-//         return;
-//       }
-//     }
-//     res.json({
-//       statusCode: 404,
-//       message: "Not Found"
+//     publicPlaylists.forEach(function(publicPlaylists) {
+//       addLinks(publicPlaylists);
 //     });
-//     return;
+
+//     res.json(publicPlaylists);
 //   });
 // });
 
-// //update a user's playlists
-// router.put('/:userid/playlists', function(req, res, next) {
-
-//   var data = req.body;
-
-//   User.findById(req.params.userid, fieldsFilter, function(err, user) {
-//     if (err) return next(err);
-
-//     if (!user) {
-//       res.status(404);
-//       res.json({
-//         statusCode: 404,
-//         message: "Not Found"
-//       });
-//       return;
-//     }
-
-//     // Exercise 9
-//     if (!data || !data.name) {
-//       data = {
-//         name: "Playlist " + (user.playlists.length + 1)
-//       }
-//     }
-
-//     var newPlaylist = new Playlist(data);
-//     user.playlists.push(newPlaylist);
-//     user.save(onModelSave(res));
-//   });
-
+// //create new public playlist
+// router.post('/', function(req, res, next) {
+//   var newPubbPl = new PublicPlaylist(req.body);
+//   newPubbPl.save(onModelSave(res, 201, true));
 // });
 
-// router.put('/:userid/playlists/:playlistsid', function(req, res, next) {
+// // //get a user
+// // router.get('/:userid', function(req, res, next) {
+// //   User.findById(req.params.userid, fieldsFilter).lean().exec(function(err, user) {
+// //     if (err) return next(err);
+// //     if (!user) {
+// //       res.status(404);
+// //       res.json({
+// //         statusCode: 404,
+// //         message: "Not Found"
+// //       });
+// //       return;
+// //     }
+// //     addLinks(user);
+// //     res.json(user);
+// //   });
+// // });
+
+// //update a user
+// router.put('/:userid', function(req, res, next) {
 //   var data = req.body;
-
-//   User.findById(req.params.userid, fieldsFilter, function(err, user) {
+//   PublicPlaylist.findById(req.params.userid, fieldsFilter, function(err, publicPlaylist) {
 //     if (err) return next(err);
 
-//     if (!user) {
-//       res.status(404);
-//       res.json({
-//         statusCode: 404,
-//         message: "Not Found"
-//       });
-//       return;
-//     }
+//     if (publicPlaylist) {
+//       publicPlaylist.name = data.name;
+//       publicPlaylist.tracks = data.tracks;
+//       publicPlaylist.dateCreated = data.dateCreated;
+//       publicPlaylist.userId = data.userId;
 
-//     for (var i = 0; i < user.playlists.length; i++) {
-//       if (user.playlists[i]._id == req.params.playlistsid) {
-//         if (data._id) {
-//           if (user.playlists[i].tracks.indexOf(data._id) == -1) {
-//             user.playlists[i].tracks.push(data._id)
-//             user.save(onModelSave(res));
-//             console.log(user.playlists[i].tracks)
-//             return;
-//           }
-//         } else {
-//           user.playlists[i].name = data.name;
-//           user.save(onModelSave(res));
-//           return;
-//         }
-//       }
-//     }
+//       publicPlaylist.save(onModelSave(res));
 
-//     res.status(400);
-//     res.json({
-//       statusCode: 400,
-//       message: "Bad Request"
-//     });
-//   });
-
-// });
-
-// // Exercise 9 - Activities
-
-// router.get("/:userid/activities", function(req, res, next) {
-//   User.findById(req.params.userid, fieldsFilter, function(err, user) {
-//     if (err) return next(err);
-//     if (!user) {
-//       res.status(404);
-//       return res.json({
-//         statusCode: 404,
-//         message: "User Not Found"
-//       })
-//     }
-
-//     res.json(user.activities);
-//   })
-// });
-
-// /* Just creates a new activity with the data received. */
-// router.put("/:userid/activities", function(req, res, next) {
-
-//   var data = req.body;
-
-//   User.findById(req.params.userid, fieldsFilter, function(err, user) {
-//     if (err) return next(err);
-
-//     if (!user) {
-//       res.status(404);
-//       return res.json({
-//         statusCode: 404,
-//         message: "User Not Found"
-//       });
 //     } else {
-//       var activity = new Activity(data);
-//       user.activities.push(activity);
-//       pubsub.emit('activity.added', {});
-//       user.save(onModelSave(res));
+//       //publicPlaylist does not exist create it
+//       var newPubbPl = new PublicPlaylist(data);
+//       newPubbPl._id = ObjectId(req.params.userid);
+//       // newPubbPl.save(onModelSave(res, 201, true));
 //     }
-
 //   });
 // });
 
-// /* Updates the activity with targetID=req.params.targetid, 
-// else a new activity document is created and stored to the db. */
-// router.put("/:userid/activities/:targetid", function(req, res, next) {
+// // //remove a user
+// // router.delete('/:userid', function(req, res, next) {
+// //   User.findById(req.params.userid, fieldsFilter, function(err, user) {
+// //     if (err) return next(err);
+// //     if (!user) {
+// //       res.status(404);
+// //       res.json({
+// //         statusCode: 404,
+// //         message: "Not Found"
+// //       });
+// //       return;
+// //     }
+// //     user.remove(function(err, removed) {
+// //       if (err) return next(err);
+// //       res.status(204).end();
+// //     })
+// //   });
+// // });
 
-//   var data = req.body;
+// // //get a user's playlists
+// // router.get('/:userid/playlists', function(req, res, next) {
+// //   User.findById(req.params.userid, fieldsFilter, function(err, user) {
+// //     if (err) return next(err);
+// //     if (!user) {
+// //       res.status(404);
+// //       res.json({
+// //         statusCode: 404,
+// //         message: "Not Found"
+// //       });
+// //       return;
+// //     }
+// //     res.json(user.playlists);
+// //   });
+// // });
 
-//   User.findById(req.params.userid, fieldsFilter, function(err, user) {
-//     if (err) return next(err);
+// // //get a user's playlists' tracks
+// // router.get('/:userid/playlists/:playlistsid', function(req, res, next) {
+// //   User.findById(req.params.userid, fieldsFilter, function(err, user) {
+// //     if (err) return next(err);
+// //     if (!user) {
+// //       res.status(404);
+// //       res.json({
+// //         statusCode: 404,
+// //         message: "Not Found"
+// //       });
+// //       return;
+// //     }
+// //     for (var i = 0; i < user.playlists.length; i++) {
+// //       if (user.playlists[i]._id == req.params.playlistsid) {
+// //         res.json(user.playlists[i]);
+// //         console.log(user.playlists[i])
+// //         return;
+// //       }
+// //     }
+// //     res.json({
+// //       statusCode: 404,
+// //       message: "Not Found"
+// //     });
+// //     return;
+// //   });
+// // });
 
-//     if (!user) {
-//       res.status(404);
-//       return res.json({
-//         statusCode: 404,
-//         message: "User Not Found"
-//       });
-//     } else { // user exits
-//       var found = false;
+// // //update a user's playlists
+// // router.put('/:userid/playlists', function(req, res, next) {
 
-//       for (var i = 0; i < user.activities.length && !found; i++) {
+// //   var data = req.body;
 
-//         if (user.activities[i].targetID == req.params.targetid) {
+// //   User.findById(req.params.userid, fieldsFilter, function(err, user) {
+// //     if (err) return next(err);
 
-//           user.activities[i].action = data.action || user.activities[i].action;
-//           user.activities[i].target = data.target || user.activities[i].target;
-//           user.activities[i].timestamp = data.timestamp || user.activities[i].timestamp;
-//           user.activities[i].url = data.url || user.activities[i].url;
+// //     if (!user) {
+// //       res.status(404);
+// //       res.json({
+// //         statusCode: 404,
+// //         message: "Not Found"
+// //       });
+// //       return;
+// //     }
 
-//           found = true;
-//         }
-//       }
+// //     // Exercise 9
+// //     if (!data || !data.name) {
+// //       data = {
+// //         name: "Playlist " + (user.playlists.length + 1)
+// //       }
+// //     }
 
-//       if (!found) {
-//         var activity = new Activity(data);
-//         user.activities.push(activity);
-//       }
+// //     var newPlaylist = new Playlist(data);
+// //     user.playlists.push(newPlaylist);
+// //     user.save(onModelSave(res));
+// //   });
 
-//       pubsub.emit('activity.added', {});
-//       user.save(onModelSave(res));
-//     }
+// // });
 
-//   });
+// // router.put('/:userid/playlists/:playlistsid', function(req, res, next) {
+// //   var data = req.body;
 
-// });
+// //   User.findById(req.params.userid, fieldsFilter, function(err, user) {
+// //     if (err) return next(err);
 
-// function onModelSave(res, status, sendItAsResponse) {
-//   var statusCode = status || 204;
-//   var sendItAsResponse = sendItAsResponse || false;
-//   return function(err, saved) {
-//     if (err) {
-//       if (err.name === 'ValidationError' || err.name === 'TypeError') {
-//         res.status(400)
-//         return res.json({
-//           statusCode: 400,
-//           message: "Bad Request"
-//         });
-//       } else {
-//         return next(err);
-//       }
-//     }
-//     if (sendItAsResponse) {
-//       var obj = saved.toObject();
-//       delete obj.password;
-//       delete obj.__v;
-//       addLinks(obj);
-//       res.status(statusCode)
-//       return res.json(obj);
-//     } else {
-//       return res.status(statusCode).end();
-//     }
-//   }
-// }
+// //     if (!user) {
+// //       res.status(404);
+// //       res.json({
+// //         statusCode: 404,
+// //         message: "Not Found"
+// //       });
+// //       return;
+// //     }
 
-// function addLinks(user) {
-//   user.links = [{
-//     "rel": "self",
-//     "href": config.url + "/users/" + user._id
-//   }, {
-//     "rel": "playlists",
-//     "href": config.url + "/users/" + user._id + "/playlists"
-//   }];
-// }
+// //     for (var i = 0; i < user.playlists.length; i++) {
+// //       if (user.playlists[i]._id == req.params.playlistsid) {
+// //         if (data._id) {
+// //           if (user.playlists[i].tracks.indexOf(data._id) == -1) {
+// //             user.playlists[i].tracks.push(data._id)
+// //             user.save(onModelSave(res));
+// //             console.log(user.playlists[i].tracks)
+// //             return;
+// //           }
+// //         } else {
+// //           user.playlists[i].name = data.name;
+// //           user.save(onModelSave(res));
+// //           return;
+// //         }
+// //       }
+// //     }
 
-/** router for /users */
-module.exports = router;
+// //     res.status(400);
+// //     res.json({
+// //       statusCode: 400,
+// //       message: "Bad Request"
+// //     });
+// //   });
+
+// // });
+
+// // // Exercise 9 - Activities
+
+// // router.get("/:userid/activities", function(req, res, next) {
+// //   User.findById(req.params.userid, fieldsFilter, function(err, user) {
+// //     if (err) return next(err);
+// //     if (!user) {
+// //       res.status(404);
+// //       return res.json({
+// //         statusCode: 404,
+// //         message: "User Not Found"
+// //       })
+// //     }
+
+// //     res.json(user.activities);
+// //   })
+// // });
+
+// // /* Just creates a new activity with the data received. */
+// // router.put("/:userid/activities", function(req, res, next) {
+
+// //   var data = req.body;
+
+// //   User.findById(req.params.userid, fieldsFilter, function(err, user) {
+// //     if (err) return next(err);
+
+// //     if (!user) {
+// //       res.status(404);
+// //       return res.json({
+// //         statusCode: 404,
+// //         message: "User Not Found"
+// //       });
+// //     } else {
+// //       var activity = new Activity(data);
+// //       user.activities.push(activity);
+// //       pubsub.emit('activity.added', {});
+// //       user.save(onModelSave(res));
+// //     }
+
+// //   });
+// // });
+
+// // /* Updates the activity with targetID=req.params.targetid, 
+// // else a new activity document is created and stored to the db. */
+// // router.put("/:userid/activities/:targetid", function(req, res, next) {
+
+// //   var data = req.body;
+
+// //   User.findById(req.params.userid, fieldsFilter, function(err, user) {
+// //     if (err) return next(err);
+
+// //     if (!user) {
+// //       res.status(404);
+// //       return res.json({
+// //         statusCode: 404,
+// //         message: "User Not Found"
+// //       });
+// //     } else { // user exits
+// //       var found = false;
+
+// //       for (var i = 0; i < user.activities.length && !found; i++) {
+
+// //         if (user.activities[i].targetID == req.params.targetid) {
+
+// //           user.activities[i].action = data.action || user.activities[i].action;
+// //           user.activities[i].target = data.target || user.activities[i].target;
+// //           user.activities[i].timestamp = data.timestamp || user.activities[i].timestamp;
+// //           user.activities[i].url = data.url || user.activities[i].url;
+
+// //           found = true;
+// //         }
+// //       }
+
+// //       if (!found) {
+// //         var activity = new Activity(data);
+// //         user.activities.push(activity);
+// //       }
+
+// //       pubsub.emit('activity.added', {});
+// //       user.save(onModelSave(res));
+// //     }
+
+// //   });
+
+// // });
+
+// // function onModelSave(res, status, sendItAsResponse) {
+// //   var statusCode = status || 204;
+// //   var sendItAsResponse = sendItAsResponse || false;
+// //   return function(err, saved) {
+// //     if (err) {
+// //       if (err.name === 'ValidationError' || err.name === 'TypeError') {
+// //         res.status(400)
+// //         return res.json({
+// //           statusCode: 400,
+// //           message: "Bad Request"
+// //         });
+// //       } else {
+// //         return next(err);
+// //       }
+// //     }
+// //     if (sendItAsResponse) {
+// //       var obj = saved.toObject();
+// //       delete obj.password;
+// //       delete obj.__v;
+// //       addLinks(obj);
+// //       res.status(statusCode)
+// //       return res.json(obj);
+// //     } else {
+// //       return res.status(statusCode).end();
+// //     }
+// //   }
+// // }
+
+// // function addLinks(user) {
+// //   user.links = [{
+// //     "rel": "self",
+// //     "href": config.url + "/users/" + user._id
+// //   }, {
+// //     "rel": "playlists",
+// //     "href": config.url + "/users/" + user._id + "/playlists"
+// //   }];
+// // }
+
+// /** router for /users */
+// module.exports = router;

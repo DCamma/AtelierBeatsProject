@@ -10,7 +10,7 @@ require('./Artist');
 require('./Playlist');
 require('./Track');
 require('./User');
-require("./PublicPlaylist");
+// require("./PublicPlaylist");
 
 module.exports = {
   'Album': mongoose.model('Album'),
@@ -18,5 +18,5 @@ module.exports = {
   'Playlist': mongoose.model('Playlist'),
   'Track': mongoose.model('Track'),
   'User': mongoose.model('User'),
-  "PublicPlaylist": mongoose.model("PublicPlaylist")
+  // "PublicPlaylist": mongoose.model("PublicPlaylist")
 }
