@@ -39,12 +39,11 @@ router.get('/', function(req, res, next) {
   });
 });
 
-// //create new user
-// router.post('/', function(req, res, next) {
-
-//   var newUser = new User(req.body);
-//   newUser.save(onModelSave(res, 201, true));
-// });
+//create new public playlist
+router.post('/', function(req, res, next) {
+  var newPubbPl = new PublicPlaylist(req.body);
+  newPubbPl.save(onModelSave(res, 201, true));
+});
 
 // //get a user
 // router.get('/:userid', function(req, res, next) {
@@ -63,31 +62,28 @@ router.get('/', function(req, res, next) {
 //   });
 // });
 
-// //update a user
-// router.put('/:userid', function(req, res, next) {
-//   var data = req.body;
-//   User.findById(req.params.userid, fieldsFilter, function(err, user) {
-//     if (err) return next(err);
+//update a user
+router.put('/:userid', function(req, res, next) {
+  var data = req.body;
+  PublicPlaylist.findById(req.params.userid, fieldsFilter, function(err, publicPlaylist) {
+    if (err) return next(err);
 
-//     if (user) {
-//       user.userName = data.userName;
-//       user.firstName = data.firstName;
-//       user.lastName = data.lastName;
-//       user.email = data.email;
-//       user.playlists = data.playlists;
-//       user.randomPlayback = data.randomPlayback;
-//       user.activities = data.activities;
+    if (publicPlaylist) {
+      publicPlaylist.name = data.name;
+      publicPlaylist.tracks = data.tracks;
+      publicPlaylist.dateCreated = data.dateCreated;
+      publicPlaylist.userId = data.userId;
 
-//       user.save(onModelSave(res));
+      publicPlaylist.save(onModelSave(res));
 
-//     } else {
-//       //user does not exist create it
-//       var newUser = new User(data);
-//       newUser._id = ObjectId(req.params.userid);
-//       newUser.save(onModelSave(res, 201, true));
-//     }
-//   });
-// });
+    } else {
+      //publicPlaylist does not exist create it
+      var newPubbPl = new PublicPlaylist(data);
+      newPubbPl._id = ObjectId(req.params.userid);
+      // newPubbPl.save(onModelSave(res, 201, true));
+    }
+  });
+});
 
 // //remove a user
 // router.delete('/:userid', function(req, res, next) {

@@ -16,10 +16,6 @@ var PublicPlaylistSchema = new mongoose.Schema({
       type: Date,
       default: Date.now
     },
-    publicPlaylist: {
-      type: Boolean,
-      default: false
-    },
     userId: {
       type: String,
       default: ""
