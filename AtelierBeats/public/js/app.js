@@ -1559,7 +1559,6 @@ function setupPlaylists() {
     }
 
     function renderPlaylists(playlists) {
-        // do json request for the public playlists
         var data = {
             "playlists": playlists
         };
@@ -1796,14 +1795,24 @@ function managePlaylistNameEdit(editButton) {
                     addPlaylistCreationActivity = false;
                 });
             }
-            // doJSONRequest("GET", "users/publicPlaylists", null, null, function(playlists){
-            //     var data = {
-            //         "playlists": playlists
-            //     };
-            //     dust.render("pubbPlaylists", data, function(err, out) {
-            //         document.getElementById('playlists').innerHTML = document.getElementById('playlists').innerHTML + out;
-            //     });
-            // });
+
+            doJSONRequest("GET", "users/" + userid + "/playlists", null, null, function(playlists){
+              var data = {
+                  "playlists": playlists
+              };
+
+              dust.render("playlists", data, function(err, out) {
+                  document.getElementById('playlists').innerHTML = out;
+              });
+            });
+            doJSONRequest("GET", "users/publicPlaylists", null, null, function(playlists){
+                var data = {
+                    "playlists": playlists
+                };
+                dust.render("pubbPlaylists", data, function(err, out) {
+                    document.getElementById('playlists').innerHTML = document.getElementById('playlists').innerHTML + out;
+                });
+            });
 
         }
 
