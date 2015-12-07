@@ -1077,22 +1077,16 @@ function drawArtist(e, addHistory, foundedArtist) {
         function renderShowArtist(tracks) {
             currentTracks = tracks
             var artistData = [];
-            var artistTracks = buildTracksData(tracks);
 
-<<<<<<< Updated upstream
             artistData.artwork = artist.artwork;
             artistData._id = artist._id;
             artistData.name = artist.name;
             artistData.genre = artist.genre;
-=======
-    function renderShowArtist(tracks) {
-      currentTracks = tracks
-      var artistData = [];
-      if(foundedArtist)
-        var artistTracks = buildTracksData(foundedArtist);
-      else
-        var artistTracks = buildTracksData(tracks);
->>>>>>> Stashed changes
+
+             if(foundedArtist)
+                var artistTracks = buildTracksData(foundedArtist);
+            else
+                var artistTracks = buildTracksData(tracks);
 
             var data = {
                 "artist": artistData,
@@ -2131,7 +2125,7 @@ function setupSearch() {
           return;
         }
       })
-    })
+    }
     if (window.location.hash === "#artists") {
         doJSONRequest("GET", "/artists", null, null, function(artists) {
             result = fuzzyFind(artists, "name", theValue);
@@ -2163,10 +2157,14 @@ function setupSearch() {
                 renderPlaylist({
                     "playlist": playlist
                 })
-            } else {
+            } 
+            else {
                 for (var i = 0; i < playlist.tracks.length; i++) {
                     doJSONRequest("GET", "tracks/" + playlist.tracks[i], null, null, function(track) {
+                        console.log(track)
                         tracks.push(track)
+                        console.log(tracks)
+
                         result = fuzzyFind(tracks, "name", theValue);
 
                         if (theValue.trim() === "") {
@@ -2181,15 +2179,17 @@ function setupSearch() {
     }
     if(window.location.hash === "#artists/" +  ids){
         doJSONRequest("GET", "/artists/" + ids, null, null, function(artist) {
-            console.log(artist)
-            result = fuzzyFind(artist, "name", theValue);
-            console.log(result)
-            if (theValue.trim() === "") {
-              drawArtist();
-              return;
-            }
-            drawArtist(null, null, result);
-      });
+            doJSONRequest("GET", "/tracks?filter=" + encodeURIComponent(JSON.stringify({'artist': artist._id})), null, null, function(tracks){
+                result = fuzzyFind(tracks, "name", theValue);
+
+                if (theValue.trim() === "") {
+                  drawArtist("artists/" + ids);
+                  return;
+                }
+
+                drawArtist("artists/" + ids, null, result);
+            });
+        });
     }
   });
 }
@@ -2606,5 +2606,6 @@ function playNext() {
     }
 
 }
+
 
 // Player
