@@ -7,7 +7,8 @@ var User = mongoose.model('User');
 
 /**
 Why do we need serializeUser and deserializeUser?
-- http://stackoverflow.com/questions/19268812/do-i-implement-serialize-and-deserialize-nodesjs-passport-redisstore
+Essentially it allows you to stay logged-in when navigating between different pages within your application.
+See: http://stackoverflow.com/questions/19268812/do-i-implement-serialize-and-deserialize-nodesjs-passport-redisstore
 
 Understanding serialize and deserialise:
 - http://stackoverflow.com/questions/27637609/understanding-passport-serialize-deserialize

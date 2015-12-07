@@ -6,7 +6,7 @@ var rootUrl = require("../../config").url;
 var express = require('express');
 var router = express.Router();
 
-router.all('/', middleware.supportedMethods('GET, POST, PUT, OPTIONS'));
+router.all('/', middleware.supportedMethods('GET, POST, OPTIONS'));
 
 var isAuthenticated = function(req, res, next) {
   // if user is authenticated in the session, call the next() to call the next request handler 
@@ -20,10 +20,13 @@ var isAuthenticated = function(req, res, next) {
 
 }
 
+/* When required this router from app.js, 
+the passport instance created there is passed to this function. */
 module.exports = function(passport) {
 
   /* GET Home Page */
   router.get('/', isAuthenticated, function(req, res) {
+
     res.render('library', {
       // passing the id of and username the connecting user to the dust
       userid: req.user._id,

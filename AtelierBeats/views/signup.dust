@@ -19,6 +19,11 @@
           <input class="form-control form-stacked" name="email" placeholder="email" type="email">
           <input class="form-control form-stacked" name="password" placeholder="Password" type="password">
           <input class="form-control form-stacked last" name="repeatPassword" placeholder="Repeat password" type="password">
+  
+          {?wrongRepeatedPass}
+            <p class="user-not-found">{wrongRepeatedPass}</p>
+          {/wrongRepeatedPass}
+
 
           {?message}
             <p class="user-not-found">{message}</p>

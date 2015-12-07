@@ -12,6 +12,10 @@ module.exports = function(passport) {
     },
     function(req, username, password, done) {
 
+      if (req.body.password !== req.body.repeatPassword) {
+        return done(null, false, req.flash('message', "Passwords do not match."));
+      }
+
       var findOrCreateUser = function() {
 
         // find a user in Mongo with provided username
