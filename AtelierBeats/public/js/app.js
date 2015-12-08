@@ -1051,7 +1051,7 @@ function addArtistsToHistory(addHistory) {
     }
 }
 
-function drawArtist(e, addHistory) {
+function drawArtist(e, addHistory, foundedArtist) {
 
     var href;
 
