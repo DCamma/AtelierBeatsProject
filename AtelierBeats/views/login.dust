@@ -23,7 +23,6 @@
   
           <input class="form-control form-stacked last" name="password" placeholder="Password" type="password" required>
   
-
           {?message}
             <p class="user-not-found">{message}</p>
           {/message}
@@ -34,7 +33,7 @@
 
         <p>Don't have an account? <a href="/signup" class="beats"><strong>sign up</strong></a> now!</p>
 
-        <p>Forgot your password? <a href="/resetpass" class="beats"><strong>reset</strong></a> it now!</p>
+        <p>Forgot your password? <a href="/forgotpassword" class="beats"><strong>reset</strong></a> it now!</p>
 
       </div> 
       

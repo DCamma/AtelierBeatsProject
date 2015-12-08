@@ -60,6 +60,14 @@ var userSchema = new mongoose.Schema({
   picture: {
     type: String,
     default: ""
+  },
+  resetPasswordToken: { // Used to reset password
+    type: String,
+    default: ""
+  },
+  resetPasswordExpires: { // Used to reset password
+    type: Date,
+    default: Date.now
   }
 
 });
@@ -96,6 +104,7 @@ userSchema.pre('save', function(next) {
       }
 
       user.password = hash;
+
       next();
     });
   });

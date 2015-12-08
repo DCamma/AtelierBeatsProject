@@ -58,7 +58,8 @@ body {
 }
 
 body.signup,
-body.login {
+body.login,
+body.forgot-password {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     font-size: 14px;
     line-height: 1.42857143;
@@ -76,6 +77,10 @@ body.login {
 
 body.signup {
     background-image: url('../images/singer.jpg');
+}
+
+body.forgot-password {
+    background-image: url('../images/mix-console_small.jpg');
 }
 
 .container {
@@ -1259,7 +1264,8 @@ ul.nav-menu.horizontal-menu li > a:hover {
     cursor: pointer;
 }
 
-a.create-playlist, a.create-public-playlist{
+a.create-playlist,
+a.create-public-playlist {
     color: rgba(0, 0, 0, 0.4);
     background: rgba(0, 0, 0, 0.1);
     display: inline-block;
@@ -1272,15 +1278,17 @@ a.create-playlist, a.create-public-playlist{
     overflow: hidden;
 }
 
-a.create-playlist:hover, a.create-public-playlist:hover,
-a.create-playlist:active, a.create-public-playlist:active {
+a.create-playlist:hover,
+a.create-public-playlist:hover,
+a.create-playlist:active,
+a.create-public-playlist:active {
     background: rgba(0, 0, 0, 0.2);
     color: #f7f7f7;
     text-decoration: none;
 }
 
-.publicPlaylist{
-    background: rgba(250,20,10,0.4);
+.publicPlaylist {
+    background: rgba(250, 20, 10, 0.4);
 }
 
 #playlists > li {
