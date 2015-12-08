@@ -178,7 +178,7 @@ module.exports = function(passport) {
         // setup e-mail data with unicode symbols
         var mailOptions = {
           to: user.email,
-          from: 'Atelier Beats Team',
+          from: 'Atelier Beats Team <atelierbeatsteam@gmail.com>',
           subject: 'AtelierBeats Account Password Reset',
           text: 'You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n' +
             'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
@@ -302,7 +302,7 @@ module.exports = function(passport) {
 
         var mailOptions = {
           to: user.email,
-          from: 'Atelier Beats Team',
+          from: 'Atelier Beats Team <atelierbeatsteam@gmail.com>',
           subject: 'Your password has been changed',
           text: 'Hello,\n\n' +
             'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
