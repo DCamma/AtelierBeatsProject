@@ -81,8 +81,14 @@ router.post('/', function(req, res, next) {
   newTrack.save(onModelSave(res, 201, true));
 });
 
+router.post('/ajaxupload', upload.single("track"), function(req, res) {
+  return res.json({
+    redirect: "/library"
+  });
+});
+
 router.post('/upload', upload.single("track"), function(req, res) {
-  res.redirect("/"); // or /#trackuploader
+  res.redirect("/library"); // or 
 });
 
 router.put('/player', function(req, res, next) {

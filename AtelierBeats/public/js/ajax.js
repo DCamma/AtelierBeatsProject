@@ -35,12 +35,10 @@
  * @param {JSON} data The data in the JSON format to be sent to the server. It must be null if there are no data.
  * @param {Function} callback The function to call when the response is ready.
  */
- function doJSONRequest(method, url, headers, data, callback){
-
-  //<!-- build:remove -->
+function doJSONRequest(method, url, headers, data, callback) {
 
   //all the arguments are mandatory
-  if(arguments.length != 5) {
+  if (arguments.length != 5) {
     throw new Error('Illegal argument count');
   }
 
@@ -56,12 +54,12 @@
   doRequestSetHeaders(r, method, headers);
 
   //wait for the response from the server
-  r.onreadystatechange = function () {
+  r.onreadystatechange = function() {
     //correctly handle the errors based on the HTTP status returned by the called API
-    if (r.readyState != 4 || (r.status != 200 && r.status != 201 && r.status != 204)){
+    if (r.readyState != 4 || (r.status != 200 && r.status != 201 && r.status != 204)) {
       return;
     } else {
-      if(isJSON(r.responseText))
+      if (isJSON(r.responseText))
         callback(JSON.parse(r.responseText));
       else if (callback !== null)
         callback();
@@ -70,8 +68,7 @@
 
   //set the data
   var dataToSend = null;
-  if (!("undefined" == typeof data) 
-    && !(data === null))
+  if (!("undefined" == typeof data) && !(data === null))
     dataToSend = JSON.stringify(data);
 
   //console.log(dataToSend)
@@ -79,18 +76,12 @@
   //send the request to the server
   r.send(dataToSend);
 
-  //<!-- /build -->
-
 }
-
-//<!-- build:remove -->
 
 function canJSON(value) {
   try {
     var jsonString = JSON.stringify(value);
-    if (!("undefined" == typeof jsonString) 
-      && !(jsonString === null)
-      && !(jsonString == typeof String))
+    if (!("undefined" == typeof jsonString) && !(jsonString === null) && !(jsonString == typeof String))
       return true;
     else
       return false;
@@ -99,7 +90,7 @@ function canJSON(value) {
   }
 }
 
-function isJSON(jsonString){
+function isJSON(jsonString) {
 
   try {
     var o = JSON.parse(jsonString);
@@ -107,47 +98,44 @@ function isJSON(jsonString){
     if (o && typeof o === "object" && o !== null) {
       return true;
     }
-  }
-  catch (e) {}
+  } catch (e) {}
 
   return false;
 }
 
-function doRequestSetHeaders(r, method, headers){
+function doRequestSetHeaders(r, method, headers) {
 
   //set the default JSON header according to the method parameter
   r.setRequestHeader("Accept", "application/json");
 
-  if(method === "POST" || method === "PUT"){
+  if (method === "POST" || method === "PUT") {
     r.setRequestHeader("Content-Type", "application/json");
   }
 
   //set the additional headers
-  if (!("undefined" == typeof headers) 
-    && !(headers === null)){
+  if (!("undefined" == typeof headers) && !(headers === null)) {
 
-    for(header in headers){
+    for (header in headers) {
       //console.log("Set: " + header + ': '+ headers[header]);
-      r.setRequestHeader(header,headers[header]);
+      r.setRequestHeader(header, headers[header]);
     }
 
   }
 }
 
-function doRequestChecks(method, isAsynchronous, data){
+function doRequestChecks(method, isAsynchronous, data) {
 
   //verify the request method
-  if(method!="GET" && method!="POST" && method!="PUT" && method!="DELETE") {
+  if (method != "GET" && method != "POST" && method != "PUT" && method != "DELETE") {
     throw new Error('Illegal method: ' + method + ". It should be one of: GET, POST, PUT, DELETE.");
   }
 
   //verify the data parameter
-  if (!("undefined" == typeof data) 
-    && !(data === null))
-    if(!canJSON(data)) {
+  if (!("undefined" == typeof data) && !(data === null))
+    if (!canJSON(data)) {
       throw new Error('Illegal data: ' + data + ". It should be a valid JSON.");
     }
-  }
+}
 
 //<!-- /build -->
 
