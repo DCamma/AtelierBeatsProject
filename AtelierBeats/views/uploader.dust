@@ -3,7 +3,7 @@
 	<div class="fl-tu-row uploader-header">Track Uploader</div>
 
 	<div class="fl-tu-row">
-		<input id="song-name-input" class="track-uploader-input" name="name" placeholder="Name" type="text" list="dls-song-name" autocomplete="off" required />
+		<input id="song-name-input" class="track-uploader-input" name="name" placeholder="Name" type="text" list="dls-song-name" tabindex="1" autocomplete="off" required autofocus />
 	      
 		{?nameNotProvided}
 		<p class="upload-option-not-provided">{nameNotProvided}</p>
@@ -14,7 +14,7 @@
 	</div>
 
 	<div class="fl-tu-row">
-		<input id="artist-name-input" class="track-uploader-input" name="artist" placeholder="Artist" type="text" list="dls-artist-name" autocomplete="off" required />
+		<input id="artist-name-input" class="track-uploader-input" name="artist" placeholder="Artist" type="text" list="dls-artist-name" tabindex="2" autocomplete="off" required />
 		
 		{?artistNotProvided}
 		<p class="upload-option-not-provided">{artistNotProvided}</p>
@@ -26,7 +26,7 @@
 	</div>
 
 	<div class="fl-tu-row">
-		<input id="album-name-input" class="track-uploader-input" name="album" placeholder="Album" type="text" list="dls-album-name" autocomplete="off" required />
+		<input id="album-name-input" class="track-uploader-input" name="album" placeholder="Album" type="text" list="dls-album-name" tabindex="3" autocomplete="off" required />
 
 		{?albumNotProvided}
 		<p class="upload-option-not-provided">{albumNotProvided}</p>
@@ -41,7 +41,7 @@
 		</div>
 
 		<div class="actual-date">
-			<input id="date-created-input" class="track-uploader-input" name="date-created" type="date" list="dls-date-created" required />
+			<input id="date-created-input" class="track-uploader-input" name="date-created" type="date" list="dls-date-created" tabindex="4" required />
 			
 			<datalist id="dls-date-created">
 
@@ -56,7 +56,7 @@
 		</div>
 
 		<div class="actual-date">
-			<input id="date-released-input" class="track-uploader-input" name="date-released" type="date" list="dls-date-released" required />
+			<input id="date-released-input" class="track-uploader-input" name="date-released" type="date" list="dls-date-released" tabindex="5" required />
 			
 			<datalist id="dls-date-released">
 
@@ -65,7 +65,7 @@
 
 	</div>
 
-	<div class="fl-tu-row track-drop-zone" id="track-uploader-btn">
+	<div class="fl-tu-row track-drop-zone" id="track-uploader-btn" tabindex="6">
 		<span>Click to upload or drag and drop!</span>
 		<audio id="track-uploader-audio"></audio>
 	</div>
@@ -76,7 +76,7 @@
 	</div>
 	{/fileNotProvided}
 
-	<div class="fl-tu-row uploader-button" id="track-submit-btn">
+	<div class="fl-tu-row uploader-button" id="track-submit-btn" tabindex="7">
 		<span>Add Track</span>
 	</div>
 

@@ -1979,6 +1979,11 @@ Based on: http://www.webdesignerdepot.com/2012/11/how-to-create-a-simple-css3-to
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
 
+/* http://stackoverflow.com/a/20941546/3924118 */
+input::-webkit-calendar-picker-indicator{
+    display: none;
+}
+
 #input-file-uploader {
     display: none;
 }
@@ -2080,4 +2085,8 @@ input[type=date]::-webkit-datetime-edit {
     .user-picture {
         display: none;
     }
+}
+
+.track-option-list{
+
 }

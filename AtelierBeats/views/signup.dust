@@ -13,7 +13,7 @@
       <h1 class="slogan">Now listen.</h1>
       <div class="form-signup-wrapper">
         <form action="/signup" method="POST" class="form-signup">
-          <input class="form-control form-stacked" name="firstname" placeholder="Firstname" type="text">
+          <input class="form-control form-stacked" name="firstname" placeholder="Firstname" type="text" autofocus>
           <input class="form-control form-stacked" name="lastname" placeholder="Lastname" type="text">
           <input class="form-control form-stacked" name="username" placeholder="Username" type="text">
           <input class="form-control form-stacked" name="email" placeholder="email" type="email">
