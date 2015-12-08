@@ -1083,7 +1083,7 @@ function drawArtist(e, addHistory, foundedArtist) {
             artistData.name = artist.name;
             artistData.genre = artist.genre;
 
-             if(foundedArtist)
+            if(foundedArtist)
                 var artistTracks = buildTracksData(foundedArtist);
             else
                 var artistTracks = buildTracksData(tracks);
@@ -1278,7 +1278,7 @@ function addAlbumsToHistory(addHistory) {
 
 /* Album */
 
-function drawAlbum(e, addHistory) {
+function drawAlbum(e, addHistory, foundedAlbums) {
     var href;
 
     if (e && e.target) {
@@ -1305,7 +1305,10 @@ function drawAlbum(e, addHistory) {
         function renderShowAlbum(tracks) {
             currentTracks = tracks
             var albumData = [];
-            var albumTracks = buildTracksData(tracks);
+            if(foundedAlbums)
+                var albumTracks = buildTracksData(foundedAlbums)
+            else
+                var albumTracks = buildTracksData(tracks);
 
             albumData.artist = {};
 
@@ -2117,6 +2120,7 @@ function setupSearch() {
     var theValue = this.value
     var ids = window.location.hash.split('/')[1];
     if (window.location.hash === "#library" || window.location.pathname === "/library") {
+        console.log("DB")
       doJSONRequest("GET", "/tracks", null, null, function(tracks) {
         result = fuzzyFind(tracks, "name", theValue);
 
@@ -2124,6 +2128,7 @@ function setupSearch() {
           drawLibrary();
           return;
         }
+        drawLibrary(null, null, null, result);
       })
     }
     if (window.location.hash === "#artists") {
@@ -2184,6 +2189,20 @@ function setupSearch() {
                     }
 
                     drawArtist("artists/" + ids, null, result);
+                });
+            });
+        }
+        if(window.location.hash === "#albums/" +  ids){
+            doJSONRequest("GET", "/albums/" + ids, null, null, function(album) {
+                doJSONRequest("GET", "/tracks?filter=" + encodeURIComponent(JSON.stringify({'album': album._id})), null, null, function(tracks){
+                    result = fuzzyFind(tracks, "name", theValue);
+
+                    if (theValue.trim() === "") {
+                      drawAlbum("albums/" + ids);
+                      return;
+                    }
+
+                    drawArtist("albums/" + ids, null, result);
                 });
             });
         }
