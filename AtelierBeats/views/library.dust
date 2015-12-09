@@ -12,6 +12,7 @@
 
   <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
+<link rel="shortcut icon" href="images/favicon.ico">
 
 </head>
 <body class="body library" data-user-id="{userid}">
