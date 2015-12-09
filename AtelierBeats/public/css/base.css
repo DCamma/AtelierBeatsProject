@@ -90,7 +90,7 @@ body.forgot-password {
 }
 
 .container.main-wrapper {
-    background-color: #a44b4d;
+    background-color: #3562CE;
 }
 
 
@@ -252,12 +252,12 @@ a:hover {
 }
 
 a.beats {
-    color: #D35B5D;
+    color: #3562CE;
 }
 
 a.beats:hover,
 a.beats:focus {
-    color: #8a2932;
+    color: #3562FF;
     text-decoration: underline;
 }
 
@@ -569,8 +569,8 @@ button {
 
 .btn-beats {
     color: #fff;
-    background-color: #a44b4d;
-    border-color: #633133;
+    background-color: #3562CE;
+    border-color: #1A3065;
 }
 
 .btn-beats:hover,
@@ -578,8 +578,8 @@ button {
 .btn-beats:active,
 .btn-beats.active {
     color: #fff;
-    background-color: #8a2932;
-    border-color: #70403e;
+    background-color: #3562FF;
+    border-color: #1A3065;
 }
 
 .btn-icon:hover,
@@ -685,7 +685,7 @@ button {
     height: 3px;
     top: 4px;
     left: 0;
-    background: #a44b4d;
+    background: #3562CE;
 }
 
 .pl-volume {
@@ -937,7 +937,7 @@ button {
         line-height: 24px;
     }
     .fl-tl-name a {
-        color: #a44b4d;
+        color: #3562CE;
     }
     .fl-tl-artist,
     .fl-tl-album {
@@ -1137,7 +1137,7 @@ input[type="password"].form-stacked:last-of-type,
 #main-nav {
     width: 300px;
     height: 100%;
-    background: #a44b4d;
+    background: #3562CE;
     font-size: 16px;
     transition: width 150ms ease-out;
 }
@@ -1145,7 +1145,7 @@ input[type="password"].form-stacked:last-of-type,
 #main-nav h2 {
     margin: 0;
     padding: 1em;
-    color: rgba(0, 0, 0, 0.4);
+    color: rgb(255, 255, 255);
     font-size: 2em;
 }
 
@@ -1532,7 +1532,7 @@ a.create-public-playlist:active {
 /* ---------------- User nav ---------------- */
 
 #user-nav {
-    background: #a44b4d;
+    background: #3562CE;
     width: 100%;
     height: 60px;
 }
@@ -1661,7 +1661,7 @@ ul.grid-list > li {
 }
 
 .delete-btn:hover {
-    background-color: #a44b4d;
+    background-color: #3562CE;
 }
 
 .delete-btn a {
@@ -1815,7 +1815,7 @@ Based on: http://www.webdesignerdepot.com/2012/11/how-to-create-a-simple-css3-to
     position: relative;
     left: 38px;
     bottom: 28px;
-    color: #f7f7f7;
+    color: #3562CE;
 }
 
 
