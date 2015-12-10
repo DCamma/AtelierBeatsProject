@@ -93,8 +93,6 @@ router.get('/publicPlaylists', function(req, res, next) {
 router.post('/upload', upload.single("userPic"), function(req, res, next) {
     console.log("Uploaded file: ", req.file);
     res.redirect("/#user");
-    // var newUser = new User(req.body);
-    // newUser.save(onModelSave(res, 201, true));
 });
 
 //get a user

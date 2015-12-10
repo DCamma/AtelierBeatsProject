@@ -112,7 +112,7 @@ module.exports = function(passport) {
 
   router.post('/forgotpassword', function(req, res, next) {
 
-    console.log("post: /forgotpassword")
+    // console.log("post: /forgotpassword")
 
     if (!validateEmail(req.body.email)) {
       return res.render("forgotPassword", {
@@ -123,7 +123,7 @@ module.exports = function(passport) {
     async.waterfall([
       function(done) {
         crypto.randomBytes(20, function(err, buf) {
-          // Generation of a unique token, i.e. no two exact password reset tokens at one time
+          // Generation of a unique token
           var token = buf.toString('hex');
 
           // Passing token down the async.waterfall to the next function
@@ -173,7 +173,7 @@ module.exports = function(passport) {
           }
         });
 
-        console.log(token)
+        // console.log(token)
 
         // setup e-mail data with unicode symbols
         var mailOptions = {
@@ -195,12 +195,12 @@ module.exports = function(passport) {
 
     ], function(err, user) {
       if (err) return next(err);
-      console.log("Rendering 'instructions have been sent...'");
+      // console.log("Rendering 'instructions have been sent...'");
 
       if (req.accepts("html"))
-        console.log("Accepts HTML!");
+      // console.log("Accepts HTML!");
 
-      return res.render('forgotPassword', {
+        return res.render('forgotPassword', {
         message: 'An e-mail has been sent to ' + user.email + ' with further instructions.'
       });
 
@@ -210,8 +210,8 @@ module.exports = function(passport) {
 
   router.get('/resetpassword/:token', function(req, res) {
 
-    console.log("get: /resetpassword/:token")
-    console.log("Token: ", req.params.token);
+    // console.log("get: /resetpassword/:token")
+    // console.log("Token: ", req.params.token);
 
     // http://stackoverflow.com/a/31179203/3924118
     var start = new Date(new Date().getTime() - (24 * 60 * 60 * 1000));
@@ -224,14 +224,14 @@ module.exports = function(passport) {
     }, function(err, user) {
 
       if (!user) {
-        console.log("User not found");
+        // console.log("User not found");
 
         return res.render("resetPassword", {
           message: 'Password reset token is invalid or has expired.'
         });
       }
 
-      console.log("User found with token: ", req.params.token, " and it has not expired.");
+      // console.log("User found with token: ", req.params.token, " and it has not expired.");
 
       return res.render("resetPassword", {
         resetPasswordToken: user.resetPasswordToken

@@ -16,8 +16,6 @@
         </form>
     
     </div>
-    
-    <!-- <button type="button">Change Picture</button> -->
 
     <div class="playlist-info">
 
@@ -63,21 +61,25 @@
                 </div>
             {/userEmailError}
 
-            <!--
-            <div class="fl-tl-row fl-tl-row-pad">
+            <div class="fl-tl-row fl-tl-row-pad" id="user-pass-row">
 
                 <div class="fl-tl-cell-info fl-tl-name">Password</div>
 
-                <div class="fl-tl-cell fl-tl-name">*************</div> 
+                <div class="fl-tl-cell fl-tl-name">******</div> 
 
-                <button type="button" class="user-info-edit-btn">
+                <button type="button" class="user-info-edit-btn" id="user-pass-edit-btn">
                     <i class="fa fa-pencil fl-tl-pencil"></i>
                 </button>
+            </div>
 
-            </div>  -->  
-
+            {?userPassError}
+                <div class="fl-tl-row fl-tl-row-pad" id="error-temp-div">
+                    <div class="fl-tl-cell fl-tl-name user-info-invalid">{userPassError}</div>
+                </div>
+            {/userPassError}
 
         </div>      
+
     </div> 
 
 </section>

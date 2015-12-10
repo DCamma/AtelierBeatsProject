@@ -29,54 +29,55 @@ window.onload = function() {
   setupSyncCheckbox();
 
 }
-function pulseHeart(){
-    var heart = document.getElementsByClassName("fa fa-heart beats pulse")[0];
-    colors = ["#e3170c", "#e57c29", "#fcf535", "#c6ef31", "#1cf197", "#0cd6ec", "#2999eb", "#2E22C5", "#4E1B73", "#9c27ab", "#A44B4D"]
-    y = 160;
-    a = 0;
-    b = 0;
-    if(heart){
-            // setInterval(function(){
-            //     var i = colors[y]
-            //     heart.style.color = i;
-            //     y ++;
-            //     if(y == colors.length)
-            //         y = 0;
-            // }, 2000);
-          
-        setInterval(function(){
-            console.log(heart.style.color)
-            if(y <= 255 && a == 0 && b == 0){
-                console.log("DB")
-                heart.style.color = 'rgb(' + y + ',' + a + ',' + b + ')';
-                y += 1;
-            }
-            if(y >= 255 && a >= 0 && b == 0){
-                heart.style.color = 'rgb(' + y + ',' + a + ',' + b + ')';
-                a += 1;
-            }
-            if(a >= 255 && y > 0 && b == 0){
-                heart.style.color = 'rgb(' + y + ',' + a + ',' + b + ')';
-                y -= 1;
-            }
-            if(a >= 255 && y <= 0 && b <= 255){
-                heart.style.color = 'rgb(' + y + ',' + a + ',' + b + ')';
-                b += 1;
-            }
-            if(b >= 255 && a > 0){
-                heart.style.color = 'rgb(' + y + ',' + a + ',' + b + ')';
-                a -= 1;
-            }
-            if(b >= 255 && a <= 0){
-                heart.style.color = 'rgb(' + y + ',' + a + ',' + b + ')';
-                y += 1;
-            }
-            if(b > 0 && y >= 255 && a <= 0){
-                heart.style.color = 'rgb(' + y + ',' + a + ',' + b + ')';
-                b -= 1
-            }             
-        }, 30);
-    }
+
+function pulseHeart() {
+  var heart = document.getElementsByClassName("fa fa-heart beats pulse")[0];
+  colors = ["#e3170c", "#e57c29", "#fcf535", "#c6ef31", "#1cf197", "#0cd6ec", "#2999eb", "#2E22C5", "#4E1B73", "#9c27ab", "#A44B4D"]
+  y = 160;
+  a = 0;
+  b = 0;
+  if (heart) {
+    // setInterval(function(){
+    //     var i = colors[y]
+    //     heart.style.color = i;
+    //     y ++;
+    //     if(y == colors.length)
+    //         y = 0;
+    // }, 2000);
+
+    setInterval(function() {
+      // console.log(heart.style.color)
+      if (y <= 255 && a == 0 && b == 0) {
+        console.log("DB")
+        heart.style.color = 'rgb(' + y + ',' + a + ',' + b + ')';
+        y += 1;
+      }
+      if (y >= 255 && a >= 0 && b == 0) {
+        heart.style.color = 'rgb(' + y + ',' + a + ',' + b + ')';
+        a += 1;
+      }
+      if (a >= 255 && y > 0 && b == 0) {
+        heart.style.color = 'rgb(' + y + ',' + a + ',' + b + ')';
+        y -= 1;
+      }
+      if (a >= 255 && y <= 0 && b <= 255) {
+        heart.style.color = 'rgb(' + y + ',' + a + ',' + b + ')';
+        b += 1;
+      }
+      if (b >= 255 && a > 0) {
+        heart.style.color = 'rgb(' + y + ',' + a + ',' + b + ')';
+        a -= 1;
+      }
+      if (b >= 255 && a <= 0) {
+        heart.style.color = 'rgb(' + y + ',' + a + ',' + b + ')';
+        y += 1;
+      }
+      if (b > 0 && y >= 255 && a <= 0) {
+        heart.style.color = 'rgb(' + y + ',' + a + ',' + b + ')';
+        b -= 1
+      }
+    }, 30);
+  }
 }
 
 function setupSyncCheckbox() {
@@ -144,6 +145,7 @@ function drawUser(e, addHistory, errors) {
     if (errors) {
       if (errors.userNameError) data.userNameError = errors.userNameError;
       if (errors.userEmailError) data.userEmailError = errors.userEmailError;
+      if (errors.userPassError) data.userPassError = errors.userPassError;
     }
 
     dust.render("user", data, function(err, out) {
@@ -155,7 +157,7 @@ function drawUser(e, addHistory, errors) {
 
       bindUserPicBtn();
 
-      if (errors && (errors.userNameError || errors.userEmailError)) {
+      if (errors && (errors.userNameError || errors.userEmailError || errors.userPassError)) {
         setTimeout(function() {
           document.getElementById("error-temp-div").remove();
         }, 2000);
@@ -171,7 +173,7 @@ function bindUserPicBtn() {
   var userPicChangeBtn = document.getElementById("user-pic-change-btn");
   var userPicInputFile = document.getElementById("user-pic-input-file");
   var userPicFormUpload = document.getElementById("user-pic-form-upload");
-  console.log("FORM: ", userPicFormUpload);
+  // console.log("FORM: ", userPicFormUpload);
 
   userPicChangeBtn.onclick = onPicChangeBtn;
   userPicInputFile.onchange = onPicInputFileChange;
@@ -208,6 +210,9 @@ function bindUserInfoBtn() {
   for (var elem = 0; elem < userInfoEditBtns.length; ++elem) {
     userInfoEditBtns[elem].onclick = editUserInfo;
   }
+
+  // var userPassEditBtn = document.getElementById("user-pass-edit-btn");
+  // userPassEditBtn.onclick = onUserPassEditBtnClick;
 
   // CSS helper functions
   function stopEditing(editable, editBtnLi, editBtn) {
@@ -250,7 +255,7 @@ function bindUserInfoBtn() {
   }
 
   function editUserInfo(e) {
-    console.log("editUserInfo")
+    // console.log("editUserInfo")
     if (e && e.target) {
       e.preventDefault();
     }
@@ -285,6 +290,10 @@ function bindUserInfoBtn() {
 
       startEditing(editable, editBtnLi, editBtn);
 
+      if (userAttribute.toLowerCase() == "password") {
+        editable.innerHTML = "";
+      }
+
       //set the cursor on the editable element
       var s = window.getSelection(),
         r = document.createRange();
@@ -303,7 +312,6 @@ function bindUserInfoBtn() {
       if (userAttribute.toLowerCase() == "username") {
         // Check if the username is emtpy
         if (!updatedOpt) {
-          console.log("EMPTY!")
           var errors = {
             userNameError: "Empty username."
           }
@@ -353,6 +361,7 @@ function bindUserInfoBtn() {
           var errors = {
             userEmailError: "Email is empty."
           }
+
           return drawUser(null, false, errors);
         }
 
@@ -372,6 +381,32 @@ function bindUserInfoBtn() {
           doJSONRequest("PUT", "/users/" + userid, null, updatedUser, function(d) {
 
             console.log("User updated!");
+            drawUser();
+          });
+
+        });
+
+      } else if (userAttribute.toLowerCase() == "password") {
+        if (!updatedOpt || updatedOpt.length < 6) {
+          var errors = {
+            userPassError: "Password cannot have less than 6 characters."
+          }
+
+          return drawUser(null, false, errors);
+        }
+
+        // Updated username does not exist!
+        doJSONRequest("GET", "/users/" + userid, null, null, function(user) {
+
+          var updatedUser = user;
+          updatedUser.password = updatedOpt;
+
+          doJSONRequest("PUT", "/users/" + userid, null, updatedUser, function() {
+            // console.log("User updated!");
+            doJSONRequest("GET", "/users/" + userid, null, null, function(user) {
+              console.log(user.password)
+
+            });
             drawUser();
           });
 
@@ -711,8 +746,10 @@ function drawTrackUploader(e, dataDust, addHistory) {
             console.log(parsedResponseText.redirect);
             // console.log(xhr.responseText);
           } else {
-            console.log(parsedResponseText.redirect);
-            window.location.href = parsedResponseText.redirect;
+            // console.log(parsedResponseText.redirect);
+            if (parsedResponseText.redirect) {
+              window.location.href = parsedResponseText.redirect;
+            }
             // console.error(xhr.statusText);
           }
         }
@@ -784,14 +821,13 @@ function drawTrackUploader(e, dataDust, addHistory) {
           // Triggers redirection to the library because track.updated is emitted
           function createNewTrack(track) {
             doJSONRequest("POST", "/tracks", null, track, function(data) {
-              // console.log("Track Created: ", data);
 
               if (uploadedTrackName) {
                 trackUploaderForm.submit();
               } else {
                 uploadFile(draggedFile, "/tracks/ajaxupload");
               }
-              // console.log("Submitting form...");
+
             });
           }
 

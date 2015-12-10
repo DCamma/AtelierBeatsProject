@@ -16,6 +16,7 @@ module.exports = function(passport) {
         return done(null, false, req.flash('message', "Passwords do not match."));
       }
 
+
       var findOrCreateUser = function() {
 
         // find a user in Mongo with provided username
@@ -33,7 +34,7 @@ module.exports = function(passport) {
           if (user) {
             console.log('User already exists with username: ' + username);
             return done(null, false, req.flash('message', 'User with username "' + username + '" already exists.'));
-          
+
           } else {
             // if there is no user with that email create the user
             var newUser = new User();
