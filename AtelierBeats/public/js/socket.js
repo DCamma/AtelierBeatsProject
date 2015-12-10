@@ -10,8 +10,9 @@ socket.on('change-track', function(data) {
 socket.on('change-album', function(data) {
   if (window.location.hash.indexOf('albums') != -1 || window.location.hash == '') {
     var fav = document.querySelectorAll(".like-filter")[0];
-    if (fav && fav.style.backgroundColor == "rgb(164, 75, 77)") {
-      drawAlbums(null, false, true, "rgb(164, 75, 77)");
+
+    if (fav && fav.style.backgroundColor == "rgb(53, 98, 206)") {
+      drawAlbums(null, false, true, "rgb(53, 98, 206)");
     } else {
       drawAlbums(null, false)
     }
