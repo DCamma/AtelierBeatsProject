@@ -49,33 +49,33 @@ function pulseHeart(){
             if(y <= 255 && a == 0 && b == 0){
                 console.log("DB")
                 heart.style.color = 'rgb(' + y + ',' + a + ',' + b + ')';
-                y += 40;
+                y += 1;
             }
             if(y >= 255 && a >= 0 && b == 0){
                 heart.style.color = 'rgb(' + y + ',' + a + ',' + b + ')';
-                a += 40;
+                a += 1;
             }
             if(a >= 255 && y > 0 && b == 0){
                 heart.style.color = 'rgb(' + y + ',' + a + ',' + b + ')';
-                y -= 40;
+                y -= 1;
             }
             if(a >= 255 && y <= 0 && b <= 255){
                 heart.style.color = 'rgb(' + y + ',' + a + ',' + b + ')';
-                b += 40;
+                b += 1;
             }
             if(b >= 255 && a > 0){
                 heart.style.color = 'rgb(' + y + ',' + a + ',' + b + ')';
-                a -= 40;
+                a -= 1;
             }
             if(b >= 255 && a <= 0){
                 heart.style.color = 'rgb(' + y + ',' + a + ',' + b + ')';
-                y += 40;
+                y += 1;
             }
             if(b > 0 && y >= 255 && a <= 0){
                 heart.style.color = 'rgb(' + y + ',' + a + ',' + b + ')';
-                b -= 40
+                b -= 1
             }             
-        }, 2010);
+        }, 30);
     }
 }
 
