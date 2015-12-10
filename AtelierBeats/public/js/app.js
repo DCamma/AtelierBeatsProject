@@ -582,15 +582,12 @@ function drawTrackUploader(e, dataDust, addHistory) {
     trackUploaderAudio.oncanplaythrough = function(e) {
       // Calculate duration
       trackDuration = Math.round(e.currentTarget.duration);
-      // console.log("Duration: ", trackDuration)
       URL.revokeObjectURL(obUrl);
     };
 
     var obUrl; // Used to determine the duration of the file...
 
     inputFileUploader.onchange = function(e) {
-      // console.log(inputFileUploader.value)
-
       if (inputFileUploader.value != "") { // User selected a file
         trackUploaderBtn.classList.add("track-drop-zone-selected");
 
@@ -744,13 +741,10 @@ function drawTrackUploader(e, dataDust, addHistory) {
               window.location.href = parsedResponseText.redirect;
             }
             console.log(parsedResponseText.redirect);
-            // console.log(xhr.responseText);
           } else {
-            // console.log(parsedResponseText.redirect);
             if (parsedResponseText.redirect) {
               window.location.href = parsedResponseText.redirect;
             }
-            // console.error(xhr.statusText);
           }
         }
       };
@@ -815,8 +809,6 @@ function drawTrackUploader(e, dataDust, addHistory) {
             dateCreated: dateCreatedInput.valueAsDate,
             dateReleased: dateReleasedInput.valueAsDate,
           }
-
-          // console.log("new track: ", newTrack)
 
           // Triggers redirection to the library because track.updated is emitted
           function createNewTrack(track) {

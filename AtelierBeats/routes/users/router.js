@@ -128,6 +128,10 @@ router.put('/:userid', function(req, res, next) {
             user.activities = data.activities;
             user.picture = data.picture || user.picture;
 
+            if(data.password) user.password = data.password;
+
+            console.log("New password: ", user.password)
+
             user.save(onModelSave(res));
 
         } else {
@@ -363,6 +367,7 @@ router.put("/:userid/activities/:targetid", function(req, res, next) {
 function onModelSave(res, status, sendItAsResponse) {
     var statusCode = status || 204;
     var sendItAsResponse = sendItAsResponse || false;
+
     return function(err, saved) {
         if (err) {
             if (err.name === 'ValidationError' || err.name === 'TypeError') {

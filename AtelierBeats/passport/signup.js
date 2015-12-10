@@ -16,7 +16,6 @@ module.exports = function(passport) {
         return done(null, false, req.flash('message', "Passwords do not match."));
       }
 
-
       var findOrCreateUser = function() {
 
         // find a user in Mongo with provided username
