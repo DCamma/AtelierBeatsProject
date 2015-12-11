@@ -141,7 +141,16 @@ var artists = {
       "genre"        : "Thrash Metal",
       "artwork"      : "http://metalassault.com/Interviews/wp-content/uploads/2012/09/Tankard-Kings_Of_Beer-Frontal.jpg",
       "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+    },
+
+    {
+      "_id"          : ObjectId(),
+      "name"         : "IAM",
+      "genre"        : "French Rap",
+      "artwork"      : "https://upload.wikimedia.org/wikipedia/commons/9/98/IAM_%C3%A0_l%27Olympia_de_Montr%C3%A9al.jpg",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
     }
+
   ]
 }
 
@@ -346,7 +355,22 @@ var albums = {
       "dateReleased" : "May 26 2006 00:00:00 GMT+0100 (CEST)",
       "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
       "label"        : "AFM Records"
+    },
+
+    {
+      "_id"          : ObjectId(),
+      "artist"       : artists.data[17]._id,
+      "name"         : "L'École du micro d'argent",
+      "artwork"      : "https://upload.wikimedia.org/wikipedia/en/2/2c/IAM_ecole_du_micro_dargent.png",
+      "dateReleased" : "Mar 18 1997 00:00:00 GMT+0100 (CEST)",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
+      "label"        : "EMI, Delabel, Virgin"
     }
+
+
+
+ 
+
 ]
 }
 
@@ -711,7 +735,21 @@ var tracks = {
       "id3Tags"      : "",
       "dateReleased" : "Fri Feb 04 2005 00:00:00 GMT+0100 (CET)",
       "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
-    }
+    },
+
+    {
+      "_id"          : ObjectId(),
+      "artist"       : artists.data[17]._id,
+      "album"        : albums.data[20]._id,
+      "name"         : "Petit Frère",
+      "duration"     : 284,
+      "file"         : "tracks_folder/petit-frere.mp3",
+      "id3Tags"      : "",
+      "dateReleased" : "Mar 18 1997 00:00:00 GMT+0100 (CEST)",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
+    },
+
+
   ]
 }
 
@@ -776,12 +814,8 @@ var users = {
       "picture": "https://lh3.googleusercontent.com/BmyLieVnrRYLi483woAXv-bnPBqdmSbId6y6ZgXPrVM=s630-fcrop64=1,000010acffffea7b:Soften=1,60,0",
       "playlists"    : [
          new Playlist ({
-          "name" : 'All Favs',
-          "tracks": [tracks.data[3]._id, tracks.data[1]._id, tracks.data[9]._id, tracks.data[27]._id]
-        }),
-          new Playlist ({
-          "name" : 'Relax',
-          "tracks": [tracks.data[24]._id, tracks.data[26]._id,  tracks.data[4]._id,  tracks.data[8]._id]
+          "name" : 'French Rap',
+          "tracks": [tracks.data[30]._id]
         })
       ]
     },

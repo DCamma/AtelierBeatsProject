@@ -1,6 +1,6 @@
 <div class="upload-btn" id="upload-btn">
 	<a title="Upload a new track" class="tooltip" id="upload-btn">
-		<li title="" class="fa fa-refresh fa-lg" id="upload-btn"></li>
+		<li title="" class="upload-track-btn-icon fa fa-refresh fa-lg" id="upload-btn"></li>
 	</a>	
 </div>
 

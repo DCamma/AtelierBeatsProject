@@ -93,7 +93,6 @@ body.forgot-password {
     background-image: url("../images/theme.png");
     background-repeat: no-repeat;
     background-size: 100%;
-
 }
 
 
@@ -489,8 +488,16 @@ a.text-muted {
     cursor: pointer;
 }
 
+.upload-track-btn-icon{
+    color: #1a4654;
+}
+
+.upload-track-btn-icon:hover{
+    color: white;
+}
+
 .upload-btn:hover {
-    background-color: #262626;
+    background-color: #1a4654;
     border: 1px solid #262626;
 }
 
@@ -1168,7 +1175,7 @@ ul.nav-menu {
     margin: 0;
     padding: 0;
     list-style: none;
-    line-height: 60px;
+    line-height: 65px;
     color: #f7f7f7;
 }
 
@@ -1222,16 +1229,21 @@ ul.nav-menu.horizontal-menu li > a:hover {
 
 .nav-menu-icon {
     padding: 0 20px;
+    color: #2a4654;
 }
 
 .search-item {
     position: relative;
 }
 
+.main-menu-item {
+    color: #2a4654;
+}
+
 .nav-menu-icon.search-icon {
     position: absolute;
     display: block;
-    top: 0;
+    top: 1px;
     left: 0;
     height: 60px;
     font-size: 1.4em;
@@ -1257,14 +1269,19 @@ ul.nav-menu.horizontal-menu li > a:hover {
     position: relative;
     z-index: 10;
     padding-left: 62px;
+    padding-top: 5px;
     outline: none;
     border: none;
     background: transparent;
-    color: #f7f7f7;
-    font-size: 1.4em;
+    color: #2a4654;
+    font-size: 1.5em;
     font-weight: 300;
     font-family: 'Lato', Arial, sans-serif;
     cursor: pointer;
+}
+
+.nav-menu-search::-webkit-input-placeholder {
+    color: #2a4654;
 }
 
 a.create-playlist,
@@ -1443,7 +1460,16 @@ a.create-public-playlist:active {
     left: -9999px;
 }
 
+#main-nav .logo {
+    color: #1a4654;
+    /*text-decoration: underline;*/
+}
+
 @media (max-width: 640px) {
+    .nav-menu-icon{
+        color: white;
+    }
+
     .main-nav-content {
         max-height: 0;
     }
@@ -1452,7 +1478,6 @@ a.create-public-playlist:active {
         width: 100%;
         height: auto;
         background-size: url("../images/theme2.png");
-
     }
     .main-nav-float {
         float: none;
@@ -1460,6 +1485,8 @@ a.create-public-playlist:active {
     #main-nav .logo {
         display: inline-block;
         padding: 0.5em;
+        color: #1a4654;
+        text-decoration: none;
     }
     #main-menu-toggle-label {
         display: inline-block;
@@ -1497,6 +1524,8 @@ a.create-public-playlist:active {
     #main-nav .logo {
         display: inline-block;
         padding: 13px;
+        color: #1a4654;
+        text-decoration: none;
     }
     #main-nav {
         width: 60px;
@@ -1540,7 +1569,7 @@ a.create-public-playlist:active {
     background-image: url("../images/theme2.png");
     background-size: 110%;
     width: 100%;
-    height: 60px;
+    height: 65px;
 }
 
 @media (max-width: 640px) {
@@ -1847,8 +1876,6 @@ Based on: http://www.webdesignerdepot.com/2012/11/how-to-create-a-simple-css3-to
     display: flex;
     -webkit-justify-content: space-between;
     justify-content: space-between;
-    flex-flow: row wrap;
-    -webkit-flex-flow: row wrap;
     width: 40%;
     max-width: 40%;
 }
@@ -1857,12 +1884,16 @@ Based on: http://www.webdesignerdepot.com/2012/11/how-to-create-a-simple-css3-to
     display: -ms-flex;
     display: -webkit-flex;
     display: flex;
+
     -webkit-justify-content: center;
     justify-content: center;
+
     align-items: center;
     -webkit-align-items: center;
+
     border: 1px solid #a1a1a1;
-    font-size: 20px;
+    font-size: 18px;
+
     -webkit-flex-basis: 27%;
     flex-basis: 27%;
 }
@@ -1882,9 +1913,10 @@ Based on: http://www.webdesignerdepot.com/2012/11/how-to-create-a-simple-css3-to
 
 .uploader-button {
     text-align: center;
-    background-color: #d2d2d2;
-    border: 1px solid #a1a1a1;
-    border-radius: 5px;
+
+    border: 1px solid #c2c2c2;
+    color: #2a4654;
+
     padding: 10px 12px;
     font-size: 20px;
     line-height: 1.42857143;
@@ -1894,7 +1926,8 @@ Based on: http://www.webdesignerdepot.com/2012/11/how-to-create-a-simple-css3-to
 }
 
 .uploader-button:hover {
-    background-color: #262626;
+    background-color: #2a4654;
+    border: 1px solid #2a4654;
     color: white;
 }
 
@@ -1929,8 +1962,8 @@ Based on: http://www.webdesignerdepot.com/2012/11/how-to-create-a-simple-css3-to
 
 @media (max-width: 800px) {
     .fl-tu-row-2-cols {
-        flex-flow: column wrap;
-        -webkit-flex-flow: column wrap;
+        flex-flow: column;
+        -webkit-flex-flow: column;
     }
     .date-info {
         -webkit-flex-basis: 100%;
@@ -1985,8 +2018,10 @@ Based on: http://www.webdesignerdepot.com/2012/11/how-to-create-a-simple-css3-to
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
 
+
 /* http://stackoverflow.com/a/20941546/3924118 */
-input::-webkit-calendar-picker-indicator{
+
+input::-webkit-calendar-picker-indicator {
     display: none;
 }
 
@@ -2025,6 +2060,7 @@ input[type=date]::-webkit-datetime-edit {
     padding: 5px 5px 5px 0;
     cursor: pointer;
     border: 1px solid #c2c2c2;
+    color: #2a4654;
 }
 
 .user-info-edit-btn-editing {
@@ -2032,14 +2068,14 @@ input[type=date]::-webkit-datetime-edit {
     width: 52px;
     padding: 5px 5px 5px 0;
     cursor: pointer;
-    border: 1px solid #262626;
-    background-color: #262626;
+    border: 1px solid #2a4654;
+    background-color: #2a4654;
     color: white;
 }
 
 .user-info-edit-btn:hover {
-    background-color: #262626;
-    border: 1px solid #262626;
+    background-color: #2a4654;
+    border: 1px solid #2a4654;
 }
 
 .user-info-edit-btn:hover .fa,
@@ -2077,13 +2113,17 @@ input[type=date]::-webkit-datetime-edit {
     width: 200px;
     padding: 12px;
     cursor: pointer;
+    
     border: 1px solid #c2c2c2;
+    color: #2a4654;
+
     margin-top: 10px;
+    margin-left: -0.01px;
 }
 
 .user-pic-change-btn:hover {
-    background-color: #262626;
-    border: 1px solid #262626;
+    background-color: #2a4654;
+    border: 1px solid #2a4654;
     color: white;
 }
 
@@ -2093,6 +2133,15 @@ input[type=date]::-webkit-datetime-edit {
     }
 }
 
-.hidden{
+@media (max-width: 640px){
+    .user-info-edit-btn{
+        margin-left: 10px;
+        margin-top: 10px;
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+}
+
+.hidden {
     display: none;
 }
