@@ -9,42 +9,138 @@ var artists = {
   data : [
     {
       "_id"          : ObjectId(),
-      "name"         : "Iron Maiden",
-      "genre"        : "New Wave of British Heavy Metal",
-      "artwork"      : "http://piratevinyldecals.com/wps/wp-content/uploads/2014/01/Iron-Maiden-Army-pv194.png",
-      "dateCreated"  : "Sat Sep 27 2014 10:39:20 GMT+0200 (CEST)"
+      "name"         : "Fine Before You Came",
+      "genre"        : "Emo Core",
+      "artwork"      : "https://www.debaser.it/files/2015%2F42329.jpg",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
     },
 
     {
       "_id"          : ObjectId(),
-      "name"         : "AC/DC",
+      "name"         : "Verme",
       "genre"        : "Hard Rock",
-      "artwork"      : "http://images.plixid.com/imager/w_500/h_/5dcf8b1cc667012c55e0e497a5d71eaa.jpg",
-      "dateCreated"  : "Sat Sep 27 2014 10:40:40 GMT+0200 (CEST)"
+      "artwork"      : "http://www.toloselatrack.org/uploads/Verme-ultimo-concerto1-e135.jpg",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
     },
 
     {
       "_id"          : ObjectId(),
-      "name"         : "Metallica",
+      "name"         : "Lo Stato Sociale",
+      "genre"        : "Indie Rock",
+      "artwork"      : "http://d2p5dvc3vrbyrj.cloudfront.net/news/20130808-221722-7ff7baf9e49079683b21c367b15c9a23-680.jpeg",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+    },
+
+    {
+      "_id"          : ObjectId(),
+      "name"         : "Fast Animals and Slow Kids",
+      "genre"        : "Indie Rock",
+      "artwork"      : "http://www.toloselatrack.org/uploads/fask_400.jpg",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+    },
+
+    {
+      "_id"          : ObjectId(),
+      "name"         : "I Cani",
+      "genre"        : "Synth Pop",
+      "artwork"      : "http://www.romadaleggere.it/wp-content/uploads/2014/05/i-cani.jpg",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+    },
+
+    {
+      "_id"          : ObjectId(),
+      "name"         : "Dropkick Murphys",
+      "genre"        : "Celtic Punk",
+      "artwork"      : "https://i.ytimg.com/vi/diSN8l1DyNY/maxresdefault.jpg",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+    },
+
+    {
+      "_id"          : ObjectId(),
+      "name"         : "The Prodigy",
+      "genre"        : "Electronic",
+      "artwork"      : "https://s3.amazonaws.com/progweb.s3.easybooking/1442259640.png",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+    },
+
+    {
+      "_id"          : ObjectId(),
+      "name"         : "Gogol Bordello",
+      "genre"        : "Alternative Rock",
+      "artwork"      : "http://louderthanwar.com/wp-content/uploads/gogol-bordello-helsinki.jpg",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+    },
+
+    {
+      "_id"          : ObjectId(),
+      "name"         : "Neutral Milk Hotel",
+      "genre"        : "Indie Rock",
+      "artwork"      : "http://static.spin.com/files/131015-neutral-milk-hotel.jpg",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+    },
+
+    {
+      "_id"          : ObjectId(),
+      "name"         : "PoP_X",
+      "genre"        : "Electro",
+      "artwork"      : "http://rumoremag.com/wp-content/uploads/2015/02/pop_x.png",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+    },
+
+    {
+      "_id"          : ObjectId(),
+      "name"         : "Pantera",
+      "genre"        : "Heavy Metal",
+      "artwork"      : "http://www.romebywild.it/wp-content/uploads/2015/06/phil_anselmo6.jpg",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+    },
+
+    {
+      "_id"          : ObjectId(),
+      "name"         : "Sunn O)))",
+      "genre"        : "Progressive Metal",
+      "artwork"      : "http://foto.infan.ru/img/f/25/0/003.jpg",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+    },
+
+    {
+      "_id"          : ObjectId(),
+      "name"         : "Death",
+      "genre"        : "Death Metal",
+      "artwork"      : "http://loudnow.net/assets/2013/08/DeathLogo1.gif",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+    }, 
+
+    {
+      "_id"          : ObjectId(),
+      "name"         : "Pendulum",
+      "genre"        : "Drum and Bass",
+      "artwork"      : "http://clubtone.net/_ph/1/806208009.jpg",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+    }, 
+
+    {
+      "_id"          : ObjectId(),
+      "name"         : "Major Lazer",
+      "genre"        : "Electro",
+      "artwork"      : "http://musicweek.mtv.it/wp-content/uploads/2015/09/major-lazer-AGGIUNGERE-CLUB-MTV.jpg",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+    },
+
+    {
+      "_id"          : ObjectId(),
+      "name"         : "Verdena",
+      "genre"        : "Alternative Rock",
+      "artwork"      : "http://www.ondarock.it/images/monografie/verdena_1_1425919745.jpg",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+    },
+
+    {
+      "_id"          : ObjectId(),
+      "name"         : "Tankard",
       "genre"        : "Thrash Metal",
-      "artwork"      : "http://rock-jazz-pop.com/wp-content/uploads/2011/11/Metallica_500.jpg",
-      "dateCreated"  : "Sat Sep 27 2014 10:41:20 GMT+0200 (CEST)"
-    },
-
-    {
-      "_id"          : ObjectId(),
-      "name"         : "Slayer",
-      "genre"        : "Thrash Metal",
-      "artwork"      : "http://zumic.com/wp-content/uploads/2014/04/slayer-implode-youtube-free-download-2014.jpg",
-      "dateCreated"  : "Sat Sep 27 2014 10:41:43 GMT+0200 (CEST)"
-    },
-
-    {
-      "_id"          : ObjectId(),
-      "name"         : "God is an Astronaut",
-      "genre"        : "Post Rock",
-      "artwork"      : "http://voyalconcierto.com/wp-content/uploads/2013/06/god-is-an-astronaut-en-Espa%C3%B1a-20131.jpg",
-      "dateCreated"  : "Sat Sep 27 2014 10:42:10 GMT+0200 (CEST)"
+      "artwork"      : "http://metalassault.com/Interviews/wp-content/uploads/2012/09/Tankard-Kings_Of_Beer-Frontal.jpg",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
     }
   ]
 }
@@ -55,92 +151,202 @@ var albums = {
     {
       "_id"          : ObjectId(),
       "artist"       : artists.data[0]._id,
-      "name"         : "Somewhere in Time",
-      "artwork"      : "http://sp4.fotolog.com/photo/36/22/82/felix_deadman/1250566555189_f.jpg",
-      "dateReleased" : "Mon Sep 29 1986 00:00:00 GMT+0100 (CET)",
-      "dateCreated"  : "Sat Sep 27 2014 10:42:10 GMT+0200 (CEST)",
-      "label"        : "EMI"
-    },
-
-    {
-      "_id"          : ObjectId(),
-      "artist"       : artists.data[0]._id,
-      "name"         : "Seventh Son of a Seventh Son",
-      "artwork"      : "http://4.bp.blogspot.com/_jbyI24EsknA/TAi-EMVNVHI/AAAAAAAABPk/3bPMaQ2iC7w/s1600/Iron_Maiden_-_Seventh_Son_Of_A_Seve.jpg",
-      "dateReleased" : "Mon Apr 11 1988 00:00:00 GMT+0200 (CEST)",
-      "dateCreated"  : "Sat Sep 27 2014 10:42:10 GMT+0200 (CEST)",
-      "label"        : "EMI"
+      "name"         : "Ormai",
+      "artwork"      : "https://f1.bcbits.com/img/a0250802243_10.jpg",
+      "dateReleased" : "Jan 22 2012 00:00:00 GMT+0200 (CEST)",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
+      "label"        : "La Tempesta Dischi"
     },
 
     {
       "_id"          : ObjectId(),
       "artist"       : artists.data[1]._id,
-      "name"         : "Back in Black",
-      "artwork"      : "https://i.ytimg.com/vi/NIWavHZRUdM/maxresdefault.jpg",
-      "dateReleased" : "Fri Jul 25 1980 00:00:00 GMT+0100 (CET)",
-      "dateCreated"  : "Sat Sep 27 2014 10:42:10 GMT+0200 (CEST)",
-      "label"        : "Albert/Atlantic Records"
-    },
-
-    {
-      "_id"          : ObjectId(),
-      "artist"       : artists.data[1]._id,
-      "name"         : "The Razors Edge",
-      "artwork"      : "http://www.tasawakonline.com/uploads/2014/04/Razors+Edge+ACDC.jpg",
-      "dateReleased" : "Mon Sep 24 1990 00:00:00 GMT+0200 (CEST)",
-      "dateCreated"  : "Sat Sep 27 2014 10:42:10 GMT+0200 (CEST)",
-      "label"        : "Atco Records, Albert/EMI"
+      "name"         : "Bad Verme",
+      "artwork"      : "https://verme666.files.wordpress.com/2011/01/badverme_daunlc3b21.jpg",
+      "dateReleased" : "Jan 11 2011 00:00:00 GMT+0200 (CEST)",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
+      "label"        : "Verme"
     },
 
     {
       "_id"          : ObjectId(),
       "artist"       : artists.data[2]._id,
-      "name"         : "Ride the Lightning",
-      "artwork"      : "http://www.metal-archives.com/images/5/4/4/544.jpg",
-      "dateReleased" : "Fri Jul 27 1984 00:00:00 GMT+0200 (CEST)",
-      "dateCreated"  : "Sat Sep 27 2014 10:42:10 GMT+0200 (CEST)",
-      "label"        : "Megaforce"
-    },
-
-    {
-      "_id"          : ObjectId(),
-      "artist"       : artists.data[2]._id,
-      "name"         : "Master of Puppets",
-      "artwork"      : "http://www.metal-archives.com/images/5/4/7/547.jpg?4520",
-      "dateReleased" : "Mon Feb 24 1986 00:00:00 GMT+0100 (CET)",
-      "dateCreated"  : "Sat Sep 27 2014 10:42:10 GMT+0200 (CEST)",
-      "label"        : "Elektra/Asylum"
+      "name"         : "L'Italia Peggiore",
+      "artwork"      : "http://www.avisonmagazine.com/wp-content/uploads/2014/06/L-Italia-Peggiore-Lo-Stato-Sociale-2014-Vinile-lp2.jpg",
+      "dateReleased" : "Jun 02 2014 00:00:00 GMT+0200 (CET)",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
+      "label"        : "Garrincha Dischi"
     },
 
     {
       "_id"          : ObjectId(),
       "artist"       : artists.data[3]._id,
-      "name"         : "Reign in Blood",
-      "artwork"      : "http://www.riceandbreadmagazine.com/wp-content/uploads/2014/09/Slayer-Reign-In-Blood-1024x1024.jpg",
-      "dateReleased" : "Tue Oct 07 1986 00:00:00 GMT+0100 (CET)",
-      "dateCreated"  : "Sat Sep 27 2014 10:42:10 GMT+0200 (CEST)",
-      "label"        : "Def Jam"
-    },
-
-    {
-      "_id"          : ObjectId(),
-      "artist"       : artists.data[3]._id,
-      "name"         : "South of Heaven",
-      "artwork"      : "http://metalholic.com/wp-content/uploads/2013/03/slayer-south_of_heaven.jpg",
-      "dateReleased" : "Tue Jul 05 1988 00:00:00 GMT+0200 (CEST)",
-      "dateCreated"  : "Sat Sep 27 2014 10:42:10 GMT+0200 (CEST)",
-      "label"        : "Def Jam"
+      "name"         : "Alaska",
+      "artwork"      : "http://www.woodworm-music.com/wp-content/uploads/2014/09/fask_alaska-600x600.jpg",
+      "dateReleased" : "Oct 03 2014 00:00:00 GMT+0200 (CEST)",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
+      "label"        : "Woodworm"
     },
 
     {
       "_id"          : ObjectId(),
       "artist"       : artists.data[4]._id,
-      "name"         : "All Is Violent, All Is Bright",
-      "artwork"      : "http://i53.fastpic.ru/big/2013/0201/f3/b9f8026551c2fb3ce375797aeef73bf3.jpg",
-      "dateReleased" : "Fri Feb 04 2005 00:00:00 GMT+0100 (CET)",
-      "dateCreated"  : "Sat Sep 27 2014 10:42:10 GMT+0200 (CEST)",
-      "label"        : "Revive Records"
+      "name"         : "Il sorprendente album d'esordio de I Cani",
+      "artwork"      : "http://www.outsidersmusica.it/wordpress/wp-content/uploads/2011/11/I-CANI.jpg",
+      "dateReleased" : "Jun 03 2011 00:00:00 GMT+0200 (CEST)",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
+      "label"        : "42 Records"
     },
+
+    {
+      "_id"          : ObjectId(),
+      "artist"       : artists.data[5]._id,
+      "name"         : "The Warrior's Code",
+      "artwork"      : "http://www.dropkickmurphys.com/wp-content/uploads/2013/02/the-warriors-code-600x600.jpg",
+      "dateReleased" : "Jun 15 2005 00:00:00 GMT+0200 (CEST)",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
+      "label"        : "Hellcat Records"
+    },
+
+    {
+      "_id"          : ObjectId(),
+      "artist"       : artists.data[5]._id,
+      "name"         : "Signed and Sealed in Blood",
+      "artwork"      : "http://www.dropkickmurphys.com/wp-content/uploads/2013/01/signed-and-sealed-in-blood1-600x600.jpg",
+      "dateReleased" : "Jan 08 2013 00:00:00 GMT+0100 (CEST)",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
+      "label"        : "Born and Bread Records"
+    },
+
+    {
+      "_id"          : ObjectId(),
+      "artist"       : artists.data[6]._id,
+      "name"         : "Invaders Must Die",
+      "artwork"      : "http://ecx.images-amazon.com/images/I/51KYMTL5JBL.jpg",
+      "dateReleased" : "Feb 18 2009 00:00:00 GMT+0200 (CEST)",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
+      "label"        : "Victor"
+    },
+
+    {
+      "_id"          : ObjectId(),
+      "artist"       : artists.data[7]._id,
+      "name"         : "Trans-Continental Hustle",
+      "artwork"      : "http://www.stereoboard.com/images/stories/new/600x399x161210_js_gogol-bordello.jpg.pagespeed.ic.bRl4GjwcNO.jpg",
+      "dateReleased" : "Apr 27 2010 00:00:00 GMT+0100 (CEST)",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
+      "label"        : "American Recordings"
+    },
+
+    {
+      "_id"          : ObjectId(),
+      "artist"       : artists.data[7]._id,
+      "name"         : "Super Taranta!",
+      "artwork"      : "http://ecx.images-amazon.com/images/I/61BNz4CYBNL.jpg",
+      "dateReleased" : "Jul 09 2009 00:00:00 GMT+0100 (CEST)",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
+      "label"        : "SideOneDummy Records"
+    },
+
+    {
+      "_id"          : ObjectId(),
+      "artist"       : artists.data[8]._id,
+      "name"         : "In the Aeroplane over the Sea",
+      "artwork"      : "http://ecx.images-amazon.com/images/I/61z%2BBBE0lPL.jpg",
+      "dateReleased" : "Feb 19 1998 00:00:00 GMT+0100 (CEST)",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
+      "label"        : "Merge Records"
+    },
+
+    {
+      "_id"          : ObjectId(),
+      "artist"       : artists.data[9]._id,
+      "name"         : "Io Centro con i Missili",
+      "artwork"      : "https://f1.bcbits.com/img/a0745656880_5.jpg",
+      "dateReleased" : "Oct 23 2011 00:00:00 GMT+0100 (CEST)",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
+      "label"        : "PoP_X"
+    },
+
+    {
+      "_id"          : ObjectId(),
+      "artist"       : artists.data[9]._id,
+      "name"         : "Una Vita Stupenda",
+      "artwork"      : "https://f1.bcbits.com/img/a3030117895_16.jpg",
+      "dateReleased" : "Sep 15 2012 00:00:00 GMT+0100 (CEST)",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
+      "label"        : "PoP_X"
+    }, 
+
+    {
+      "_id"          : ObjectId(),
+      "artist"       : artists.data[10]._id,
+      "name"         : "Vulgar Display of Power",
+      "artwork"      : "http://ecx.images-amazon.com/images/I/61LNFb0OpWL.jpg",
+      "dateReleased" : "Feb 25 1992 00:00:00 GMT+0100 (CEST)",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
+      "label"        : "Atlantic Records"
+    },
+
+    {
+      "_id"          : ObjectId(),
+      "artist"       : artists.data[11]._id,
+      "name"         : "Soused",
+      "artwork"      : "http://deerwaves.com/wp-content/uploads/2014/09/ed43c3a1.jpg",
+      "dateReleased" : "Oct 21 2014 00:00:00 GMT+0100 (CEST)",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
+      "label"        : "4AD"
+    },
+
+    {
+      "_id"          : ObjectId(),
+      "artist"       : artists.data[12]._id,
+      "name"         : "The Sound of Perseverance",
+      "artwork"      : "http://www.metal-archives.com/images/6/1/8/618.jpg?1111",
+      "dateReleased" : "Sep 15 1998 00:00:00 GMT+0100 (CEST)",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
+      "label"        : "Nuclear Blast"
+    },
+
+    {
+      "_id"          : ObjectId(),
+      "artist"       : artists.data[13]._id,
+      "name"         : "Hold Your Color",
+      "artwork"      : "http://image.mp3.zdn.vn/covers/8/b/8b76af425fbd72ceff25e8c953c3ba11_1308236910.jpg",
+      "dateReleased" : "Jul 25 2005 00:00:00 GMT+0100 (CEST)",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
+      "label"        : "Breakbeat Kaos"
+    },
+
+    {
+      "_id"          : ObjectId(),
+      "artist"       : artists.data[14]._id,
+      "name"         : "Free the Universe",
+      "artwork"      : "http://sentireascoltare.com/wp-content/uploads/2013/04/sentireascoltare_major_lazer-free-universe.jpg",
+      "dateReleased" : "Apr 16 2013 00:00:00 GMT+0100 (CEST)",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
+      "label"        : "WM Singapore"
+    },
+
+    {
+      "_id"          : ObjectId(),
+      "artist"       : artists.data[15]._id,
+      "name"         : "Requiem",
+      "artwork"      : "http://www.ondarock.it/images/cover/verdena_971.jpg",
+      "dateReleased" : "Mar 16 2007 00:00:00 GMT+0100 (CEST)",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
+      "label"        : "Black Out"
+    },
+
+    {
+      "_id"          : ObjectId(),
+      "artist"       : artists.data[16]._id,
+      "name"         : "The Beauty and the Beer",
+      "artwork"      : "http://shop.afm-records.de/image/cache/data/AFM/763tv4trikixn62jvps6s9kn03-800x800.jpg",
+      "dateReleased" : "May 26 2006 00:00:00 GMT+0100 (CEST)",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
+      "label"        : "AFM Records"
+    }
 ]
 }
 
@@ -151,132 +357,360 @@ var tracks = {
       "_id"          : ObjectId(),
       "artist"       : artists.data[0]._id,
       "album"        : albums.data[0]._id,
-      "name"         : "Caught Somewhere in Time",
-      "duration"     : 442,
+      "name"         : "Capire Settembre",
+      "duration"     : 239,
       "file"         : "tracks_folder/1.mp3",
       "id3Tags"      : "",
       "dateReleased" : "Mon Sep 29 1986 00:00:00 GMT+0100 (CET)",
-      "dateCreated"  : "Sat Sep 27 2014 10:26:46 GMT+0200 (CEST)"
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
     },
 
     {
       "_id"          : ObjectId(),
       "artist"       : artists.data[0]._id,
-      "album"        : albums.data[1]._id,
-      "name"         : "The Clairvoyant",
-      "duration"     : 268,
+      "album"        : albums.data[0]._id,
+      "name"         : "Dublino",
+      "duration"     : 235,
       "file"         : "tracks_folder/2.mp3",
       "id3Tags"      : "",
       "dateReleased" : "Mon Apr 11 1988 00:00:00 GMT+0200 (CEST)",
-      "dateCreated"  : "Sat Sep 27 2014 10:26:46 GMT+0200 (CEST)"
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
     },
 
     {
       "_id"          : ObjectId(),
       "artist"       : artists.data[1]._id,
-      "album"        : albums.data[2]._id,
-      "name"         : "Thunderstruck",
-      "duration"     : 292,
+      "album"        : albums.data[1]._id,
+      "name"         : "Tutto va Malone",
+      "duration"     : 184,
       "file"         : "tracks_folder/3.mp3",
       "id3Tags"      : "",
-      "dateReleased" : "Sat Sep 27 2014 10:26:46 GMT+0200 (CEST)",
-      "dateCreated"  : "Sat Sep 27 2014 10:26:46 GMT+0200 (CEST)"
+      "dateReleased" : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
     },
 
     {
       "_id"          : ObjectId(),
-      "artist"       : artists.data[1]._id,
-      "album"        : albums.data[3]._id,
-      "name"         : "Hells Bells",
-      "duration"     : 310,
+      "artist"       : artists.data[2]._id,
+      "album"        : albums.data[2]._id,
+      "name"         : "In due è amore in tre è una festa",
+      "duration"     : 168,
       "file"         : "tracks_folder/4.mp3",
       "id3Tags"      : "",
       "dateReleased" : "Mon Sep 24 1990 00:00:00 GMT+0200 (CEST)",
-      "dateCreated"  : "Sat Sep 27 2014 10:26:46 GMT+0200 (CEST)"
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
     },
 
     {
       "_id"          : ObjectId(),
       "artist"       : artists.data[2]._id,
-      "album"        : albums.data[4]._id,
-      "name"         : "The Call of Ktulu",
-      "duration"     : 535,
+      "album"        : albums.data[2]._id,
+      "name"         : "C'eravamo tanto sbagliati",
+      "duration"     : 384,
       "file"         : "tracks_folder/5.mp3",
       "id3Tags"      : "",
       "dateReleased" : "Fri Jul 27 1984 00:00:00 GMT+0200 (CEST)",
-      "dateCreated"  : "Sat Sep 27 2014 10:26:46 GMT+0200 (CEST)"
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
     },
 
     {
       "_id"          : ObjectId(),
-      "artist"       : artists.data[2]._id,
-      "album"        : albums.data[5]._id,
-      "name"         : "Master of Puppets",
-      "duration"     : 515,
+      "artist"       : artists.data[3]._id,
+      "album"        : albums.data[3]._id,
+      "name"         : "Calci in faccia",
+      "duration"     : 195,
       "file"         : "tracks_folder/6.mp3",
       "id3Tags"      : "",
       "dateReleased" : "Mon Feb 24 1986 00:00:00 GMT+0100 (CET)",
-      "dateCreated"  : "Sat Sep 27 2014 10:26:46 GMT+0200 (CEST)"
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
     },
 
     {
       "_id"          : ObjectId(),
-      "artist"       : artists.data[2]._id,
-      "album"        : albums.data[5]._id,
-      "name"         : "Orion",
-      "duration"     : 507,
+      "artist"       : artists.data[4]._id,
+      "album"        : albums.data[4]._id,
+      "name"         : "Wes Anderson",
+      "duration"     : 232,
       "file"         : "tracks_folder/7.mp3",
       "id3Tags"      : "",
       "dateReleased" : "Mon Feb 24 1986 00:00:00 GMT+0100 (CET)",
-      "dateCreated"  : "Sat Sep 27 2014 10:26:46 GMT+0200 (CEST)"
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
     },
 
     {
       "_id"          : ObjectId(),
-      "artist"       : artists.data[3]._id,
-      "album"        : albums.data[6]._id,
-      "name"         : "Raining Blood",
-      "duration"     : 298,
+      "artist"       : artists.data[5]._id,
+      "album"        : albums.data[5]._id,
+      "name"         : "I'm shipping up to Boston",
+      "duration"     : 166,
       "file"         : "tracks_folder/8.mp3",
       "id3Tags"      : "",
       "dateReleased" : "Tue Oct 07 1986 00:00:00 GMT+0100 (CET)",
-      "dateCreated"  : "Sat Sep 27 2014 10:26:46 GMT+0200 (CEST)"
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
     },
 
     {
       "_id"          : ObjectId(),
-      "artist"       : artists.data[3]._id,
-      "album"        : albums.data[7]._id,
-      "name"         : "South of Heaven",
-      "duration"     : 299,
-      "file"         : "tracks_folder/8.mp3",
+      "artist"       : artists.data[5]._id,
+      "album"        : albums.data[6]._id,
+      "name"         : "End of the Nigth",
+      "duration"     : 317,
+      "file"         : "tracks_folder/9.mp3",
       "id3Tags"      : "",
       "dateReleased" : "Tue Jul 05 1988 00:00:00 GMT+0200 (CEST)",
-      "dateCreated"  : "Sat Sep 27 2014 10:26:46 GMT+0200 (CEST)"
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
     },
 
     {
       "_id"          : ObjectId(),
-      "artist"       : artists.data[4]._id,
-      "album"        : albums.data[8]._id,
-      "name"         : "All Is Violent, All Is Bright",
-      "duration"     : 255,
+      "artist"       : artists.data[6]._id,
+      "album"        : albums.data[7]._id,
+      "name"         : "Invaders Must Die",
+      "duration"     : 205,
       "file"         : "tracks_folder/10.mp3",
       "id3Tags"      : "",
       "dateReleased" : "Fri Feb 04 2005 00:00:00 GMT+0100 (CET)",
-      "dateCreated"  : "Sat Sep 27 2014 10:26:46 GMT+0200 (CEST)"
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
     },
 
     {
       "_id"          : ObjectId(),
-      "artist"       : artists.data[4]._id,
-      "album"        : albums.data[8]._id,
-      "name"         : "A Deafening Distance",
-      "duration"     : 229,
+      "artist"       : artists.data[6]._id,
+      "album"        : albums.data[7]._id,
+      "name"         : "Warrior's Dance",
+      "duration"     : 312,
       "file"         : "tracks_folder/11.mp3",
       "id3Tags"      : "",
       "dateReleased" : "Fri Feb 04 2005 00:00:00 GMT+0100 (CET)",
-      "dateCreated"  : "Sat Sep 27 2014 10:26:46 GMT+0200 (CEST)"
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+    },
+
+    {
+      "_id"          : ObjectId(),
+      "artist"       : artists.data[7]._id,
+      "album"        : albums.data[8]._id,
+      "name"         : "Trans-Continental Hustle",
+      "duration"     : 147,
+      "file"         : "tracks_folder/12.mp3",
+      "id3Tags"      : "",
+      "dateReleased" : "Fri Feb 04 2005 00:00:00 GMT+0100 (CET)",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+    },
+
+    {
+      "_id"          : ObjectId(),
+      "artist"       : artists.data[7]._id,
+      "album"        : albums.data[9]._id,
+      "name"         : "American Wedding",
+      "duration"     : 217,
+      "file"         : "tracks_folder/13.mp3",
+      "id3Tags"      : "",
+      "dateReleased" : "Fri Feb 04 2005 00:00:00 GMT+0100 (CET)",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+    },
+
+    {
+      "_id"          : ObjectId(),
+      "artist"       : artists.data[8]._id,
+      "album"        : albums.data[10]._id,
+      "name"         : "Holland, 1945",
+      "duration"     : 192,
+      "file"         : "tracks_folder/14.mp3",
+      "id3Tags"      : "",
+      "dateReleased" : "Fri Feb 04 2005 00:00:00 GMT+0100 (CET)",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+    },
+
+    {
+      "_id"          : ObjectId(),
+      "artist"       : artists.data[8]._id,
+      "album"        : albums.data[10]._id,
+      "name"         : "In the Airplane over the Sea",
+      "duration"     : 191,
+      "file"         : "tracks_folder/15.mp3",
+      "id3Tags"      : "",
+      "dateReleased" : "Fri Feb 04 2005 00:00:00 GMT+0100 (CET)",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+    },
+
+    {
+      "_id"          : ObjectId(),
+      "artist"       : artists.data[9]._id,
+      "album"        : albums.data[11]._id,
+      "name"         : "Io Centro con i Missili",
+      "duration"     : 191,
+      "file"         : "tracks_folder/16.mp3",
+      "id3Tags"      : "",
+      "dateReleased" : "Fri Feb 04 2005 00:00:00 GMT+0100 (CET)",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+    },
+
+    {
+      "_id"          : ObjectId(),
+      "artist"       : artists.data[9]._id,
+      "album"        : albums.data[12]._id,
+      "name"         : "Una Vita Stupenda",
+      "duration"     : 140,
+      "file"         : "tracks_folder/17.mp3",
+      "id3Tags"      : "",
+      "dateReleased" : "Fri Feb 04 2005 00:00:00 GMT+0100 (CET)",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+    },
+
+    {
+      "_id"          : ObjectId(),
+      "artist"       : artists.data[10]._id,
+      "album"        : albums.data[13]._id,
+      "name"         : "Walk",
+      "duration"     : 315,
+      "file"         : "tracks_folder/18.mp3",
+      "id3Tags"      : "",
+      "dateReleased" : "Fri Feb 04 2005 00:00:00 GMT+0100 (CET)",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+    },
+
+    {
+      "_id"          : ObjectId(),
+      "artist"       : artists.data[10]._id,
+      "album"        : albums.data[13]._id,
+      "name"         : "Mouth For War",
+      "duration"     : 239,
+      "file"         : "tracks_folder/19.mp3",
+      "id3Tags"      : "",
+      "dateReleased" : "Fri Feb 04 2005 00:00:00 GMT+0100 (CET)",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+    },
+
+    {
+      "_id"          : ObjectId(),
+      "artist"       : artists.data[11]._id,
+      "album"        : albums.data[14]._id,
+      "name"         : "Brando",
+      "duration"     : 522,
+      "file"         : "tracks_folder/20.mp3",
+      "id3Tags"      : "",
+      "dateReleased" : "Fri Feb 04 2005 00:00:00 GMT+0100 (CET)",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+    },
+
+    {
+      "_id"          : ObjectId(),
+      "artist"       : artists.data[12]._id,
+      "album"        : albums.data[15]._id,
+      "name"         : "Voice of the Soul",
+      "duration"     : 224,
+      "file"         : "tracks_folder/21.mp3",
+      "id3Tags"      : "",
+      "dateReleased" : "Fri Feb 04 2005 00:00:00 GMT+0100 (CET)",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+    },
+
+    {
+      "_id"          : ObjectId(),
+      "artist"       : artists.data[12]._id,
+      "album"        : albums.data[15]._id,
+      "name"         : "Painkiller",
+      "duration"     : 363,
+      "file"         : "tracks_folder/22.mp3",
+      "id3Tags"      : "",
+      "dateReleased" : "Fri Feb 04 2005 00:00:00 GMT+0100 (CET)",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+    },
+
+    {
+      "_id"          : ObjectId(),
+      "artist"       : artists.data[13]._id,
+      "album"        : albums.data[16]._id,
+      "name"         : "Tarantula",
+      "duration"     : 355,
+      "file"         : "tracks_folder/23.mp3",
+      "id3Tags"      : "",
+      "dateReleased" : "Fri Feb 04 2005 00:00:00 GMT+0100 (CET)",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+    },
+
+    {
+      "_id"          : ObjectId(),
+      "artist"       : artists.data[13]._id,
+      "album"        : albums.data[16]._id,
+      "name"         : "Blood Sugar",
+      "duration"     : 297,
+      "file"         : "tracks_folder/24.mp3",
+      "id3Tags"      : "",
+      "dateReleased" : "Fri Feb 04 2005 00:00:00 GMT+0100 (CET)",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+    },
+
+    {
+      "_id"          : ObjectId(),
+      "artist"       : artists.data[14]._id,
+      "album"        : albums.data[17]._id,
+      "name"         : "Get Free",
+      "duration"     : 307,
+      "file"         : "tracks_folder/25.mp3",
+      "id3Tags"      : "",
+      "dateReleased" : "Fri Feb 04 2005 00:00:00 GMT+0100 (CET)",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+    },
+
+    {
+      "_id"          : ObjectId(),
+      "artist"       : artists.data[14]._id,
+      "album"        : albums.data[17]._id,
+      "name"         : "Jessica",
+      "duration"     : 253,
+      "file"         : "tracks_folder/26.mp3",
+      "id3Tags"      : "",
+      "dateReleased" : "Fri Feb 04 2005 00:00:00 GMT+0100 (CET)",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+    },
+
+    {
+      "_id"          : ObjectId(),
+      "artist"       : artists.data[15]._id,
+      "album"        : albums.data[18]._id,
+      "name"         : "Trovami un Modo Semplice per Uscirne",
+      "duration"     : 213,
+      "file"         : "tracks_folder/27.mp3",
+      "id3Tags"      : "",
+      "dateReleased" : "Fri Feb 04 2005 00:00:00 GMT+0100 (CET)",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+    },
+
+    {
+      "_id"          : ObjectId(),
+      "artist"       : artists.data[15]._id,
+      "album"        : albums.data[18]._id,
+      "name"         : "Angie",
+      "duration"     : 222,
+      "file"         : "tracks_folder/28.mp3",
+      "id3Tags"      : "",
+      "dateReleased" : "Fri Feb 04 2005 00:00:00 GMT+0100 (CET)",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+    },
+
+    {
+      "_id"          : ObjectId(),
+      "artist"       : artists.data[16]._id,
+      "album"        : albums.data[19]._id,
+      "name"         : "Die with a Beer in your Hand",
+      "duration"     : 323,
+      "file"         : "tracks_folder/29.mp3",
+      "id3Tags"      : "",
+      "dateReleased" : "Fri Feb 04 2005 00:00:00 GMT+0100 (CET)",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+    },
+
+    {
+      "_id"          : ObjectId(),
+      "artist"       : artists.data[16]._id,
+      "album"        : albums.data[19]._id,
+      "name"         : "Frankfurt: We Need More Beer",
+      "duration"     : 228,
+      "file"         : "tracks_folder/30.mp3",
+      "id3Tags"      : "",
+      "dateReleased" : "Fri Feb 04 2005 00:00:00 GMT+0100 (CET)",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
     }
   ]
 }
@@ -286,21 +720,21 @@ var users = {
   data : [
     {
       "_id"          : ObjectId(),
-      "firstName"    : "Masiar",
-      "lastName"     : "Babazadeh",
-      "userName"     : "masiar",
-      "email"        : "masiar.babazadeh@usi.ch",
+      "firstName"    : "Leonardo",
+      "lastName"     : "Iandiorio",
+      "userName"     : "iandil",
+      "email"        : "leonardo.iandiorio@usi.ch",
       "password"     : "ciao",
-      "dateCreated"  : "Sat Sep 27 2014 10:26:46 GMT+0200 (CEST)",
-      "picture": "https://media.licdn.com/media/p/8/000/2cd/3a1/2721b33.jpg",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
+      "picture": "https://scontent.cdninstagram.com/hphotos-xpt1/t51.2885-15/s320x320/e35/12224351_447295285477978_2008958257_n.jpg",
       "playlists"    : [
          new Playlist ({
-          "name" : 'Thrash Metal favs',
-          "tracks": [tracks.data[0]._id, tracks.data[1]._id]
+          "name" : 'Indie',
+          "tracks": [tracks.data[0]._id, , tracks.data[2]._id, tracks.data[6]._id, tracks.data[13]._id]
         }),
           new Playlist ({
-          "name" : 'Thrash Metal favs 2',
-          "tracks": [tracks.data[3]._id, tracks.data[4]._id]
+          "name" : 'Brutal',
+          "tracks": [tracks.data[18]._id, tracks.data[19]._id, tracks.data[20]._id, tracks.data[28]._id]
         }),
         //   new Playlist ({
         //   "name" : 'masiar Pubb Playlist',
@@ -312,40 +746,42 @@ var users = {
 
     {
       "_id"          : ObjectId(),
-      "firstName"    : "Robert",
-      "lastName"     : "Sapolsky",
-      "userName"     : "rob",
-      "email"        : "sapolsky@stanford.edu",
-      "password"     : "baboon",
-      "dateCreated"  : "Sat Sep 27 2014 10:26:46 GMT+0200 (CEST)",
+      "firstName"    : "Davide",
+      "lastName"     : "Cammarata",
+      "userName"     : "cammad",
+      "email"        : "davide.cammarata@usi.ch",
+      "password"     : "ciao",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
+      "picture": "https://totesmahgotes.files.wordpress.com/2010/05/mushroom-wallpaper-super-mario-bros-5431067-1024-10241.jpg",
       "playlists"    : [
          new Playlist ({
-          "name" : 'Thrash Metal favs',
-          "tracks": [tracks.data[0]._id, tracks.data[1]._id]
+          "name" : 'My favs',
+          "tracks": [tracks.data[21]._id, tracks.data[29]._id, tracks.data[12]._id, tracks.data[7]._id]
         }),
           new Playlist ({
-          "name" : 'Thrash Metal favs 2',
-          "tracks": [tracks.data[6]._id, tracks.data[7]._id]
+          "name" : 'Electro',
+          "tracks": [tracks.data[15]._id, tracks.data[16]._id, tracks.data[23]._id, tracks.data[25]._id]
         })
       ]
     },
 
     { 
       "_id"          : ObjectId(),
-      "firstName"    : "Vasileios",
-      "lastName"     : "Triglianos",
-      "userName"     : "vassilis",
-      "email"        : "vasileios.triglianos@usi.ch",
+      "firstName"    : "Nelson",
+      "lastName"     : "Brochado",
+      "userName"     : "dossan",
+      "email"        : "dossan@usi.ch",
       "password"     : "ciao",
-      "dateCreated"  : "Sat Sep 27 2014 10:28:21 GMT+0200 (CEST)",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
+      "picture": "https://lh3.googleusercontent.com/BmyLieVnrRYLi483woAXv-bnPBqdmSbId6y6ZgXPrVM=s630-fcrop64=1,000010acffffea7b:Soften=1,60,0",
       "playlists"    : [
          new Playlist ({
-          "name" : 'Iron maiden',
-          "tracks": [tracks.data[0]._id, tracks.data[1]._id]
+          "name" : 'All Favs',
+          "tracks": [tracks.data[3]._id, tracks.data[1]._id, tracks.data[9]._id, tracks.data[27]._id]
         }),
           new Playlist ({
-          "name" : 'Thrash Metal favs 3',
-          "tracks": [tracks.data[5]._id, tracks.data[6]._id]
+          "name" : 'Relax',
+          "tracks": [tracks.data[24]._id, tracks.data[26]._id,  tracks.data[4]._id,  tracks.data[8]._id]
         })
       ]
     },
@@ -356,11 +792,11 @@ var users = {
       "userName"     : "a",
       "email"        : "a@usi.ch",
       "password"     : "a",
-      "dateCreated"  : "Sat Sep 27 2014 10:28:21 GMT+0200 (CEST)",
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
       "playlists"    : [
          new Playlist ({
           "name" : 'p1',
-          "tracks": [tracks.data[0]._id, tracks.data[1]._id]
+          "tracks": [tracks.data[2]._id, tracks.data[1]._id, tracks.data[11]._id, tracks.data[17]._id]
         })
       ]
     }

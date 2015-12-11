@@ -931,11 +931,10 @@ function buildTracksData(tracks) {
     var newTracksData = {};
     newTracksData.artist = {};
     newTracksData.album = {};
-
+    console.log(formatTime(tracks[track].duration))
     newTracksData.name = tracks[track].name;
     newTracksData._id = tracks[track]._id;
     newTracksData.duration = formatTime(tracks[track].duration);
-
     newTracksData.artist._id = tracks[track].artist._id;
     newTracksData.artist.name = tracks[track].artist.name;
 
