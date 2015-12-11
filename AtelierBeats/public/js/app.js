@@ -1335,7 +1335,7 @@ function drawAlbums(e, addHistory, onlyFavourites, favDomColor, foundedAlbums) {
 
       for (var i = 0; i < data.albums.length; i++) {
         if (data.albums[i].checked == true) {
-          albums[i].style.backgroundColor = "#3562CE"; // that red
+          albums[i].style.backgroundColor = "#6ab2ca"; // that red
         } else {
           albums[i].style.backgroundColor = "#605F61";
         }
@@ -1352,7 +1352,7 @@ function onFavouritesClick(e) {
     drawAlbums(null, false, false, "#605F61");
     count = !count;
   } else {
-    drawAlbums(null, false, true, "#3562CE")
+    drawAlbums(null, false, true, "#6ab2ca")
     count = !count;
   }
 }
@@ -1538,7 +1538,7 @@ function likeAlbum(e) {
       var toCheck = target.parentNode.parentNode;
 
       if (album.checked == false) {
-        toCheck.childNodes[1].style.backgroundColor = "#3562CE";
+        toCheck.childNodes[1].style.backgroundColor = "#6ab2ca";
       } else {
         toCheck.childNodes[1].style.backgroundColor = "#605F61";
       }

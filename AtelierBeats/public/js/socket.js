@@ -11,8 +11,8 @@ socket.on('change-album', function(data) {
   if (window.location.hash.indexOf('albums') != -1 || window.location.hash == '') {
     var fav = document.querySelectorAll(".like-filter")[0];
 
-    if (fav && fav.style.backgroundColor == "rgb(53, 98, 206)") {
-      drawAlbums(null, false, true, "rgb(53, 98, 206)");
+    if (fav && fav.style.backgroundColor == "rgb(106, 178, 202)") {
+      drawAlbums(null, false, true, "rgb(106, 178, 202)");
     } else {
       drawAlbums(null, false)
     }

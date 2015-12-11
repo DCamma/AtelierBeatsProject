@@ -90,7 +90,7 @@ body.forgot-password {
 }
 
 .container.main-wrapper {
-    background-color: #3562CE;
+    background-image: url("../images/theme.png");
 }
 
 
@@ -252,7 +252,7 @@ a:hover {
 }
 
 a.beats {
-    color: #3562CE;
+    color: #6ab2ca;
 }
 
 a.beats:hover,
@@ -569,7 +569,8 @@ button {
 
 .btn-beats {
     color: #fff;
-    background-color: #3562CE;
+    background-image: url("../images/theme2.png");
+    background-size: 100%;
     border-color: #1A3065;
 }
 
@@ -578,7 +579,8 @@ button {
 .btn-beats:active,
 .btn-beats.active {
     color: #fff;
-    background-color: #3562FF;
+    background-image: url("../images/theme3.png");
+    background-size: 100%;
     border-color: #1A3065;
 }
 
@@ -685,7 +687,7 @@ button {
     height: 3px;
     top: 4px;
     left: 0;
-    background: #3562CE;
+    background: #6ab2ca;
 }
 
 .pl-volume {
@@ -937,7 +939,7 @@ button {
         line-height: 24px;
     }
     .fl-tl-name a {
-        color: #3562CE;
+        color: #6ab2ca;
     }
     .fl-tl-artist,
     .fl-tl-album {
@@ -1137,7 +1139,7 @@ input[type="password"].form-stacked:last-of-type,
 #main-nav {
     width: 300px;
     height: 100%;
-    background: #3562CE;
+    background-image: url("../images/theme.png");
     font-size: 16px;
     transition: width 150ms ease-out;
 }
@@ -1448,6 +1450,8 @@ a.create-public-playlist:active {
         padding: 0 5px;
         width: 100%;
         height: auto;
+        background-image: url("../images/theme2.png");
+
     }
     .main-nav-float {
         float: none;
@@ -1532,7 +1536,8 @@ a.create-public-playlist:active {
 /* ---------------- User nav ---------------- */
 
 #user-nav {
-    background: #3562CE;
+    background-image: url("../images/theme2.png");
+    background-size: 100%;
     width: 100%;
     height: 60px;
 }
@@ -1661,7 +1666,7 @@ ul.grid-list > li {
 }
 
 .delete-btn:hover {
-    background-color: #3562CE;
+    background-color: #6ab2ca;
 }
 
 .delete-btn a {
@@ -1815,7 +1820,7 @@ Based on: http://www.webdesignerdepot.com/2012/11/how-to-create-a-simple-css3-to
     position: relative;
     left: 38px;
     bottom: 28px;
-    color: #3562CE;
+    color: #6ab2ca;
 }
 
 
