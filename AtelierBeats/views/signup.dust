@@ -12,7 +12,7 @@
 <body class="body signup">
   <div class="vertical-align-wrapper">
     <div class="vertical-align-box">
-      <h1 class="slogan">Now listen.</h1>
+      <h1 class="slogan">Music is life</h1>
       <div class="form-signup-wrapper">
         <form action="/signup" method="POST" class="form-signup">
           <input class="form-control form-stacked" name="firstname" placeholder="Firstname" type="text" autofocus required>
@@ -34,6 +34,6 @@
       </div> 
     </div>
   </div>
-  <h1 class="fat blue-glow bottom-right">Atelier<span class="pulse" style="display:inline-block;">Beats.</span></h1>
+  <h1 class="fat blue-glow bottom-right">Atelier<span class="pulse" style="display:inline-block;">Beats</span></h1>
 </body>
 </html>
