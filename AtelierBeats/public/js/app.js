@@ -1633,12 +1633,11 @@ function addActivitiesToHistory(addHistory) {
 }
 
 /* Activities */
-
 function setupPlaylists() {
 
   doJSONRequest("GET", "users/" + userid + "/playlists", null, null, renderPlaylists);
   // do json request for the public playlists
-  doJSONRequest("GET", "users/publicPlaylists", null, null, renderPubbPlaylists);
+  // doJSONRequest("GET", "users/publicPlaylists", null, null, renderPubbPlaylists);
 
   function renderPubbPlaylists(playlists) {
     var data = {
@@ -1650,7 +1649,6 @@ function setupPlaylists() {
       bindPlaylistNameClick();
 
       bindNewPlaylist("create-pl-btn"); // Exercise 9
-      bindNewPlaylist("create-pubb-pl-btn");
 
       bindEditPlaylistName();
     });
@@ -1667,7 +1665,6 @@ function setupPlaylists() {
       bindPlaylistNameClick();
 
       bindNewPlaylist("create-pl-btn"); // Exercise 9
-      bindNewPlaylist("create-pubb-pl-btn");
 
       bindEditPlaylistName();
     });
@@ -1728,12 +1725,6 @@ function setupPlaylists() {
       }
 
       var newPlaylistData = {};
-      if (elementId == "create-pubb-pl-btn") {
-        newPlaylistData = {
-          "publicPlaylist": true,
-          "userId": userid,
-        }
-      }
 
       // Initially stores a default playlist to the server
       doJSONRequest("PUT", "/users/" + userid + "/playlists", null, newPlaylistData, function() {
@@ -1741,7 +1732,7 @@ function setupPlaylists() {
         doJSONRequest("GET", "users/" + userid + "/playlists", null, null, function(data) {
 
           renderPlaylists(data);
-          doJSONRequest("GET", "users/publicPlaylists", null, null, renderPubbPlaylists);
+          // doJSONRequest("GET", "users/publicPlaylists", null, null, renderPubbPlaylists);
 
           var lastPlaylistDOM = document.getElementById("playlists").lastChild;
           var lastPlaylistDOMId = lastPlaylistDOM.id;
@@ -1756,9 +1747,6 @@ function setupPlaylists() {
             "url": "/users/" + userid + "/playlists/" + lastPlaylistDOMId,
             "target": lastPlaylistDOMName,
             "targetID": lastPlaylistDOMId
-          }
-          if (elementId == "create-pubb-pl-btn") {
-            userActivity.action = "Public Playlist Creation"
           }
 
           doJSONRequest("PUT", "/users/" + userid + "/activities", null, userActivity, function() {
@@ -1893,23 +1881,7 @@ function managePlaylistNameEdit(editButton) {
         });
       }
 
-      doJSONRequest("GET", "users/" + userid + "/playlists", null, null, function(playlists) {
-        var data = {
-          "playlists": playlists
-        };
-
-        dust.render("playlists", data, function(err, out) {
-          document.getElementById('playlists').innerHTML = out;
-        });
-      });
-      doJSONRequest("GET", "users/publicPlaylists", null, null, function(playlists) {
-        var data = {
-          "playlists": playlists
-        };
-        dust.render("pubbPlaylists", data, function(err, out) {
-          document.getElementById('playlists').innerHTML = document.getElementById('playlists').innerHTML + out;
-        });
-      });
+      setupPlaylists();
 
     }
 
@@ -2005,7 +1977,17 @@ function drawPlaylist(e, addHistory, preventBind, pId, foundedTracks) {
         }
 
       });
+      document.getElementById("publicPlaylistCheckbox").onclick = function(){
+        var playlistId = document.getElementById("playlistHeader").getAttribute("playlist-id");
+        var updatedPlaylist = {
+          "name" : document.getElementsByClassName("playlist-info-name")[0].innerHTML,
+          "id" : playlistId,
+          "publicPlaylist" : document.getElementById("publicPlaylistCheckbox").checked,
+        }
 
+        console.log(updatedPlaylist)
+        doJSONRequest("PUT", "/users/" + userid + "/playlists/" + playlistId, null, updatedPlaylist, null);
+      };
     }
 
     function getTracks(track) {
@@ -2028,8 +2010,7 @@ function drawPlaylist(e, addHistory, preventBind, pId, foundedTracks) {
       renderPlaylist(data);
 
     }
-  }
-
+  }  
 }
 
 function emptyPlaylistArtwork() {

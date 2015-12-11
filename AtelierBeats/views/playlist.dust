@@ -1,4 +1,4 @@
-<section id="playlistHeader">
+<section id="playlistHeader" playlist-id="{playlist._id}">
         <!-- Exercise 1.d -->
         <div class="canvas-container">
           <canvas width='200' height='200' style="border: 1px dashed gray; background-color:transparent;" id="playlistArtworkCanvas"></canvas>   
@@ -6,6 +6,7 @@
         <div class="playlist-info">
             <div class="playlist-info-name">{playlist.name}</div>
             <div class="playlist-info-track-num">{playlist.trackMsg}</div>
+            <div class="playlist-info-track-num"><form action="">Public: <input type="checkbox" name="publicPlaylist" id="publicPlaylistCheckbox"></form></div>
         </div> 
         <hr/>
       </section>
