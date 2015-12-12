@@ -476,23 +476,45 @@ a.text-muted {
 
 /* ---------------- Buttons ---------------- */
 
-.upload-btn {
+.library-top-btn {
     display: inline-block;
     margin: 15px;
-    margin-left: 19px;
     padding: 15px;
-    padding-top: 14px;
     border: 1px solid #c2c2c2;
     border-radius: 1px;
-    width: 52px;
+    width: 54px;
     cursor: pointer;
 }
 
-.upload-track-btn-icon{
+.library-top-btn:hover {
+    background-color: #1a4654;
+    border: 1px solid #262626;
+}
+
+.upload-btn {
+    margin-left: 19px;
+    padding-top: 14px;
+}
+
+.stats-btn:hover .stats-btn-icon {
+    color: white;
+}
+
+.stats-btn-icon {
+    margin-left: -1px;
     color: #1a4654;
 }
 
-.upload-track-btn-icon:hover{
+.stats-btn-icon:hover {
+    color: white;
+}
+
+.upload-track-btn-icon {
+    margin-left: 1.5px;
+    color: #1a4654;
+}
+
+.upload-track-btn-icon:hover {
     color: white;
 }
 
@@ -802,6 +824,11 @@ button {
     border-bottom: 1px solid #BEBEBE;
 }
 
+.fl-tl-thead {
+    border-top: 1px solid #BEBEBE;
+    padding: 10px 0 10px 0;
+}
+
 .fl-tl-row-first {
     display: flex;
     width: 100%;
@@ -831,6 +858,12 @@ button {
     line-height: 28px;
     text-transform: uppercase;
     font-weight: bold;
+    color: #2a4654;
+}
+
+.fl-tl-th:hover {
+    color: #3f7991;
+    cursor: pointer;
 }
 
 .fl-tl-th,
@@ -893,10 +926,7 @@ button {
 
 .fl-tl-delete {
     flex: 0 0 30px;
-    text-align: right;
-    /* width: 80px; */
-    padding: 6px 5px 0 12px;
-    font-size: 17px;
+    font-size: 14px;
 }
 
 .fl-tl-delete a {
@@ -1466,10 +1496,9 @@ a.create-public-playlist:active {
 }
 
 @media (max-width: 640px) {
-    .nav-menu-icon{
+    .nav-menu-icon {
         color: white;
     }
-
     .main-nav-content {
         max-height: 0;
     }
@@ -1731,13 +1760,15 @@ ul.grid-list > li {
 .like-filter {
     border: 0.5px solid #c2c2c2;
     position: relative;
-    padding: 6px 5.5px 3px 5.5px;
+    padding: 6px 5.5px 2.7px 5.5px;
     background-color: #605F61;
     border-radius: 20px;
     z-index: 1;
 }
 
 .like-filter a span {
+    margin-left: 0.3px;
+    margin-top: 0.3px;
     font-size: 20px;
     color: white;
     text-decoration: none;
@@ -1757,12 +1788,12 @@ ul.grid-list > li {
 
 .fav-albums {
     display: inline-block;
-    margin: 15px;
+    margin: 16px;
     margin-left: 19px;
-    padding: 10px;
+    padding: 13px 12px 13px 11.5px;
     border: 1px solid #c2c2c2;
     border-radius: 1px;
-    background-color: #ddd;
+    /*background-color: #ddd;*/
 }
 
 .fav-albums-text {
@@ -1884,16 +1915,12 @@ Based on: http://www.webdesignerdepot.com/2012/11/how-to-create-a-simple-css3-to
     display: -ms-flex;
     display: -webkit-flex;
     display: flex;
-
     -webkit-justify-content: center;
     justify-content: center;
-
     align-items: center;
     -webkit-align-items: center;
-
     border: 1px solid #a1a1a1;
     font-size: 18px;
-
     -webkit-flex-basis: 27%;
     flex-basis: 27%;
 }
@@ -1913,10 +1940,8 @@ Based on: http://www.webdesignerdepot.com/2012/11/how-to-create-a-simple-css3-to
 
 .uploader-button {
     text-align: center;
-
     border: 1px solid #c2c2c2;
     color: #2a4654;
-
     padding: 10px 12px;
     font-size: 20px;
     line-height: 1.42857143;
@@ -2113,10 +2138,8 @@ input[type=date]::-webkit-datetime-edit {
     width: 200px;
     padding: 12px;
     cursor: pointer;
-    
     border: 1px solid #c2c2c2;
     color: #2a4654;
-
     margin-top: 10px;
     margin-left: -0.01px;
 }
@@ -2133,8 +2156,8 @@ input[type=date]::-webkit-datetime-edit {
     }
 }
 
-@media (max-width: 640px){
-    .user-info-edit-btn{
+@media (max-width: 640px) {
+    .user-info-edit-btn {
         margin-left: 10px;
         margin-top: 10px;
         padding-top: 10px;
@@ -2144,4 +2167,44 @@ input[type=date]::-webkit-datetime-edit {
 
 .hidden {
     display: none;
+}
+
+.track-delete-btn {
+    color: #2a4654;
+}
+
+a.track-delete-btn {
+    display: block;
+    margin-top: 12px;
+    text-decoration: none;
+}
+
+.track-delete-btn:hover {
+    color: #60c2e8;
+}
+
+.track-delete-btn-head {
+    font-size: 20px;
+    margin-left: -2px;
+}
+
+.counter-tooltip {
+    text-decoration: none;
+}
+
+@media (max-width: 640px) {
+    a.track-delete-btn {
+        font-size: 18px;
+        margin-right: 5px;
+        margin-top: 15px;
+    }
+}
+
+.center {
+    text-align: center;
+}
+
+.center h1 {
+    color: #2a4654;
+    padding: 100px;
 }

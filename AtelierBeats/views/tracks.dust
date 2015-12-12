@@ -1,22 +1,46 @@
-<div class="upload-btn" id="upload-btn">
+<div class="library-top-btn upload-btn" id="upload-btn">
 	<a title="Upload a new track" class="tooltip" id="upload-btn">
 		<li title="" class="upload-track-btn-icon fa fa-refresh fa-lg" id="upload-btn"></li>
 	</a>	
 </div>
 
-<hr>
+<div class="library-top-btn stats-btn" id="stats-btn">
+	<a title="Show Statistics" class="tooltip" id="stats-btn">
+		<li title="" class="stats-btn-icon fa fa-bar-chart fa-lg" id="stats-btn-icon"></li>
+	</a>	
+</div>
 
 <section class="flex-tracklist" id="tracks-list">
+
 	<div class="fl-tl-thead fl-tl-row">
+
 		<div class="fl-tl-th fl-tl-name">Song</div>
 		<div class="fl-tl-th fl-tl-artist">Artist</div>
 		<div class="fl-tl-th fl-tl-album">Album</div>
-		<div class="fl-tl-th fl-tl-counter">c.Sta</div>
-		<div class="fl-tl-th fl-tl-counter">c.Mid</div>
-		<div class="fl-tl-th fl-tl-counter">c.End</div>
+		<div class="fl-tl-th fl-tl-name">Genre</div>		
 		<div class="fl-tl-th fl-tl-time">Time</div>
+		
+		<div class="fl-tl-th fl-tl-counter">
+			<a title="Start Counter" class="tooltip tooltip-right">
+				<i title="" class="">S</i>
+			</a>
+		</div>
+
+		<div class="fl-tl-th fl-tl-counter">
+			<a title="Middle Counter" class="tooltip tooltip-right">
+				<i title="" class="">M</i>
+			</a>
+		</div>
+
+		<div class="fl-tl-th fl-tl-counter">
+			<a title="End Counter" class="tooltip tooltip-right">
+				<i title="" class="">E</i>
+			</a>
+		</div>
+
 		<div class="fl-tl-th fl-tl-delete"></div>
 	</div>
+
 	{#tracks}
 	<div id="{_id}" class="fl-tl-row" draggable="true" ondragstart="drag(event)">
 		
@@ -28,16 +52,24 @@
 		</div>
 
 		<div class="fl-tl-cell fl-tl-artist"><a class="artist-link" href="artists/{artist._id}">{artist.name}</a></div>
+
 		<div class="fl-tl-cell fl-tl-album">
 			{?album}
 			<a class="album-link" href="albums/{album._id}">{album.name}</a>
 			{/album}
 		</div>
+
+		<div class="fl-tl-cell fl-tl-name">{genre}</div>
+
+		<div class="fl-tl-cell fl-tl-time">{duration}</div>
+
 		<div class="fl-tl-cell fl-tl-counter">{count_start}</div>
 		<div class="fl-tl-cell fl-tl-counter">{count_middle}</div>
 		<div class="fl-tl-cell fl-tl-counter">{count_end}</div>
-		<div class="fl-tl-cell fl-tl-time">{duration}</div>
-		<div class="fl-tl-th fl-tl-delete"><a href="tracks/{_id}">&times;</a></div>
+
+		<div class="fl-tl-th fl-tl-delete">
+			<a href="tracks/{_id}" class="track-delete-btn glyphicon glyphicon-remove-circle"></a>
+		</div>
 	</div>
 	{/tracks}
 </section>

@@ -57,6 +57,11 @@ var trackSchema = new mongoose.Schema(
       default: Date.now
     },
 
+    genre: {
+      type: String,
+      default: "Pop"
+    },
+
     // added the counters
     count_start: {
       type: Number,

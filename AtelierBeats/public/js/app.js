@@ -30,52 +30,52 @@ window.onload = function() {
 
 }
 
-function pulseHeart(){
-    var heart = document.getElementsByClassName("fa fa-heart beats pulse")[0];
-    colors = ["#e3170c", "#e57c29", "#fcf535", "#c6ef31", "#1cf197", "#0cd6ec", "#2999eb", "#2E22C5", "#4E1B73", "#9c27ab", "#A44B4D"]
-    y = 160;
-    a = 0;
-    b = 0;
-    if(heart){
-            // setInterval(function(){
-            //     var i = colors[y]
-            //     heart.style.color = i;
-            //     y ++;
-            //     if(y == colors.length)
-            //         y = 0;
-            // }, 2000);
-          
-        setInterval(function(){
-            if(y <= 255 && a == 0 && b == 0){
-                heart.style.color = 'rgb(' + y + ',' + a + ',' + b + ')';
-                y += 1;
-            }
-            if(y >= 255 && a >= 0 && b == 0){
-                heart.style.color = 'rgb(' + y + ',' + a + ',' + b + ')';
-                a += 1;
-            }
-            if(a >= 255 && y > 0 && b == 0){
-                heart.style.color = 'rgb(' + y + ',' + a + ',' + b + ')';
-                y -= 1;
-            }
-            if(a >= 255 && y <= 0 && b <= 255){
-                heart.style.color = 'rgb(' + y + ',' + a + ',' + b + ')';
-                b += 1;
-            }
-            if(b >= 255 && a > 0){
-                heart.style.color = 'rgb(' + y + ',' + a + ',' + b + ')';
-                a -= 1;
-            }
-            if(b >= 255 && a <= 0){
-                heart.style.color = 'rgb(' + y + ',' + a + ',' + b + ')';
-                y += 1;
-            }
-            if(b > 0 && y >= 255 && a <= 0){
-                heart.style.color = 'rgb(' + y + ',' + a + ',' + b + ')';
-                b -= 1
-            }             
-        }, 30);
-    }
+function pulseHeart() {
+  var heart = document.getElementsByClassName("fa fa-heart beats pulse")[0];
+  colors = ["#e3170c", "#e57c29", "#fcf535", "#c6ef31", "#1cf197", "#0cd6ec", "#2999eb", "#2E22C5", "#4E1B73", "#9c27ab", "#A44B4D"]
+  y = 160;
+  a = 0;
+  b = 0;
+  if (heart) {
+    // setInterval(function(){
+    //     var i = colors[y]
+    //     heart.style.color = i;
+    //     y ++;
+    //     if(y == colors.length)
+    //         y = 0;
+    // }, 2000);
+
+    setInterval(function() {
+      if (y <= 255 && a == 0 && b == 0) {
+        heart.style.color = 'rgb(' + y + ',' + a + ',' + b + ')';
+        y += 1;
+      }
+      if (y >= 255 && a >= 0 && b == 0) {
+        heart.style.color = 'rgb(' + y + ',' + a + ',' + b + ')';
+        a += 1;
+      }
+      if (a >= 255 && y > 0 && b == 0) {
+        heart.style.color = 'rgb(' + y + ',' + a + ',' + b + ')';
+        y -= 1;
+      }
+      if (a >= 255 && y <= 0 && b <= 255) {
+        heart.style.color = 'rgb(' + y + ',' + a + ',' + b + ')';
+        b += 1;
+      }
+      if (b >= 255 && a > 0) {
+        heart.style.color = 'rgb(' + y + ',' + a + ',' + b + ')';
+        a -= 1;
+      }
+      if (b >= 255 && a <= 0) {
+        heart.style.color = 'rgb(' + y + ',' + a + ',' + b + ')';
+        y += 1;
+      }
+      if (b > 0 && y >= 255 && a <= 0) {
+        heart.style.color = 'rgb(' + y + ',' + a + ',' + b + ')';
+        b -= 1
+      }
+    }, 30);
+  }
 }
 
 function setupSyncCheckbox() {
@@ -481,6 +481,8 @@ function drawLibrary(e, addHistory, preventBind, foundedTracks) {
 
       bindTrackUploader();
 
+      bindShowStatistics();
+
       if (document.getElementsByTagName('audio').length === 0) {
         setupPlayer();
       }
@@ -489,7 +491,7 @@ function drawLibrary(e, addHistory, preventBind, foundedTracks) {
       if (!preventBind) {
 
         /* 
-        Exercise 9 - doing a put request to sign the activity 
+        doing a put request to sign the activity 
         when the user click on the name of a song.
         */
 
@@ -533,9 +535,28 @@ function drawLibrary(e, addHistory, preventBind, foundedTracks) {
   }
 }
 
+function bindShowStatistics() {
+  var elem = document.getElementById("stats-btn");
+  elem.onclick = drawStats;
+}
+
+function drawStats(e) {
+  if (e && e.target) e.preventDefault();
+
+  var data = {
+    error: "Page Not Implemented"
+  }
+
+  dust.render("error", data, function(err, out) {
+    var content = document.getElementById("content");
+    content.innerHTML = out;
+  });
+}
+
 /* Uploader */
 
 function bindTrackUploader() {
+
   var elem = document.getElementById("upload-btn");
   elem.onclick = drawTrackUploader;
 
@@ -929,12 +950,17 @@ function buildTracksData(tracks) {
   for (track in tracks) {
 
     var newTracksData = {};
+
     newTracksData.artist = {};
     newTracksData.album = {};
+
     console.log(formatTime(tracks[track].duration))
+
     newTracksData.name = tracks[track].name;
     newTracksData._id = tracks[track]._id;
     newTracksData.duration = formatTime(tracks[track].duration);
+    newTracksData.genre = tracks[track].genre;
+
     newTracksData.artist._id = tracks[track].artist._id;
     newTracksData.artist.name = tracks[track].artist.name;
 
@@ -1199,6 +1225,8 @@ function drawArtist(e, addHistory, foundedArtist) {
 
         bindTrackUploader();
 
+        bindShowStatistics();
+
       });
     }
 
@@ -1334,7 +1362,7 @@ function drawAlbums(e, addHistory, onlyFavourites, favDomColor, foundedAlbums) {
 
       for (var i = 0; i < data.albums.length; i++) {
         if (data.albums[i].checked == true) {
-          albums[i].style.backgroundColor = "#6ab2ca"; // that red
+          albums[i].style.backgroundColor = "#6ab2ca";
         } else {
           albums[i].style.backgroundColor = "#605F61";
         }
@@ -1430,6 +1458,8 @@ function drawAlbum(e, addHistory, foundedAlbums) {
         bindEditTrackName();
 
         bindTrackUploader();
+
+        bindShowStatistics();
 
       });
 
@@ -1976,12 +2006,12 @@ function drawPlaylist(e, addHistory, preventBind, pId, foundedTracks) {
         }
 
       });
-      document.getElementById("publicPlaylistCheckbox").onclick = function(){
+      document.getElementById("publicPlaylistCheckbox").onclick = function() {
         var playlistId = document.getElementById("playlistHeader").getAttribute("playlist-id");
         var updatedPlaylist = {
-          "name" : document.getElementsByClassName("playlist-info-name")[0].innerHTML,
-          "id" : playlistId,
-          "publicPlaylist" : document.getElementById("publicPlaylistCheckbox").checked,
+          "name": document.getElementsByClassName("playlist-info-name")[0].innerHTML,
+          "id": playlistId,
+          "publicPlaylist": document.getElementById("publicPlaylistCheckbox").checked,
         }
 
         console.log(updatedPlaylist)
@@ -2009,7 +2039,7 @@ function drawPlaylist(e, addHistory, preventBind, pId, foundedTracks) {
       renderPlaylist(data);
 
     }
-  }  
+  }
 }
 
 function emptyPlaylistArtwork() {
