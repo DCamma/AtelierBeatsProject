@@ -386,7 +386,8 @@ var tracks = {
       "file"         : "tracks_folder/1.mp3",
       "id3Tags"      : "",
       "dateReleased" : "Mon Sep 29 1986 00:00:00 GMT+0100 (CET)",
-      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
+      "genre" : "Emo Core"
     },
 
     {
@@ -398,7 +399,8 @@ var tracks = {
       "file"         : "tracks_folder/2.mp3",
       "id3Tags"      : "",
       "dateReleased" : "Mon Apr 11 1988 00:00:00 GMT+0200 (CEST)",
-      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
+      "genre" : "Emo Core"
     },
 
     {
@@ -410,7 +412,8 @@ var tracks = {
       "file"         : "tracks_folder/3.mp3",
       "id3Tags"      : "",
       "dateReleased" : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
-      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
+      "genre" : "Punk Rock"
     },
 
     {
@@ -422,7 +425,8 @@ var tracks = {
       "file"         : "tracks_folder/4.mp3",
       "id3Tags"      : "",
       "dateReleased" : "Mon Sep 24 1990 00:00:00 GMT+0200 (CEST)",
-      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
+      "genre" : "Indie Rock"
     },
 
     {
@@ -434,7 +438,8 @@ var tracks = {
       "file"         : "tracks_folder/5.mp3",
       "id3Tags"      : "",
       "dateReleased" : "Fri Jul 27 1984 00:00:00 GMT+0200 (CEST)",
-      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
+      "genre" : "Indie Rock"
     },
 
     {
@@ -446,7 +451,8 @@ var tracks = {
       "file"         : "tracks_folder/6.mp3",
       "id3Tags"      : "",
       "dateReleased" : "Mon Feb 24 1986 00:00:00 GMT+0100 (CET)",
-      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
+      "genre" : "Indie Rock"
     },
 
     {
@@ -458,7 +464,8 @@ var tracks = {
       "file"         : "tracks_folder/7.mp3",
       "id3Tags"      : "",
       "dateReleased" : "Mon Feb 24 1986 00:00:00 GMT+0100 (CET)",
-      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
+      "genre" : "Electro Pop"
     },
 
     {
@@ -470,7 +477,8 @@ var tracks = {
       "file"         : "tracks_folder/8.mp3",
       "id3Tags"      : "",
       "dateReleased" : "Tue Oct 07 1986 00:00:00 GMT+0100 (CET)",
-      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
+      "genre" : "Celtic Punk"
     },
 
     {
@@ -482,7 +490,8 @@ var tracks = {
       "file"         : "tracks_folder/9.mp3",
       "id3Tags"      : "",
       "dateReleased" : "Tue Jul 05 1988 00:00:00 GMT+0200 (CEST)",
-      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
+      "genre" : "Celtic Punk"
     },
 
     {
@@ -494,7 +503,8 @@ var tracks = {
       "file"         : "tracks_folder/10.mp3",
       "id3Tags"      : "",
       "dateReleased" : "Fri Feb 04 2005 00:00:00 GMT+0100 (CET)",
-      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
+      "genre" : "Electronic"
     },
 
     {
@@ -506,7 +516,8 @@ var tracks = {
       "file"         : "tracks_folder/11.mp3",
       "id3Tags"      : "",
       "dateReleased" : "Fri Feb 04 2005 00:00:00 GMT+0100 (CET)",
-      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
+      "genre" : "Electronic"
     },
 
     {
@@ -518,7 +529,8 @@ var tracks = {
       "file"         : "tracks_folder/12.mp3",
       "id3Tags"      : "",
       "dateReleased" : "Fri Feb 04 2005 00:00:00 GMT+0100 (CET)",
-      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
+      "genre" : "Gipsy Punk"
     },
 
     {
@@ -530,7 +542,8 @@ var tracks = {
       "file"         : "tracks_folder/13.mp3",
       "id3Tags"      : "",
       "dateReleased" : "Fri Feb 04 2005 00:00:00 GMT+0100 (CET)",
-      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
+      "genre" : "Gipsy Punk"
     },
 
     {
@@ -542,7 +555,8 @@ var tracks = {
       "file"         : "tracks_folder/14.mp3",
       "id3Tags"      : "",
       "dateReleased" : "Fri Feb 04 2005 00:00:00 GMT+0100 (CET)",
-      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
+      "genre" : "Folk Rock"
     },
 
     {
@@ -554,7 +568,8 @@ var tracks = {
       "file"         : "tracks_folder/15.mp3",
       "id3Tags"      : "",
       "dateReleased" : "Fri Feb 04 2005 00:00:00 GMT+0100 (CET)",
-      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
+      "genre" : "Folk Rock"
     },
 
     {
@@ -566,7 +581,8 @@ var tracks = {
       "file"         : "tracks_folder/16.mp3",
       "id3Tags"      : "",
       "dateReleased" : "Fri Feb 04 2005 00:00:00 GMT+0100 (CET)",
-      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
+      "genre" : "Electronic"
     },
 
     {
@@ -578,7 +594,8 @@ var tracks = {
       "file"         : "tracks_folder/17.mp3",
       "id3Tags"      : "",
       "dateReleased" : "Fri Feb 04 2005 00:00:00 GMT+0100 (CET)",
-      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
+      "genre" : "Electronic"
     },
 
     {
@@ -590,7 +607,8 @@ var tracks = {
       "file"         : "tracks_folder/18.mp3",
       "id3Tags"      : "",
       "dateReleased" : "Fri Feb 04 2005 00:00:00 GMT+0100 (CET)",
-      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
+      "genre" : "Heavy Metal"
     },
 
     {
@@ -602,7 +620,8 @@ var tracks = {
       "file"         : "tracks_folder/19.mp3",
       "id3Tags"      : "",
       "dateReleased" : "Fri Feb 04 2005 00:00:00 GMT+0100 (CET)",
-      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
+      "genre" : "Heavy Metal"
     },
 
     {
@@ -614,7 +633,8 @@ var tracks = {
       "file"         : "tracks_folder/20.mp3",
       "id3Tags"      : "",
       "dateReleased" : "Fri Feb 04 2005 00:00:00 GMT+0100 (CET)",
-      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
+      "genre" : "Drone Doom Metal"
     },
 
     {
@@ -626,7 +646,8 @@ var tracks = {
       "file"         : "tracks_folder/21.mp3",
       "id3Tags"      : "",
       "dateReleased" : "Fri Feb 04 2005 00:00:00 GMT+0100 (CET)",
-      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
+      "genre" : "Progressive Death Metal"
     },
 
     {
@@ -638,7 +659,8 @@ var tracks = {
       "file"         : "tracks_folder/22.mp3",
       "id3Tags"      : "",
       "dateReleased" : "Fri Feb 04 2005 00:00:00 GMT+0100 (CET)",
-      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
+      "genre" : "Heavy Metal"
     },
 
     {
@@ -650,7 +672,8 @@ var tracks = {
       "file"         : "tracks_folder/23.mp3",
       "id3Tags"      : "",
       "dateReleased" : "Fri Feb 04 2005 00:00:00 GMT+0100 (CET)",
-      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
+      "genre" : "Drum and Bass"
     },
 
     {
@@ -662,7 +685,8 @@ var tracks = {
       "file"         : "tracks_folder/24.mp3",
       "id3Tags"      : "",
       "dateReleased" : "Fri Feb 04 2005 00:00:00 GMT+0100 (CET)",
-      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
+      "genre" : "Drum and Bass"
     },
 
     {
@@ -674,7 +698,8 @@ var tracks = {
       "file"         : "tracks_folder/25.mp3",
       "id3Tags"      : "",
       "dateReleased" : "Fri Feb 04 2005 00:00:00 GMT+0100 (CET)",
-      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
+      "genre" : "Indie Pop"
     },
 
     {
@@ -686,7 +711,8 @@ var tracks = {
       "file"         : "tracks_folder/26.mp3",
       "id3Tags"      : "",
       "dateReleased" : "Fri Feb 04 2005 00:00:00 GMT+0100 (CET)",
-      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
+      "genre" : "Indie Pop"
     },
 
     {
@@ -698,7 +724,8 @@ var tracks = {
       "file"         : "tracks_folder/27.mp3",
       "id3Tags"      : "",
       "dateReleased" : "Fri Feb 04 2005 00:00:00 GMT+0100 (CET)",
-      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
+      "genre" : "Alternative Rock"
     },
 
     {
@@ -710,7 +737,8 @@ var tracks = {
       "file"         : "tracks_folder/28.mp3",
       "id3Tags"      : "",
       "dateReleased" : "Fri Feb 04 2005 00:00:00 GMT+0100 (CET)",
-      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
+      "genre" : "Alternative Rock"
     },
 
     {
@@ -722,7 +750,8 @@ var tracks = {
       "file"         : "tracks_folder/29.mp3",
       "id3Tags"      : "",
       "dateReleased" : "Fri Feb 04 2005 00:00:00 GMT+0100 (CET)",
-      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
+      "genre" : "Thrash Metal"
     },
 
     {
@@ -734,7 +763,8 @@ var tracks = {
       "file"         : "tracks_folder/30.mp3",
       "id3Tags"      : "",
       "dateReleased" : "Fri Feb 04 2005 00:00:00 GMT+0100 (CET)",
-      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)"
+      "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
+      "genre" : "Thrash Metal"
     },
 
     {
@@ -747,6 +777,7 @@ var tracks = {
       "id3Tags"      : "",
       "dateReleased" : "Mar 18 1997 00:00:00 GMT+0100 (CEST)",
       "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
+      "genre" : "Rap"
     },
 
 
