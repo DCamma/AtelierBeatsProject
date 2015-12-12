@@ -742,7 +742,7 @@ var tracks = {
       "artist"       : artists.data[17]._id,
       "album"        : albums.data[20]._id,
       "name"         : "Petit Frère",
-      "duration"     : 284,
+      "duration"     : 283,
       "file"         : "tracks_folder/petit-frere.mp3",
       "id3Tags"      : "",
       "dateReleased" : "Mar 18 1997 00:00:00 GMT+0100 (CEST)",
