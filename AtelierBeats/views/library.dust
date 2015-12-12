@@ -23,7 +23,7 @@
        <label id="main-menu-toggle-label" for="main-menu-toggle"><i class="fa fa-bars"></i></label>
        <input type="checkbox" id="main-menu-toggle">
 
-       <h2 class="fat logo">AtelierBeats</h2>
+       <h2 class="fat logo about-logo" id="about-logo">AtelierBeats</h2>
 
        <div class="main-nav-content">
         <ul id="main-menu" class="nav-menu">

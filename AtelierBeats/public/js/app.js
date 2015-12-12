@@ -14,6 +14,7 @@ var playlistId = "";
 window.onload = function() {
 
   userid = document.getElementsByTagName("BODY")[0].getAttribute("data-user-id");
+
   pulseHeart();
 
   bindMenu();
@@ -28,6 +29,24 @@ window.onload = function() {
 
   setupSyncCheckbox();
 
+  setupAboutPage();
+
+}
+
+function setupAboutPage() {
+  var mainLogo = document.getElementById("about-logo");
+  mainLogo.onclick = renderAboutPage;
+
+  function renderAboutPage(e) {
+
+    dust.render("error", {
+      error: "About"
+    }, function(err, out) {
+      var content = document.getElementById("content");
+      content.innerHTML = out;
+    });
+
+  }
 }
 
 function pulseHeart() {
@@ -1942,19 +1961,19 @@ function drawPlaylist(e, addHistory, preventBind, pId, foundedTracks) {
 
   addPlaylistToHistory(addHistory, playlistId)
   if (target !== null && target !== undefined && target.getAttribute("owner-user-id") !== null) {
-    doJSONRequest("GET", "/users/" + target.getAttribute("owner-user-id") + "/playlists/" + playlistId, null, null, renderPlayTracks);
+    doJSONRequest("GET", "/users/" + target.getAttribute("owner-user-id") + "/playlists/" + playlistId, null, null, renderPlaylistTracks);
   } else {
-    doJSONRequest("GET", "/users/" + userid + "/playlists/" + playlistId, null, null, renderPlayTracks);
+    doJSONRequest("GET", "/users/" + userid + "/playlists/" + playlistId, null, null, renderPlaylistTracks);
   }
 
-  function renderPlayTracks(playlist) {
+  function renderPlaylistTracks(playlist) {
 
     var tracks = []
 
     if (playlist.tracks.length == 0) {
       renderPlaylist({
         "playlist": playlist
-      })
+      });
     } else {
       for (var i = 0; i < playlist.tracks.length; i++) {
         doJSONRequest("GET", "tracks/" + playlist.tracks[i], null, null, getTracks)
@@ -1963,17 +1982,23 @@ function drawPlaylist(e, addHistory, preventBind, pId, foundedTracks) {
     }
 
     function renderPlaylist(data) {
+
       dust.render("playlist", data, function(err, out) {
+
         var content = document.getElementById("content");
         content.innerHTML = out;
+
         var a = document.getElementById("tracks-list")
         var sortable = Sortable.create(a, {})
+
         document.getElementById("ignore").ondragstart = function() {
           sortable.option("disabled", true);
         };
+
         document.getElementById("ignore").ondragend = function() {
           sortable.option("disabled", false);
         };
+
         sortable;
 
         generatePlaylistArtwork(data)
@@ -2006,6 +2031,7 @@ function drawPlaylist(e, addHistory, preventBind, pId, foundedTracks) {
         }
 
       });
+
       document.getElementById("publicPlaylistCheckbox").onclick = function() {
         var playlistId = document.getElementById("playlistHeader").getAttribute("playlist-id");
         var updatedPlaylist = {

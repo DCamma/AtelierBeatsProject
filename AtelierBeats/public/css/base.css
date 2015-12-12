@@ -1495,6 +1495,11 @@ a.create-public-playlist:active {
     /*text-decoration: underline;*/
 }
 
+#main-nav .about-logo:hover{
+    cursor: pointer;
+    color: #385060;
+}
+
 @media (max-width: 640px) {
     .nav-menu-icon {
         color: white;

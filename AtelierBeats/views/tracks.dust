@@ -70,6 +70,7 @@
 		<div class="fl-tl-th fl-tl-delete">
 			<a href="tracks/{_id}" class="track-delete-btn glyphicon glyphicon-remove-circle"></a>
 		</div>
+		
 	</div>
 	{/tracks}
 </section>
