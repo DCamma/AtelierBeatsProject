@@ -82,5 +82,7 @@
 
 	<!-- Don't change the name! -->
 	<input type="file" id="input-file-uploader" name="track" accept="audio/mp3" required>
-
+<div class="fl-tl-row">
+	<div class="fl-tl-cell"></div>
+	</div>
 </form> 

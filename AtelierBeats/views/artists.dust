@@ -11,4 +11,8 @@
 		</li>
 		{/artists} 
 	</ul>
+	<div class="fl-tl-row">
+	<div class="fl-tl-cell"></div>
+	</div>
+
 </section>	
