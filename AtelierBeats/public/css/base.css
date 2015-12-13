@@ -9,7 +9,7 @@
 @font-face {
     font-family: "font_icons8";
     src: url("../fonts/font_icons8.eot");
-    src: url("../fonts/font_icons8.eot?#iefix") format("embedded-opentype"), url("../fonts/font_icons8.woff") format("woff"), url("../fonts/font_icons8.ttf") format("truetype"), url("../fonts/font_icons8.svg#font_icons8") format("svg");
+    src: url("../track-delete-btnfonts/font_icons8.eot?#iefix") format("embedded-opentype"), url("../fonts/font_icons8.woff") format("woff"), url("../fonts/font_icons8.ttf") format("truetype"), url("../fonts/font_icons8.svg#font_icons8") format("svg");
     font-weight: normal;
     font-style: normal;
 }
@@ -925,7 +925,7 @@ button {
 }
 
 .fl-tl-delete {
-    flex: 0 0 30px;
+    flex: 0 0 35px;
     font-size: 14px;
 }
 
@@ -1319,9 +1319,9 @@ a.create-public-playlist {
     color: rgba(0, 0, 0, 0.4);
     background: rgba(0, 0, 0, 0.1);
     display: inline-block;
-    width: auto;
-    padding: 4px 7px 6px;
-    margin: 0 0 10px 18px;
+    width: 100%;
+    padding: 14px 19px 15px;
+    margin: 0 0 40px 0;
     font-size: 1.25em;
     line-height: 1;
     white-space: nowrap;
@@ -1362,8 +1362,8 @@ a.create-public-playlist:active {
 #playlists .edit-btn {
     display: none;
     position: absolute;
-    top: 14px;
-    right: 10px;
+    top: 18px;
+    right: 15px;
     z-index: 10;
     width: auto;
     height: auto;
@@ -1476,6 +1476,7 @@ a.create-public-playlist:active {
     text-align: center;
     border-radius: 4px;
     margin: 0;
+    margin-left: 15px;
     padding: 2px 7px 1px;
 }
 
@@ -1495,7 +1496,7 @@ a.create-public-playlist:active {
     /*text-decoration: underline;*/
 }
 
-#main-nav .about-logo:hover{
+#main-nav .about-logo:hover {
     cursor: pointer;
     color: #385060;
 }
@@ -1588,8 +1589,12 @@ a.create-public-playlist:active {
 
 .new-playlist-circle {
     display: block;
-    padding-top: 3.5px;
-    padding-right: 10px;
+    padding-top: 3px;
+    padding-right: 17px;
+}
+
+i.new-playlist-circle {
+    font-size: 28px;
 }
 
 #np-circle {
@@ -1826,10 +1831,39 @@ Based on: http://www.webdesignerdepot.com/2012/11/how-to-create-a-simple-css3-to
     background: #4F2233;
     background: rgba(0, 0, 0, .7);
     border-radius: 5px;
-    bottom: 26px;
+    bottom: 38px;
     color: #fff;
     content: attr(title);
     left: 20%;
+    padding: 10px 15px;
+    position: absolute;
+    z-index: 98;
+    white-space: nowrap;
+    width: auto;
+}
+
+.tooltip-right {
+    display: inline;
+    position: relative;
+}
+
+a.tooltip-right {
+    font-size: 11px;
+    text-transform: none;
+}
+
+a.tooltip-right i {
+    font-size: 18px;
+}
+
+.tooltip-right:hover:after {
+    background: #4F2233;
+    background: rgba(0, 0, 0, .7);
+    border-radius: 5px;
+    bottom: 26px;
+    color: #fff;
+    content: attr(title);
+    right: 20%;
     padding: 6px 15px;
     position: absolute;
     z-index: 98;
@@ -2180,7 +2214,7 @@ input[type=date]::-webkit-datetime-edit {
 
 a.track-delete-btn {
     display: block;
-    margin-top: 12px;
+    margin-top: 14px;
     text-decoration: none;
 }
 

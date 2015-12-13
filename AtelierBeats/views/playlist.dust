@@ -22,19 +22,19 @@
 		<div class="fl-tl-th fl-tl-time">Time</div>
 		
 		<div class="fl-tl-th fl-tl-counter">
-			<a title="Start Counter" class="tooltip tooltip-right">
+			<a title="Start Counter" class="tooltip-right">
 				<i title="" class="">S</i>
 			</a>
 		</div>
 
 		<div class="fl-tl-th fl-tl-counter">
-			<a title="Middle Counter" class="tooltip tooltip-right">
+			<a title="Middle Counter" class="tooltip-right">
 				<i title="" class="">M</i>
 			</a>
 		</div>
 
 		<div class="fl-tl-th fl-tl-counter">
-			<a title="End Counter" class="tooltip tooltip-right">
+			<a title="End Counter" class="tooltip-right">
 				<i title="" class="">E</i>
 			</a>
 		</div>

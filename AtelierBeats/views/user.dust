@@ -65,7 +65,7 @@
 
                 <div class="fl-tl-cell-info fl-tl-name">Password</div>
 
-                <div class="fl-tl-cell fl-tl-name">******</div> 
+                <div class="fl-tl-cell fl-tl-name" id="user-pass-field">******</div> 
 
                 <button type="button" class="user-info-edit-btn" id="user-pass-edit-btn">
                     <i class="fa fa-pencil fl-tl-pencil"></i>

@@ -30,7 +30,6 @@ window.onload = function() {
   setupSyncCheckbox();
 
   setupAboutPage();
-
 }
 
 function setupAboutPage() {
@@ -122,11 +121,10 @@ function bindMenu() {
   var menu = document.querySelectorAll("#main-menu > li > a");
 
   for (var elem = 0; elem < menu.length; ++elem) {
-    //console.log(menu[elem])
+
     if (menu[elem].getAttribute("href").indexOf("library.html") > -1) {
       menu[elem].onclick = function(e) {
         drawLibrary(e);
-        // setupPlayer();
       }
     } else if (menu[elem].getAttribute("href").indexOf("artists.html") > -1) {
       menu[elem].onclick = drawArtists;
@@ -174,6 +172,8 @@ function drawUser(e, addHistory, errors) {
 
       bindUserPicBtn();
 
+      // bindUserPassField();
+
       if (errors && (errors.userNameError || errors.userEmailError || errors.userPassError)) {
         setTimeout(function() {
           document.getElementById("error-temp-div").remove();
@@ -186,11 +186,16 @@ function drawUser(e, addHistory, errors) {
 
 }
 
+function bindUserPassField() {
+
+  var userPassField = document.getElementById("user-pass-field");
+
+}
+
 function bindUserPicBtn() {
   var userPicChangeBtn = document.getElementById("user-pic-change-btn");
   var userPicInputFile = document.getElementById("user-pic-input-file");
   var userPicFormUpload = document.getElementById("user-pic-form-upload");
-  // console.log("FORM: ", userPicFormUpload);
 
   userPicChangeBtn.onclick = onPicChangeBtn;
   userPicInputFile.onchange = onPicInputFileChange;
@@ -227,9 +232,6 @@ function bindUserInfoBtn() {
   for (var elem = 0; elem < userInfoEditBtns.length; ++elem) {
     userInfoEditBtns[elem].onclick = editUserInfo;
   }
-
-  // var userPassEditBtn = document.getElementById("user-pass-edit-btn");
-  // userPassEditBtn.onclick = onUserPassEditBtnClick;
 
   // CSS helper functions
   function stopEditing(editable, editBtnLi, editBtn) {
@@ -272,7 +274,6 @@ function bindUserInfoBtn() {
   }
 
   function editUserInfo(e) {
-    // console.log("editUserInfo")
     if (e && e.target) {
       e.preventDefault();
     }
@@ -293,7 +294,6 @@ function bindUserInfoBtn() {
     }
 
     userAttribute = editable.previousElementSibling.innerHTML;
-    // console.log(userAttribute)
 
     if (editable.contentEditable == "false" || editable.contentEditable == "inherit") { //we have to enable the editing
 
@@ -324,7 +324,6 @@ function bindUserInfoBtn() {
       stopEditing(editable, editBtnLi, editBtn);
 
       var updatedOpt = editable.innerText;
-      console.log("Updated Option: ", updatedOpt)
 
       if (userAttribute.toLowerCase() == "username") {
         // Check if the username is emtpy
@@ -358,14 +357,12 @@ function bindUserInfoBtn() {
             doJSONRequest("PUT", "/users/" + userid, null, updatedUser, function(d) {
 
               var userNameSpans = document.getElementsByClassName("userNameSpan");
-              // console.log(userNameSpans)
 
               // Updating view manually
               for (var i = 0; i < userNameSpans.length; i++) {
                 userNameSpans[i].innerHTML = updatedOpt;
               }
 
-              console.log("User updated!");
               drawUser();
             });
 
@@ -396,8 +393,6 @@ function bindUserInfoBtn() {
           updatedUser.email = updatedOpt;
 
           doJSONRequest("PUT", "/users/" + userid, null, updatedUser, function(d) {
-
-            console.log("User updated!");
             drawUser();
           });
 
@@ -419,18 +414,14 @@ function bindUserInfoBtn() {
           updatedUser.password = updatedOpt;
 
           doJSONRequest("PUT", "/users/" + userid, null, updatedUser, function() {
-            // console.log("User updated!");
-            doJSONRequest("GET", "/users/" + userid, null, null, function(user) {
-              console.log(user.password)
-
-            });
+            doJSONRequest("GET", "/users/" + userid, null, null, function(user) {});
             drawUser();
           });
 
         });
 
       } else { // In case there are other modifiable attributes for the user
-        console.log("ELSE!!!")
+        console.log("User: option ELSE")
       }
 
     }
@@ -1267,7 +1258,6 @@ function bindArtistLink() {
   var artists = document.querySelectorAll(".artist-link");
 
   for (var elem = 0; elem < artists.length; ++elem) {
-    //console.log(artists[elem])
     artists[elem].onclick = drawArtist;
   }
 }
@@ -1276,7 +1266,6 @@ function bindArtistDelete() {
   var artists = document.querySelectorAll(".delete-btn");
 
   for (var elem = 0; elem < artists.length; ++elem) {
-    //console.log(albums[elem])
     artists[elem].onclick = deleteArtist;
   }
 }
@@ -1295,9 +1284,6 @@ function deleteArtist(e) {
   doJSONRequest("DELETE", href, null, null, removeArtist);
 
   function removeArtist() {
-
-    //console.log(responseText);
-    //console.log(target);
 
     var toDelete = target.parentNode.parentNode;
     var parent = document.getElementById("artists-list");
@@ -1427,8 +1413,6 @@ function drawAlbum(e, addHistory, foundedAlbums) {
 
   addAlbumToHistory(href, addHistory);
 
-  //console.log(target.getAttribute("href"));
-
   //execute the AJAX call to the get a single album
   doJSONRequest("GET", href, null, null, renderAlbum);
 
@@ -1502,7 +1486,6 @@ function bindAlbumLink() {
   var albums = document.querySelectorAll(".album-link");
 
   for (var elem = 0; elem < albums.length; ++elem) {
-    //console.log(albums[elem])
     albums[elem].onclick = drawAlbum;
   }
 }
@@ -1511,7 +1494,6 @@ function bindAlbumDelete() {
   var albums = document.querySelectorAll(".delete-btn");
 
   for (var elem = 0; elem < albums.length; ++elem) {
-    //console.log(albums[elem])
     albums[elem].onclick = deleteAlbum;
   }
 }
@@ -1656,7 +1638,6 @@ function drawActivities(e, addHistory) {
               } else if (dataURL.indexOf("tracks") > -1) {
                 drawLibrary();
               }
-              // console.log("GET request to the activity finished.");
             });
           }
 
@@ -1798,8 +1779,6 @@ function setupPlaylists() {
           }
 
           doJSONRequest("PUT", "/users/" + userid + "/activities", null, userActivity, function() {
-            // console.log("doJSONRequest finished for a PUT on playlist creation");
-
             /* This variable is used in the case the user 
             updates the default name of the just created playlist.
             If set to true, another PUT request is made to update the name chosen by the user. */
@@ -1829,8 +1808,6 @@ function setupPlaylists() {
 function managePlaylistNameEdit(editButton) {
 
   var editable = editButton.previousSibling;
-
-  // console.log(editButton)
 
   if (editable.childNodes.length == 2) {
     playlistLeftIcons[editable] = editable.firstChild;
@@ -1890,7 +1867,6 @@ function managePlaylistNameEdit(editButton) {
       var playlistsButtons = document.querySelectorAll("#playlists > li > .edit-btn");
       var lastPlaylistButton;
       if (playlistsButtons.length > 0) lastPlaylistButton = playlistsButtons[playlistsButtons.length - 1];
-      // console.log(lastPlaylistButton);
 
       /** 
       addPlaylistCreationActivity is only set to true when a new playlist is created (lets call it B),
@@ -1924,7 +1900,6 @@ function managePlaylistNameEdit(editButton) {
 
         // Updating activity with updatedActivity.targetURL
         doJSONRequest("PUT", "/users/" + userid + "/activities/" + updatedActivity.targetID, null, updatedActivity, function() {
-          // console.log("Activity with targetID " + updatedActivity.targetID + " updated.")
           addPlaylistCreationActivity = false;
         });
       }
@@ -2452,7 +2427,6 @@ function setupPlayer(data) {
 
   doJSONRequest("GET", "/users/" + userid, null, null, function(user) {
     randomPlayback = user.randomPlayback;
-    // console.log(randomPlayback);
   });
 
   // Buttons
