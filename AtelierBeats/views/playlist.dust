@@ -72,7 +72,7 @@
 		<div class="fl-tl-cell fl-tl-counter">{count_end}</div>
 
 		<div class="fl-tl-th fl-tl-delete">
-			<a href="tracks/{_id}">&times;</a>
+			<a href="tracks/{_id}" class="track-delete-btn glyphicon glyphicon-remove-circle"></a>
 		</div>
 
 	</div>
