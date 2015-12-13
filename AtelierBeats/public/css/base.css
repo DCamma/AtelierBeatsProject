@@ -254,12 +254,13 @@ a:hover {
 }
 
 a.beats {
-    color: #6ab2ca;
+    color: #52A0C0;
 }
 
 a.beats:hover,
 a.beats:focus {
-    color: #3562FF;
+    font-size: 102%;
+    color: #5dbbdf;
     text-decoration: underline;
 }
 
@@ -267,7 +268,7 @@ a.beats:focus {
     margin-bottom: 50px;
     width: 100%;
     text-align: center;
-    font-size: 58px;
+    font-size: 50px;
     font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;
     text-transform: uppercase;
     font-weight: 300;
@@ -486,6 +487,10 @@ a.text-muted {
     cursor: pointer;
 }
 
+.recover-pass-btn{
+    margin-top: 10px;
+}
+
 .library-top-btn:hover {
     background-color: #1a4654;
     border: 1px solid #262626;
@@ -601,18 +606,19 @@ button {
 
 .btn-beats {
     color: #fff;
-    background-image: url("../images/theme2.png");
+    background-color: #5dbbdf;
     background-size: 100%;
-    border-color: #1A3065;
+    border-color: #5dbbdf;
 }
 
 .btn-beats:hover,
 .btn-beats:focus,
 .btn-beats:active,
 .btn-beats.active {
-    color: #fff;
+    color:white;
     background-size: 200%;
-    border-color: #1A3065;
+    border-color: #3dbbdf;
+    background-color: #3dbbdf;
 }
 
 .btn-icon:hover,
@@ -1165,7 +1171,17 @@ input[type="password"].form-stacked:last-of-type,
 .vertical-align-box {
     display: inline-block;
     vertical-align: middle;
-    width: 600px;
+    width: 500px;
+}
+
+@media (max-width: 640px) {
+    .slogan {
+        font-size: 30px;
+        margin-top: -60px;
+    }
+    h1.bottom-right {
+        font-size: 30px;
+    }
 }
 
 
