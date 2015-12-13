@@ -3,7 +3,7 @@
 	<div class="fl-tu-row uploader-header">Track Uploader</div>
 
 	<div class="fl-tu-row">
-		<input id="song-name-input" class="track-uploader-input" name="name" placeholder="Name" type="text" list="dls-song-name" tabindex="1" autocomplete="off" required autofocus />
+		<input id="song-name-input" class="track-uploader-input" name="name" placeholder="Title" type="text" list="dls-song-name" tabindex="1" autocomplete="off" required autofocus />
 	      
 		{?nameNotProvided}
 		<p class="upload-option-not-provided">{nameNotProvided}</p>

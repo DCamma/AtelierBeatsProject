@@ -531,7 +531,6 @@ function drawLibrary(e, addHistory, preventBind, foundedTracks) {
             }
 
             doJSONRequest("PUT", "/users/" + userid + "/activities", null, userActivity, function() {
-              // console.log("doJSONRequest finished for a PUT (for activities) on track click");
             });
 
           }
@@ -769,7 +768,6 @@ function drawTrackUploader(e, dataDust, addHistory) {
             if (parsedResponseText.redirect) {
               window.location.href = parsedResponseText.redirect;
             }
-            console.log(parsedResponseText.redirect);
           } else {
             if (parsedResponseText.redirect) {
               window.location.href = parsedResponseText.redirect;
@@ -964,7 +962,6 @@ function buildTracksData(tracks) {
     newTracksData.artist = {};
     newTracksData.album = {};
 
-    console.log(formatTime(tracks[track].duration))
 
     newTracksData.name = tracks[track].name;
     newTracksData._id = tracks[track]._id;
@@ -1035,7 +1032,6 @@ function deleteTrack(e) {
   }
 
   doJSONRequest("PUT", "/users/" + userid + "/activities", null, userActivity, function() {
-    // console.log("doJSONRequest finished for a PUT (activity) on track deletion");
   });
 
   function removeTrack() {
@@ -2015,7 +2011,6 @@ function drawPlaylist(e, addHistory, preventBind, pId, foundedTracks) {
           "publicPlaylist": document.getElementById("publicPlaylistCheckbox").checked,
         }
 
-        console.log(updatedPlaylist)
         doJSONRequest("PUT", "/users/" + userid + "/playlists/" + playlistId, null, updatedPlaylist, null);
       };
     }
@@ -2136,7 +2131,6 @@ function addTrackToPlaylist(playlistId, trackId) {
  */
 function addToHistory(state, url) {
   history.pushState(state, null, url);
-  // console.log("Added to history: " + url + ", state: " + state);
 }
 
 /*
@@ -2152,8 +2146,7 @@ function updatePage(event) {
   //get reference to the hash and to the current state
   var hash = document.location.hash;
   playlistId = hash.split('/')[1]
-    // console.log("hash: ", hash);
-    // console.log("playlistId: ", playlistId);
+
 
   if (event && event.state)
     var currentState = JSON.parse(event.state);
@@ -2221,7 +2214,6 @@ function setupSearch() {
     var theValue = this.value
     var ids = window.location.hash.split('/')[1];
     if (window.location.hash === "#library" || window.location.pathname === "/library") {
-      console.log("DB")
       doJSONRequest("GET", "/tracks", null, null, function(tracks) {
         result = fuzzyFind(tracks, "name", theValue);
 
@@ -2668,7 +2660,6 @@ function playTrackById(trackId) {
   var track = findOne(currentTracks, "_id", trackId);
   if (!track) return console.log("playTrackById(): Track not found!")
 
-  // console.log(currentTracks)
   currentPlayingTrack = track;
 
   var artist = findOne(currentArtists, "_id", track.artist._id);
@@ -2690,7 +2681,6 @@ function playTrackById(trackId) {
 
   // check if half of the song is played to call incrementCounter
   audio.ontimeupdate = function() {
-    // console.log(audio.duration/2 + " : " + audio.currentTime)
     if (audio.currentTime > audio.duration / 2 && checkFirstTime) {
       checkFirstTime = false;
       incrementCounter("count_middle", trackId);
