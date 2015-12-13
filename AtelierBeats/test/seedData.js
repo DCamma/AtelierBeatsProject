@@ -563,7 +563,7 @@ var tracks = {
       "_id"          : ObjectId(),
       "artist"       : artists.data[8]._id,
       "album"        : albums.data[10]._id,
-      "name"         : "In the Airplane over the Sea",
+      "name"         : "In the Aeroplane over the Sea",
       "duration"     : 191,
       "file"         : "tracks_folder/15.mp3",
       "id3Tags"      : "",
