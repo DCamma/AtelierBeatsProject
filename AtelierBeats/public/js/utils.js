@@ -81,3 +81,52 @@ function validateEmail(email) {
   var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
   return re.test(email);
 }
+
+
+function pulseHeart() {
+  var heart = document.getElementsByClassName("fa fa-heart beats pulse")[0];
+  colors = ["#e3170c", "#e57c29", "#fcf535", "#c6ef31", "#1cf197", "#0cd6ec", "#2999eb", "#2E22C5", "#4E1B73", "#9c27ab", "#A44B4D"]
+  y = 160;
+  a = 0;
+  b = 0;
+  if (heart) {
+    // setInterval(function(){
+    //     var i = colors[y]
+    //     heart.style.color = i;
+    //     y ++;
+    //     if(y == colors.length)
+    //         y = 0;
+    // }, 2000);
+    setInterval(function() {
+      if (y <= 255 && a == 0 && b == 0) {
+        heart.style.color = 'rgb(' + y + ',' + a + ',' + b + ')';
+        y += 1;
+      }
+      if (y >= 255 && a >= 0 && b == 0) {
+        heart.style.color = 'rgb(' + y + ',' + a + ',' + b + ')';
+        a += 1;
+      }
+      if (a >= 255 && y > 0 && b == 0) {
+        heart.style.color = 'rgb(' + y + ',' + a + ',' + b + ')';
+        y -= 1;
+      }
+      if (a >= 255 && y <= 0 && b <= 255) {
+        heart.style.color = 'rgb(' + y + ',' + a + ',' + b + ')';
+        b += 1;
+      }
+      if (b >= 255 && a > 0) {
+        heart.style.color = 'rgb(' + y + ',' + a + ',' + b + ')';
+        a -= 1;
+      }
+      if (b >= 255 && a <= 0) {
+        heart.style.color = 'rgb(' + y + ',' + a + ',' + b + ')';
+        y += 1;
+      }
+      if (b > 0 && y >= 255 && a <= 0) {
+        heart.style.color = 'rgb(' + y + ',' + a + ',' + b + ')';
+        b -= 1
+      }
+    }, 30);
+  }
+}
+pulseHeart();
