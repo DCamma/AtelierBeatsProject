@@ -823,6 +823,10 @@ button {
     width: 100%;
     font-weight: 500;
 }
+.fl-tl-none{
+    display: flex;
+    width: 100%;
+}
 
 .fl-tl-row {
     display: flex;

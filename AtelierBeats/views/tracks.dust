@@ -73,11 +73,11 @@
 		
 	</div>
 	{/tracks}
-	<div class="fl-tl-row">
+	<div class="fl-tl-none">
 	<div class="fl-tl-cell"></div>
 	</div>
 
-	<div class="fl-tl-row">
+	<div class="fl-tl-none">
 <div class="fl-tl-cell"></div>
 	</div>
 </section>
