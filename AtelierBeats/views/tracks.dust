@@ -59,7 +59,7 @@
 			{/album}
 		</div>
 
-		<div class="fl-tl-cell fl-tl-name">{genre}</div>
+		<div class="fl-tl-cell fl-tl-artist">{genre}</div>
 
 		<div class="fl-tl-cell fl-tl-time">{duration}</div>
 
