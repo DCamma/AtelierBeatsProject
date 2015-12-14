@@ -6,7 +6,7 @@
         <div class="playlist-info">
             <div class="playlist-info-name">{playlist.name}</div>
             <div class="playlist-info-track-num">{playlist.trackMsg}</div>
-            <div class="playlist-info-track-num"><form action="">Public: <input type="checkbox" name="publicPlaylist" id="publicPlaylistCheckbox"></form></div>
+            <div class="playlist-info-track-num"><form action="">Public: <input type="checkbox" name="publicPlaylist" id="publicPlaylistCheckbox"></form><form action="">  Shared: <input type="checkbox" name="sharedPlaylist" id="sharedPlaylistCheckbox"></form></div>
         </div> 
         <hr/>
       </section>

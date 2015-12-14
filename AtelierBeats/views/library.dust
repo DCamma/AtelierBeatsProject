@@ -11,38 +11,42 @@
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="shortcut icon" href="images/favicon.ico">
   </head>
+<body class="body library" data-user-id="{userid}">
+  <div class="container main-wrapper">
+    <nav id="main-nav" class="main-nav-float">
+       <label id="main-menu-toggle-label" for="main-menu-toggle"><i class="fa fa-bars"></i></label>
+       <input type="checkbox" id="main-menu-toggle">
 
-  <body class="body library" data-user-id="{userid}">
-    <div class="container main-wrapper">
-      <nav id="main-nav" class="main-nav-float">
-        <label id="main-menu-toggle-label" for="main-menu-toggle"><i class="fa fa-bars"></i></label>
-        <input type="checkbox" id="main-menu-toggle">
-        <h2 class="fat logo about-logo" id="about-logo">AtelierBeats</h2>
-        <div class="main-nav-content">
-          <ul id="main-menu" class="nav-menu">
-            <li class="search-item">
-              <span class="nav-menu-icon search-icon glyphicon glyphicon-search"></span>
-              <input id="main-search" placeholder="Search" type="search" class="nav-menu-search">
-            </li>
-            <li><a href="library.html"><i class="nav-menu-icon glyphicon glyphicon-music"></i>Library</a></li>
-            <li><a href="artists.html"><i class="nav-menu-icon fa fa-users"></i>Artists</a></li>
-            <li><a href="albums.html"><i class="nav-menu-icon icons8-music-record"></i>Albums</a></li>
-            <li><a href="activities.html"><i class="nav-menu-icon glyphicon glyphicon-stats"></i>Activities</a></li>
-            <li class="mm-user-item"><a href="/user" class="userName"><i class="nav-menu-icon fa fa-user"></i><span class="userNameSpan">{username}</span></a></li>
-            <li class="mm-user-item"><a href="/signout"><i class="nav-menu-icon fa fa-sign-out"></i>logout</a></li>
-          </ul>
-          <a href="#" class="create-playlist" id="create-pl-btn">
-          <i class="fa fa-plus-circle new-playlist-circle"></i>
-          <span>New Playlist</span>
-          </a>
-          <!-- <a href="#" class="create-public-playlist" id="create-pubb-pl-btn"><i class="fa fa-plus-circle new-playlist-circle"></i><span>New Public Playlist</span></a> -->
-          <ul class="nav-menu" id="playlists">
-            <li>
-            </li>
-            <!-- Playlists will be rendered here -->
-          </ul>
-        </div>
-        <!-- /.main-nav-content -->
+<!--        <h2 class="fat logo">Atelier<span class="pulse" style="display:inline-block;">Beats.</span></h2>
+ -->
+       <h2 class="fat logo">AtelierBeats</h2>
+
+       <div class="main-nav-content">
+        <ul id="main-menu" class="nav-menu">
+          <li class="search-item">
+           <span class="nav-menu-icon search-icon glyphicon glyphicon-search"></span>
+           <input id="main-search" placeholder="Search" type="search" class="nav-menu-search">
+          </li>
+          <li><a href="library.html"><i class="nav-menu-icon glyphicon glyphicon-music"></i>Library</a></li>
+          <li><a href="artists.html"><i class="nav-menu-icon fa fa-users"></i>Artists</a></li>
+          <li><a href="albums.html"><i class="nav-menu-icon icons8-music-record"></i>Albums</a></li>
+
+          <!-- Adding a new menu item for ex 9 -->
+          <li><a href="activities.html"><i class="nav-menu-icon glyphicon glyphicon-stats"></i>Activities</a></li>
+
+          <li style="display: none"><a href="publicPlaylists.html"><i class="nav-menu-icon glyphicon glyphicon-music"></i>Public Playlists</a></li>
+
+          <li class="mm-user-item"><a href="/user" class="userName"><i class="nav-menu-icon fa fa-user"></i><span class="userNameSpan">{username}</span></a></li>
+          <li class="mm-user-item"><a href="/signout"><i class="nav-menu-icon fa fa-sign-out"></i>logout</a></li>
+        </ul>
+
+       <a href="#" class="create-playlist" id="create-pl-btn"><i class="fa fa-plus-circle new-playlist-circle"></i><span>New Playlist</span></a>
+       <!-- <a href="#" class="create-public-playlist" id="create-pubb-pl-btn"><i class="fa fa-plus-circle new-playlist-circle"></i><span>New Public Playlist</span></a> -->
+
+        <ul class="nav-menu" id="playlists">
+        <!-- Playlists will be rendered here -->
+        </ul>
+      </div> <!-- /.main-nav-content -->
       </nav>
       <section class="main-content main-content-float-menu clearfix">
         <nav id="user-nav" class="clearfix">

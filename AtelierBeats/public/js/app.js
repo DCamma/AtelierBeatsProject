@@ -84,6 +84,8 @@ function bindMenu() {
       menu[elem].onclick = drawAlbums;
     } else if (menu[elem].getAttribute("href").indexOf("activities.html") > -1) {
       menu[elem].onclick = drawActivities;
+    } else if (menu[elem].getAttribute("href").indexOf("publicPlaylists.html") > -1) {
+      menu[elem].onclick = drawPublicPlaylists;
     }
 
   }
@@ -1610,26 +1612,30 @@ function addActivitiesToHistory(addHistory) {
 }
 
 /* Activities */
+
+function drawPublicPlaylists(e, addHistory, onlyFavourites, favDomColor, foundedAlbums) {
+  if (e && e.target)
+    e.preventDefault();
+
+  // addAlbumsToHistory(addHistory);
+
+  //execute the AJAX call to the get albums
+  doJSONRequest("GET", "/users/publicPlaylists", null, null, renderPublicPlaylists);
+
+  function renderPublicPlaylists(playlists) {
+    console.log(playlists)
+    dust.render("publicPlaylists", playlists, function(err, out) {
+
+      var content = document.getElementById("content");
+
+      content.innerHTML = out;
+    });
+  }
+}
+
 function setupPlaylists() {
 
   doJSONRequest("GET", "users/" + userid + "/playlists", null, null, renderPlaylists);
-  // do json request for the public playlists
-  // doJSONRequest("GET", "users/publicPlaylists", null, null, renderPubbPlaylists);
-
-  function renderPubbPlaylists(playlists) {
-    var data = {
-      "playlists": playlists
-    };
-    dust.render("pubbPlaylists", data, function(err, out) {
-      document.getElementById('playlists').innerHTML = document.getElementById('playlists').innerHTML + out;
-
-      bindPlaylistNameClick();
-
-      bindNewPlaylist("create-pl-btn"); // Exercise 9
-
-      bindEditPlaylistName();
-    });
-  }
 
   function renderPlaylists(playlists) {
     var data = {
@@ -1709,7 +1715,6 @@ function setupPlaylists() {
         doJSONRequest("GET", "users/" + userid + "/playlists", null, null, function(data) {
 
           renderPlaylists(data);
-          // doJSONRequest("GET", "users/publicPlaylists", null, null, renderPubbPlaylists);
 
           var lastPlaylistDOM = document.getElementById("playlists").lastChild;
           var lastPlaylistDOMId = lastPlaylistDOM.id;
@@ -1958,9 +1963,10 @@ function drawPlaylist(e, addHistory, preventBind, pId, foundedTracks) {
       document.getElementById("publicPlaylistCheckbox").onclick = function() {
         var playlistId = document.getElementById("playlistHeader").getAttribute("playlist-id");
         var updatedPlaylist = {
-          "name": document.getElementsByClassName("playlist-info-name")[0].innerHTML,
-          "id": playlistId,
-          "publicPlaylist": document.getElementById("publicPlaylistCheckbox").checked,
+          "name" : document.getElementsByClassName("playlist-info-name")[0].innerHTML,
+          "id" : playlistId,
+          "userId" : userid,
+          "publicPlaylist" : document.getElementById("publicPlaylistCheckbox").checked,
         }
 
         doJSONRequest("PUT", "/users/" + userid + "/playlists/" + playlistId, null, updatedPlaylist, null);

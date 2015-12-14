@@ -264,6 +264,8 @@ router.put('/:userid/playlists/:playlistsid', function(req, res, next) {
                     }
                 } else {
                     user.playlists[i].name = data.name;
+                    if(data.publicPlaylist){user.playlists[i].publicPlaylist = data.publicPlaylist;}
+                    if(data.userId){user.playlists[i].userId = data.userId;}
                     user.save(onModelSave(res));
                     return;
                 }

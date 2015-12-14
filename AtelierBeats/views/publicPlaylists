@@ -1,0 +1,34 @@
+<section class="album-section">
+
+	<div class="fav-albums">		
+		<span class="like-filter">
+			<a title="Show only favourite albums" class="tooltip">
+				<span title="" >&#10084;</span>
+			</a>
+		</span>
+	</div>
+
+	<br>
+	
+	<ul class="grid-list clearfix" id="albums-list">
+		{#playlists}
+		<li>
+			<!-- <span class="delete-btn"><a href="albums/{_id}">&times;</a></span> -->
+			
+			<!-- <span class="like-btn" id="like"><a href="albums/{_id}">&#10084;</a></span> -->
+
+			<div class="media-object">
+				<div class="mo-image" style=""></div>
+				<div class="mo-overlay"></div>
+			</div>
+
+			<div class="mo-info subtitle">
+				<a class="mo-title album-link" href="#">{name}</a>
+				<div class="mo-subtitle text-muted one-line">
+					<a title="" class="artist-link" href="{ownerId}">{userId}</a>
+				</div>
+			</div>
+		</li>
+		{/playlists}
+	</ul>
+</section>
