@@ -858,7 +858,7 @@ var users = {
       "email"        : "a@usi.ch",
       "password"     : "a",
       "dateCreated"  : "Dec 15 2015 10:42:10 GMT+0200 (CEST)",
-      "picture" : "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d5/Deutsche_Bahn_AG-Logo.svg/2000px-Deutsche_Bahn_AG-Logo.svg.png",
+      "picture"      : "",
       "playlists"    : [
          new Playlist ({
           "name" : 'p1',
